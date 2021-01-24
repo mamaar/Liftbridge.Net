@@ -6,11 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Grpc.Core;
+
 namespace Liftbridge.Net
 {
-    public class LiftbridgeException : Exception { }
+    public class LiftbridgeException : Exception {
+        public LiftbridgeException() { }
+        public LiftbridgeException(string message) : base(message) { }
+        public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
+    }
     public class StreamAlreadyExistsException : LiftbridgeException { }
     public class BrokerNotFoundException: LiftbridgeException { }
+
+    public delegate Task MessageHandler(Proto.Message message);
 
     public class ClientOptions
     {
@@ -21,37 +29,38 @@ namespace Liftbridge.Net
         public TimeSpan ResubscribeWaitTime { get; init; }
     }
 
-    class ConnectionPool { }
-
     public class Client
     {
         const int RPCResiliencyTryCount = 10;
+        const int SubscriptionResiliencyTryCount = 5;
 
-        private Proto.API.APIClient client;
+        private Proto.API.APIClient internalClient;
+        private Grpc.Core.Channel internalChannel;
 
         private Metadata metadata;
 
         private ImmutableDictionary<BrokerAddress, ConnectionPool> clientPools;
 
-        public Client(ClientOptions options)
+        private ClientOptions options;
+
+        public Client(ClientOptions opts)
         {
+            options = opts;
             metadata = new Metadata { 
                 Brokers = ImmutableHashSet<BrokerInfo>.Empty,
                 BootstrapAddresses = options.Brokers, 
             };
+
+            CreateRpcClient();
         }
 
-        async Task<Proto.API.APIClient> createConnection() {
-            var addresses = metadata.GetAddresses();
-
+        static Grpc.Core.Channel CreateChannel(IEnumerable<BrokerAddress> addresses) {
             foreach(var address in addresses)
             {
                 try
                 {
-                    Console.WriteLine(address);
                     var channel = new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
-                    await channel.ConnectAsync(DateTime.UtcNow.AddSeconds(3));
-                    return new Proto.API.APIClient(channel);
+                    return channel;
                 }
                 catch(TaskCanceledException)
                 {
@@ -61,40 +70,46 @@ namespace Liftbridge.Net
             throw new LiftbridgeException();
         }
 
-        private ConnectionPool getPoolForAddress(BrokerAddress address)
+        Proto.API.APIClient CreateRpcClient()
+        {
+            internalChannel = CreateChannel(metadata.GetAddresses());
+            internalClient = new Proto.API.APIClient(internalChannel);
+            return internalClient;
+        }
+
+        private ConnectionPool GetPoolForAddress(BrokerAddress address)
         {
             if(!clientPools.ContainsKey(address))
             {
-                clientPools = clientPools.Add(address, new ConnectionPool());
+                clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
             }
             return clientPools[address];
         }
 
-        private ConnectionPool getPoolForStreamPartition(string stream, int partition, bool isISRReplica)
+        private ConnectionPool GetPoolForStreamPartition(string stream, int partition, bool isISRReplica)
         {
             var address = metadata.GetAddress(stream, partition, isISRReplica);
-            var pool = getPoolForAddress(address);
+            var pool = GetPoolForAddress(address);
             return pool;
         }
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
         {
-            if(client == null)
-            {
-                client = await createConnection();
-            }
             for(var i = 0; i < RPCResiliencyTryCount; i++)
             {
                 try
                 {
-                    return await func(client);
+                    return await func(internalClient);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
                     if(ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
                     {
-                        client = await createConnection();
+                        // Reconnect before next try.
+                        CreateRpcClient();
+                        continue;
                     }
+                    throw;
                 }
             }
             throw new LiftbridgeException();
@@ -102,7 +117,7 @@ namespace Liftbridge.Net
 
         private async Task DoResilientLeaderRPC(string stream, int partition, Func<Proto.API.APIClient, Task> func)
         {
-            await func(client);
+            await func(internalClient);
         }
 
         public async Task<Metadata> FetchMetadataAsync()
@@ -110,12 +125,16 @@ namespace Liftbridge.Net
             return await DoResilientRPC(async client =>
             {
                 var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { });
+                var brokers = meta.Brokers
+                        .Select(broker => BrokerInfo.FromProto(broker))
+                        .ToImmutableHashSet();
+                var streams = meta.Metadata
+                    .Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream)))
+                    .ToImmutableDictionary();
                 return metadata with {
                     LastUpdated = DateTime.UtcNow,
-                    Brokers = meta.Brokers
-                        .Select(broker => BrokerInfo.FromProto(broker))
-                        .ToImmutableHashSet(),
-                    Streams = meta.Metadata.Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream))).ToImmutableDictionary(),
+                    Brokers = brokers,
+                    Streams = streams,
                 };
             });
         }
@@ -133,28 +152,16 @@ namespace Liftbridge.Net
                 var replicas = partitionMeta.Replicas.ToList();
                 var isrs = partitionMeta.Isr.ToList();
 
-                var replicasInfo = ImmutableList<BrokerInfo>.Empty;
-                var isrInfo = ImmutableList<BrokerInfo>.Empty;
-
-                foreach (var replica in replicas)
-                {
-                    var broker = metadata.GetBroker(replica);
-                    replicasInfo.Add(broker);
-                }
-
-                foreach(var isr in isrs)
-                {
-                    var broker = metadata.GetBroker(isr);
-                    isrInfo.Add(broker);
-                }
+                var replicaIds = replicas.Select(replica => metadata.GetBroker(replica).Id).ToImmutableHashSet();
+                var isrIds = isrs.Select(isr => metadata.GetBroker(isr).Id).ToImmutableHashSet();
 
                 var leaderInfo = metadata.GetBroker(leader);
 
                 partitionInfo = new PartitionInfo {
                     Id = partitionMeta.Id,
                     Leader = leaderInfo.Id,
-                    Replicas = replicasInfo.Select(replica => replica.Id).ToImmutableList(),
-                    ISR = isrInfo.Select(isr => isr.Id).ToImmutableList(),
+                    Replicas = replicaIds,
+                    ISR = isrIds,
                     HighWatermark = partitionMeta.HighWatermark,
                     NewestOffset = partitionMeta.NewestOffset,
                     Paused = partitionMeta.Paused,
@@ -194,5 +201,52 @@ namespace Liftbridge.Net
                 }
             });
         }
+
+        public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
+        {
+            for(var i = 1; i <= SubscriptionResiliencyTryCount; i++)
+            {
+                try
+                {
+                    var address = metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
+                    if(!clientPools.ContainsKey(address))
+                    {
+                        clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
+                    }
+                    var connectionPool = clientPools[address];
+
+                    var channel = connectionPool.Get(() => {
+                        return CreateChannel(new List<BrokerAddress> { address });
+                    });
+                    var subscriptionClient = new Proto.API.APIClient(channel);
+                    var request = new Proto.SubscribeRequest
+                    {
+                        Partition = opts.Partition,
+                        ReadISRReplica = opts.ReadIsrReplica,
+                    };
+                    using var subscription = subscriptionClient.Subscribe(request);
+                    while(await subscription.ResponseStream.MoveNext(default))
+                    {
+                        var message = subscription.ResponseStream.Current;
+                        await messageHandler(message);
+                    }
+                }
+                catch(BrokerNotFoundException)
+                {
+                    // Re-throws when the last try failed
+                    if(i == SubscriptionResiliencyTryCount)
+                    {
+                        throw;
+                    }
+                    await Task.Delay(50);
+                    metadata = await FetchMetadataAsync();
+                }
+            }
+        }
+    }
+
+    public record SubscriptionOptions {
+        public int Partition { get; init; }
+        public bool ReadIsrReplica { get; init; }
     }
 }

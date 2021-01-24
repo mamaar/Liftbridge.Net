@@ -25,8 +25,8 @@ namespace Liftbridge.Net
     {
         public int Id { get; init; }
         public string Leader { get; init; }
-        public ImmutableList<string> Replicas { get; init; }
-        public ImmutableList<string> ISR { get; init; }
+        public ImmutableHashSet<string> Replicas { get; init; }
+        public ImmutableHashSet<string> ISR { get; init; }
         public long HighWatermark { get; init; }
         public long NewestOffset { get; init; }
         public bool Paused { get; init; }
@@ -40,8 +40,8 @@ namespace Liftbridge.Net
             return new PartitionInfo {
                 Id = proto.Id,
                 Leader = proto.Leader,
-                Replicas = ImmutableList<string>.Empty.AddRange(proto.Replicas),
-                ISR = ImmutableList<string>.Empty.AddRange(proto.Isr),
+                Replicas = proto.Replicas.ToImmutableHashSet(),
+                ISR = proto.Isr.ToImmutableHashSet(),
                 HighWatermark = proto.HighWatermark,
                 NewestOffset = proto.NewestOffset,
                 Paused = proto.Paused,
@@ -79,7 +79,7 @@ namespace Liftbridge.Net
     }
 
     public record Metadata {
-        public DateTime LastUpdated { get; init; } = DateTime.MinValue;
+        public DateTime LastUpdated { get; init; } = DateTime.UtcNow;
         public ImmutableHashSet<BrokerInfo> Brokers { get; init; } = ImmutableHashSet<BrokerInfo>.Empty;
         public ImmutableDictionary<string, StreamInfo> Streams { get; init; } = ImmutableDictionary<string, StreamInfo>.Empty;
 
@@ -101,9 +101,15 @@ namespace Liftbridge.Net
         {
             var stream = Streams[streamName];
             var partitionInfo = stream.GetPartition(partitionId);
-            var leader = GetBroker(partitionInfo.Leader);
 
-            return leader.GetAddress();
+            if(isISRReplica)
+            {
+                var rand = new Random();
+                var isrId = partitionInfo.ISR.ElementAt(rand.Next(partitionInfo.ISR.Count));
+                return GetBroker(isrId).GetAddress();
+            }
+
+            return GetBroker(partitionInfo.Leader).GetAddress();
         }
 
         public ImmutableList<BrokerAddress> GetAddresses()
