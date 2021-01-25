@@ -1,12 +1,13 @@
-﻿using System;
-using System.Timers;
+﻿using Grpc.Core;
+using System;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
-using Grpc.Core;
+using System.Timers;
 
 namespace Liftbridge.Net
 {
-    public class ConnectionPool {
+    public class ConnectionPool
+    {
         private uint MaxConns;
         private TimeSpan? KeepAliveTime;
         private ImmutableList<Channel> Connections;
@@ -69,12 +70,12 @@ namespace Liftbridge.Net
         public async void Close()
         {
             ImmutableList<Task> closing = ImmutableList<Task>.Empty;
-            foreach(var conn in Connections)
+            foreach (var conn in Connections)
             {
                 closing = closing.Add(conn.ShutdownAsync());
             }
 
-            foreach(var timer in Timers.Values)
+            foreach (var timer in Timers.Values)
             {
                 timer.Stop();
                 timer.Dispose();

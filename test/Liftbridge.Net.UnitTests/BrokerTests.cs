@@ -1,6 +1,4 @@
-using System;
 using Xunit;
-using Liftbridge.Net;
 
 namespace Liftbridge.Net.Tests
 {

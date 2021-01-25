@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Liftbridge.Net
@@ -37,7 +37,8 @@ namespace Liftbridge.Net
 
         public static PartitionInfo FromProto(Proto.PartitionMetadata proto)
         {
-            return new PartitionInfo {
+            return new PartitionInfo
+            {
                 Id = proto.Id,
                 Leader = proto.Leader,
                 Replicas = proto.Replicas.ToImmutableHashSet(),
@@ -65,20 +66,22 @@ namespace Liftbridge.Net
             return Partitions[partitionId];
         }
 
-        public static StreamInfo FromProto(Proto.StreamMetadata proto) {
+        public static StreamInfo FromProto(Proto.StreamMetadata proto)
+        {
             return new StreamInfo
             {
                 CreationTimestamp = DateTime.UnixEpoch.Add(TimeSpan.FromMilliseconds(proto.CreationTimestamp / 1_000_000)),
                 Name = proto.Name,
                 Partitions = ImmutableDictionary<int, PartitionInfo>.Empty
-                    .AddRange(proto.Partitions.Select((partition, _) => 
+                    .AddRange(proto.Partitions.Select((partition, _) =>
                         new KeyValuePair<int, PartitionInfo>(partition.Key, PartitionInfo.FromProto(partition.Value))
                     )),
             };
         }
     }
 
-    public record Metadata {
+    public record Metadata
+    {
         public DateTime LastUpdated { get; init; } = DateTime.UtcNow;
         public ImmutableHashSet<BrokerInfo> Brokers { get; init; } = ImmutableHashSet<BrokerInfo>.Empty;
         public ImmutableDictionary<string, StreamInfo> Streams { get; init; } = ImmutableDictionary<string, StreamInfo>.Empty;
@@ -91,7 +94,7 @@ namespace Liftbridge.Net
             {
                 return Brokers.Single(broker => broker.Id == brokerId);
             }
-            catch(ArgumentNullException)
+            catch (ArgumentNullException)
             {
                 throw new BrokerNotFoundException();
             }
@@ -102,7 +105,7 @@ namespace Liftbridge.Net
             var stream = Streams[streamName];
             var partitionInfo = stream.GetPartition(partitionId);
 
-            if(isISRReplica)
+            if (isISRReplica)
             {
                 var rand = new Random();
                 var isrId = partitionInfo.ISR.ElementAt(rand.Next(partitionInfo.ISR.Count));

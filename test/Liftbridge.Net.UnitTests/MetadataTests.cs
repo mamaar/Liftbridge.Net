@@ -1,6 +1,4 @@
-﻿using System;
-using Xunit;
-using Liftbridge.Net;
+﻿using Xunit;
 
 namespace Liftbridge.Net.Tests
 {
@@ -11,7 +9,7 @@ namespace Liftbridge.Net.Tests
         {
             var metadata = new Metadata { };
             var b = new BrokerInfo { Id = "1", Host = "localhost", Port = 9292, };
-            metadata = metadata with { Brokers = metadata.Brokers.Add(b)};
+            metadata = metadata with { Brokers = metadata.Brokers.Add(b) };
 
             var broker = metadata.GetBroker("1");
             Assert.Equal(b, broker);

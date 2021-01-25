@@ -1,22 +1,19 @@
-﻿using Liftbridge.Net;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-using Grpc.Core;
 
 namespace Liftbridge.Net
 {
-    public class LiftbridgeException : Exception {
+    public class LiftbridgeException : Exception
+    {
         public LiftbridgeException() { }
         public LiftbridgeException(string message) : base(message) { }
         public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
     }
     public class StreamAlreadyExistsException : LiftbridgeException { }
-    public class BrokerNotFoundException: LiftbridgeException { }
+    public class BrokerNotFoundException : LiftbridgeException { }
 
     public delegate Task MessageHandler(Proto.Message message);
 
@@ -46,23 +43,25 @@ namespace Liftbridge.Net
         public Client(ClientOptions opts)
         {
             options = opts;
-            metadata = new Metadata { 
+            metadata = new Metadata
+            {
                 Brokers = ImmutableHashSet<BrokerInfo>.Empty,
-                BootstrapAddresses = options.Brokers, 
+                BootstrapAddresses = options.Brokers,
             };
 
             CreateRpcClient();
         }
 
-        static Grpc.Core.Channel CreateChannel(IEnumerable<BrokerAddress> addresses) {
-            foreach(var address in addresses)
+        static Grpc.Core.Channel CreateChannel(IEnumerable<BrokerAddress> addresses)
+        {
+            foreach (var address in addresses)
             {
                 try
                 {
                     var channel = new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
                     return channel;
                 }
-                catch(TaskCanceledException)
+                catch (TaskCanceledException)
                 {
 
                 }
@@ -79,7 +78,7 @@ namespace Liftbridge.Net
 
         private ConnectionPool GetPoolForAddress(BrokerAddress address)
         {
-            if(!clientPools.ContainsKey(address))
+            if (!clientPools.ContainsKey(address))
             {
                 clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
             }
@@ -95,7 +94,7 @@ namespace Liftbridge.Net
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
         {
-            for(var i = 0; i < RPCResiliencyTryCount; i++)
+            for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
                 try
                 {
@@ -103,7 +102,7 @@ namespace Liftbridge.Net
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
-                    if(ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
+                    if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
                     {
                         // Reconnect before next try.
                         CreateRpcClient();
@@ -131,7 +130,8 @@ namespace Liftbridge.Net
                 var streams = meta.Metadata
                     .Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream)))
                     .ToImmutableDictionary();
-                return metadata with {
+                return metadata with
+                {
                     LastUpdated = DateTime.UtcNow,
                     Brokers = brokers,
                     Streams = streams,
@@ -157,7 +157,8 @@ namespace Liftbridge.Net
 
                 var leaderInfo = metadata.GetBroker(leader);
 
-                partitionInfo = new PartitionInfo {
+                partitionInfo = new PartitionInfo
+                {
                     Id = partitionMeta.Id,
                     Leader = leaderInfo.Id,
                     Replicas = replicaIds,
@@ -204,18 +205,19 @@ namespace Liftbridge.Net
 
         public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
         {
-            for(var i = 1; i <= SubscriptionResiliencyTryCount; i++)
+            for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
                 try
                 {
                     var address = metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
-                    if(!clientPools.ContainsKey(address))
+                    if (!clientPools.ContainsKey(address))
                     {
                         clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
                     }
                     var connectionPool = clientPools[address];
 
-                    var channel = connectionPool.Get(() => {
+                    var channel = connectionPool.Get(() =>
+                    {
                         return CreateChannel(new List<BrokerAddress> { address });
                     });
                     var subscriptionClient = new Proto.API.APIClient(channel);
@@ -225,16 +227,16 @@ namespace Liftbridge.Net
                         ReadISRReplica = opts.ReadIsrReplica,
                     };
                     using var subscription = subscriptionClient.Subscribe(request);
-                    while(await subscription.ResponseStream.MoveNext(default))
+                    while (await subscription.ResponseStream.MoveNext(default))
                     {
                         var message = subscription.ResponseStream.Current;
                         await messageHandler(message);
                     }
                 }
-                catch(BrokerNotFoundException)
+                catch (BrokerNotFoundException)
                 {
                     // Re-throws when the last try failed
-                    if(i == SubscriptionResiliencyTryCount)
+                    if (i == SubscriptionResiliencyTryCount)
                     {
                         throw;
                     }
@@ -245,7 +247,8 @@ namespace Liftbridge.Net
         }
     }
 
-    public record SubscriptionOptions {
+    public record SubscriptionOptions
+    {
         public int Partition { get; init; }
         public bool ReadIsrReplica { get; init; }
     }

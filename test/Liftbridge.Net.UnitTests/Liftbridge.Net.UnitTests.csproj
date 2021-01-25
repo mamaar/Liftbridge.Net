@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Liftbridge.Net\Liftbridge.Net.csproj" />
+    <ProjectReference Include="..\..\src\Liftbridge.Net\Liftbridge.Net.csproj" />
   </ItemGroup>
 
 </Project>
