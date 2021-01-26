@@ -12,6 +12,7 @@ namespace Liftbridge.Net
         public LiftbridgeException(string message) : base(message) { }
         public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
     }
+    public class ConnectionErrorException : LiftbridgeException { }
     public class StreamAlreadyExistsException : LiftbridgeException { }
     public class BrokerNotFoundException : LiftbridgeException { }
 
@@ -54,19 +55,10 @@ namespace Liftbridge.Net
 
         static Grpc.Core.Channel CreateChannel(IEnumerable<BrokerAddress> addresses)
         {
-            foreach (var address in addresses)
-            {
-                try
-                {
-                    var channel = new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
-                    return channel;
-                }
-                catch (TaskCanceledException)
-                {
-
-                }
-            }
-            throw new LiftbridgeException();
+            var rand = new Random();
+            var addressIndex = rand.Next(0, addresses.Count());
+            var address = addresses.ElementAt(addressIndex);
+            return new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
         }
 
         Proto.API.APIClient CreateRpcClient()
@@ -92,7 +84,29 @@ namespace Liftbridge.Net
             return pool;
         }
 
-        private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
+        private T DoResilientRPC<T>(Func<Proto.API.APIClient, T> func)
+        {
+            for (var i = 0; i < RPCResiliencyTryCount; i++)
+            {
+                try
+                {
+                    return func(internalClient);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
+                    {
+                        // Reconnect before next try.
+                        CreateRpcClient();
+                        continue;
+                    }
+                    throw;
+                }
+            }
+            throw new ConnectionErrorException();
+        }
+
+        private async Task<T> DoResilientRPCAsync<T>(Func<Proto.API.APIClient, Task<T>> func)
         {
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
@@ -111,7 +125,7 @@ namespace Liftbridge.Net
                     throw;
                 }
             }
-            throw new LiftbridgeException();
+            throw new ConnectionErrorException();
         }
 
         private async Task DoResilientLeaderRPC(string stream, int partition, Func<Proto.API.APIClient, Task> func)
@@ -123,7 +137,7 @@ namespace Liftbridge.Net
         {
             return await DoResilientRPC(async client =>
             {
-                var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { });
+                var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, deadline: DateTime.UtcNow.AddSeconds(3));
                 var brokers = meta.Brokers
                         .Select(broker => BrokerInfo.FromProto(broker))
                         .ToImmutableHashSet();
@@ -173,22 +187,49 @@ namespace Liftbridge.Net
             });
         }
 
-        public void CreateStream(string name, string subject, int partitions = 1)
+        public void CreateStream(string name, string subject)
         {
-            CreateStreamAsync(name, subject, partitions).RunSynchronously();
+            var opts = new StreamOptions();
+            CreateStream(name, subject, opts);
         }
 
-        public async Task CreateStreamAsync(string name, string subject, int partitions = 1)
+        public void CreateStream(string name, string subject, StreamOptions streamOptions)
         {
-            await DoResilientRPC(async client =>
-            {
-                var request = new Proto.CreateStreamRequest()
-                {
-                    Name = name,
-                    Subject = subject,
-                    Partitions = partitions,
-                };
+            var request = streamOptions.Request();
+            request.Name = name;
+            request.Subject = subject;
 
+            DoResilientRPC(client =>
+            {
+                try
+                {
+                    return client.CreateStream(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.AlreadyExists)
+                    {
+                        throw new StreamAlreadyExistsException();
+                    }
+                    throw;
+                }
+            });
+        }
+
+        public Task CreateStreamAsync(string name, string subject)
+        {
+            var opts = new StreamOptions();
+            return CreateStreamAsync(name, subject, opts);
+        }
+
+        public async Task CreateStreamAsync(string name, string subject, StreamOptions streamOptions)
+        {
+            var request = streamOptions.Request();
+            request.Name = name;
+            request.Subject = subject;
+
+            await DoResilientRPCAsync(async client =>
+            {
                 try
                 {
                     return await client.CreateStreamAsync(request);
