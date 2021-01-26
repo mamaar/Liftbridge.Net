@@ -19,7 +19,7 @@ namespace Liftbridge.Net
 
     public class ClientOptions
     {
-        public ImmutableHashSet<BrokerAddress> Brokers { get; init; }
+        public IEnumerable<BrokerAddress> Brokers { get; init; }
         public uint MaxConnsPerBroker { get; init; }
         public TimeSpan KeepAliveTime { get; init; }
         public string TLSCert { get; init; }
@@ -46,7 +46,7 @@ namespace Liftbridge.Net
             metadata = new Metadata
             {
                 Brokers = ImmutableHashSet<BrokerInfo>.Empty,
-                BootstrapAddresses = options.Brokers,
+                BootstrapAddresses = options.Brokers.ToImmutableHashSet(),
             };
 
             CreateRpcClient();
@@ -173,12 +173,12 @@ namespace Liftbridge.Net
             });
         }
 
-        public void CreateStream(string name, string subject)
+        public void CreateStream(string name, string subject, int partitions = 1)
         {
-            CreateStreamAsync(name, subject).RunSynchronously();
+            CreateStreamAsync(name, subject, partitions).RunSynchronously();
         }
 
-        public async Task CreateStreamAsync(string name, string subject)
+        public async Task CreateStreamAsync(string name, string subject, int partitions = 1)
         {
             await DoResilientRPC(async client =>
             {
@@ -186,6 +186,7 @@ namespace Liftbridge.Net
                 {
                     Name = name,
                     Subject = subject,
+                    Partitions = partitions,
                 };
 
                 try
