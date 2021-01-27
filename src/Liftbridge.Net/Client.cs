@@ -13,6 +13,7 @@ namespace Liftbridge.Net
         public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
     }
     public class ConnectionErrorException : LiftbridgeException { }
+    public class StreamNotExistsException : LiftbridgeException { }
     public class StreamAlreadyExistsException : LiftbridgeException { }
     public class BrokerNotFoundException : LiftbridgeException { }
 
@@ -243,6 +244,96 @@ namespace Liftbridge.Net
                     throw;
                 }
             });
+        }
+
+        public void DeleteStream(string name)
+        {
+            var request = new Proto.DeleteStreamRequest { Name = name };
+            DoResilientRPC(client =>
+            {
+                try
+                {
+                    return client.DeleteStream(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException();
+                    }
+                    throw;
+                }
+            });
+        }
+
+        public async Task DeleteStreamAsync(string name)
+        {
+            var request = new Proto.DeleteStreamRequest { Name = name };
+            await DoResilientRPCAsync(async client =>
+            {
+                try
+                {
+                    return await client.DeleteStreamAsync(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException();
+                    }
+                    throw;
+                }
+            });
+        }
+
+        public void PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
+        {
+            var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
+            if (partitions != null)
+            {
+                request.Partitions.AddRange(partitions);
+            }
+            DoResilientRPC(client =>
+            {
+                try
+                {
+                    return client.PauseStream(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException();
+                    }
+                    throw;
+                }
+            }
+            );
+        }
+
+        public async Task PauseStreamAsync(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
+        {
+            var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
+            if (partitions != null)
+            {
+                request.Partitions.AddRange(partitions);
+            }
+            await DoResilientRPCAsync(async client =>
+            {
+                try
+                {
+                    return await client.PauseStreamAsync(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException();
+                    }
+                    throw;
+                }
+            }
+);
         }
 
         public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
