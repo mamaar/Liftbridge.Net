@@ -13,7 +13,12 @@ namespace Liftbridge.Net
         public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
     }
     public class ConnectionErrorException : LiftbridgeException { }
-    public class StreamNotExistsException : LiftbridgeException { }
+    public class StreamNotExistsException : LiftbridgeException
+    {
+        public StreamNotExistsException() { }
+        public StreamNotExistsException(string message) : base(message) { }
+        public StreamNotExistsException(string message, Exception inner) : base(message, inner) { }
+    }
     public class StreamAlreadyExistsException : LiftbridgeException { }
     public class BrokerNotFoundException : LiftbridgeException { }
 
@@ -307,8 +312,55 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
+            });
+        }
+
+        public void SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
+        {
+            var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
+            if (partitions != null)
+            {
+                request.Partitions.AddRange(partitions);
             }
-            );
+            DoResilientRPC(client =>
+            {
+                try
+                {
+                    return client.SetStreamReadonly(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException(ex.Message);
+                    }
+                    throw;
+                }
+            });
+        }
+
+        public async Task SetStreamReadonlyAsync(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
+        {
+            var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
+            if (partitions != null)
+            {
+                request.Partitions.AddRange(partitions);
+            }
+            await DoResilientRPCAsync(async client =>
+            {
+                try
+                {
+                    return await client.SetStreamReadonlyAsync(request);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
+                    {
+                        throw new StreamNotExistsException();
+                    }
+                    throw;
+                }
+            });
         }
 
         public async Task PauseStreamAsync(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
@@ -332,8 +384,7 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
-            }
-);
+            });
         }
 
         public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
