@@ -12,15 +12,54 @@ namespace Liftbridge.Net
         public LiftbridgeException(string message) : base(message) { }
         public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
     }
-    public class ConnectionErrorException : LiftbridgeException { }
+    public class ConnectionErrorException : LiftbridgeException
+    {
+        public ConnectionErrorException() { }
+        public ConnectionErrorException(string message) : base(message) { }
+        public ConnectionErrorException(string message, Exception inner) : base(message, inner) { }
+    }
     public class StreamNotExistsException : LiftbridgeException
     {
         public StreamNotExistsException() { }
         public StreamNotExistsException(string message) : base(message) { }
         public StreamNotExistsException(string message, Exception inner) : base(message, inner) { }
     }
-    public class StreamAlreadyExistsException : LiftbridgeException { }
-    public class BrokerNotFoundException : LiftbridgeException { }
+    public class StreamAlreadyExistsException : LiftbridgeException
+    {
+        public StreamAlreadyExistsException() { }
+        public StreamAlreadyExistsException(string message) : base(message) { }
+        public StreamAlreadyExistsException(string message, Exception inner) : base(message, inner) { }
+    }
+    public class BrokerNotFoundException : LiftbridgeException
+    {
+        public BrokerNotFoundException() { }
+        public BrokerNotFoundException(string message) : base(message) { }
+        public BrokerNotFoundException(string message, Exception inner) : base(message, inner) { }
+    }
+    public class PartitionPausedException : LiftbridgeException
+    {
+        public PartitionPausedException() { }
+        public PartitionPausedException(string message) : base(message) { }
+        public PartitionPausedException(string message, Exception inner) : base(message, inner) { }
+    }
+    public class StreamDeletedException : LiftbridgeException
+    {
+        public StreamDeletedException() { }
+        public StreamDeletedException(string message) : base(message) { }
+        public StreamDeletedException(string message, Exception inner) : base(message, inner) { }
+    }
+    public class StreamPausedException : LiftbridgeException
+    {
+        public StreamPausedException() { }
+        public StreamPausedException(string message) : base(message) { }
+        public StreamPausedException(string message, Exception inner) : base(message, inner) { }
+    }
+    public class EndOfReadonlyException : LiftbridgeException
+    {
+        public EndOfReadonlyException() { }
+        public EndOfReadonlyException(string message) : base(message) { }
+        public EndOfReadonlyException(string message, Exception inner) : base(message, inner) { }
+    }
 
     public delegate Task MessageHandler(Proto.Message message);
 
@@ -411,10 +450,33 @@ namespace Liftbridge.Net
                         ReadISRReplica = opts.ReadIsrReplica,
                     };
                     using var subscription = subscriptionClient.Subscribe(request);
-                    while (await subscription.ResponseStream.MoveNext(default))
+                    try
                     {
-                        var message = subscription.ResponseStream.Current;
-                        await messageHandler(message);
+                        while (await subscription.ResponseStream.MoveNext(default))
+                        {
+                            var message = subscription.ResponseStream.Current;
+                            await messageHandler(message);
+                        }
+                    }
+                    catch (Grpc.Core.RpcException ex)
+                    {
+                        switch (ex.StatusCode)
+                        {
+                            case Grpc.Core.StatusCode.Cancelled:
+                                return;
+                            case Grpc.Core.StatusCode.NotFound:
+                                throw new StreamDeletedException();
+                            case Grpc.Core.StatusCode.FailedPrecondition:
+                                throw new StreamPausedException();
+                            case Grpc.Core.StatusCode.ResourceExhausted:
+                                // Indicates the end of a readonly partition has been reached.
+                                throw new EndOfReadonlyException();
+                            case Grpc.Core.StatusCode.Unavailable:
+                                await Task.Delay(50);
+                                metadata = await FetchMetadataAsync();
+                                continue;
+                        }
+                        throw;
                     }
                 }
                 catch (BrokerNotFoundException)
