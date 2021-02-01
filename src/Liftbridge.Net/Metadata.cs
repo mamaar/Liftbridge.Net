@@ -121,5 +121,17 @@ namespace Liftbridge.Net
                 .AddRange(Brokers.Select((broker, _) => broker.GetAddress()))
                 .AddRange(BootstrapAddresses);
         }
+
+        public int StreamPartitionCount(string stream)
+        {
+            try
+            {
+                return Streams[stream].Partitions.Count;
+            }
+            catch (KeyNotFoundException)
+            {
+                return 0;
+            }
+        }
     }
 }
