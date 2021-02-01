@@ -43,5 +43,33 @@ namespace Liftbridge.Net.Tests
             partition = partitioner.Partition("foo", "blar", "4", metadata);
             Assert.Equal(1, partition);
         }
+
+        [Fact]
+        public void TestPartitionByRoundRobin()
+        {
+            var partitioner = new PartitionByRoundRobin();
+            var metadata = new Metadata
+            {
+                Streams = System.Collections.Immutable.ImmutableDictionary<string, StreamInfo>
+                    .Empty
+                    .Add("foo", new StreamInfo
+                    {
+                        Partitions = System.Collections.Immutable.ImmutableDictionary<int, PartitionInfo>
+                        .Empty
+                        .Add(0, new PartitionInfo())
+                        .Add(1, new PartitionInfo())
+                    }),
+            };
+
+            long partition;
+            partition = partitioner.Partition("foo", "foobarbazqux", "1", metadata);
+            Assert.Equal(1, partition);
+
+            partition = partitioner.Partition("foo", "foobarbazqux", "2", metadata);
+            Assert.Equal(0, partition);
+
+            partition = partitioner.Partition("foo", "foobarbazqux", "2", metadata);
+            Assert.Equal(1, partition);
+        }
     }
 }

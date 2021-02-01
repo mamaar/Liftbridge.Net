@@ -1,6 +1,6 @@
 ﻿using Crc32C;
-using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -17,16 +17,17 @@ namespace Liftbridge.Net
     {
         public override long Partition(string stream, byte[] key, byte[] value, Metadata metadata)
         {
+            var partitionsCount = metadata.StreamPartitionCount(stream);
+            if (partitionsCount == 0)
+            {
+                return partitionsCount;
+            }
+
             if (key == null)
             {
                 key = Encoding.ASCII.GetBytes("");
             }
 
-            var partitionsCount = metadata.StreamPartitionCount(stream);
-            if(partitionsCount == 0)
-            {
-                return partitionsCount;
-            }
             var hash = Crc32CAlgorithm.Compute(key.ToArray());
             return hash % partitionsCount;
         }
@@ -34,9 +35,26 @@ namespace Liftbridge.Net
 
     public class PartitionByRoundRobin : IPartitioner
     {
+        private ImmutableDictionary<string, int> counter;
+        public PartitionByRoundRobin()
+        {
+            counter = ImmutableDictionary<string, int>.Empty;
+        }
+
         public override long Partition(string stream, byte[] key, byte[] value, Metadata metadata)
         {
-            throw new NotImplementedException();
+            var partitionsCount = metadata.StreamPartitionCount(stream);
+            if (partitionsCount == 0)
+            {
+                return 0;
+            }
+
+            lock (counter)
+            {
+                var currentCount = counter.GetValueOrDefault(stream, 0);
+                counter = counter.SetItem(stream, currentCount + 1);
+                return counter[stream] % partitionsCount;
+            }
         }
     }
 }
