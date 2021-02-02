@@ -32,16 +32,16 @@ namespace Liftbridge.Net.Tests
 
             long partition;
             partition = partitioner.Partition("foo", "foobarbazqux", "1", metadata);
-            Assert.Equal(0, partition);
+            Assert.Equal(1, partition);
 
             partition = partitioner.Partition("foo", "foobarbazqux", "2", metadata);
+            Assert.Equal(1, partition);
+
+            partition = partitioner.Partition("foo", "blah", "3", metadata);
             Assert.Equal(0, partition);
 
-            partition = partitioner.Partition("foo", "blar", "3", metadata);
-            Assert.Equal(1, partition);
-
-            partition = partitioner.Partition("foo", "blar", "4", metadata);
-            Assert.Equal(1, partition);
+            partition = partitioner.Partition("foo", "blah", "4", metadata);
+            Assert.Equal(0, partition);
         }
 
         [Fact]

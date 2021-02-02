@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <iconUrl>https://raw.githubusercontent.com/Dexiom/Resources/master/branding/dexiom-logo-128.png</iconUrl>
+    <licenseUrl>https://github.com/Dexiom/Dexiom.QuickCrc32/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Dexiom/Dexiom.QuickCrc32</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>© Consultation Dexiom inc.</copyright>
+    <tags></tags>
+  </metadata>
+</package>

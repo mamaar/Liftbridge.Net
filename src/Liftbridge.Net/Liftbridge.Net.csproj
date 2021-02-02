@@ -6,7 +6,6 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Crc32C.NET" Version="1.0.5" />
 		<PackageReference Include="Google.Protobuf" Version="3.14.0" />
 		<PackageReference Include="Grpc.Core" Version="2.35.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.35.0">
@@ -15,9 +14,15 @@
 		</PackageReference>
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\vendor\Dexiom.QuickCrc32\Dexiom.QuickCrc32\Dexiom.QuickCrc32.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Protobuf Include="api.proto" GrpcServices="Client" />
 	</ItemGroup>
+
 
 
 </Project>

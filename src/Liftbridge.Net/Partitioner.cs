@@ -1,7 +1,5 @@
-﻿using Crc32C;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text;
 
 namespace Liftbridge.Net
@@ -28,7 +26,7 @@ namespace Liftbridge.Net
                 key = Encoding.ASCII.GetBytes("");
             }
 
-            var hash = Crc32CAlgorithm.Compute(key.ToArray());
+            var hash = Dexiom.QuickCrc32.QuickCrc32.Compute(key);
             return hash % partitionsCount;
         }
     }
