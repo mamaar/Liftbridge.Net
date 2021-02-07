@@ -1,89 +1,96 @@
 ﻿using Grpc.Core;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace Liftbridge.Net
 {
-    public class ConnectionPool
+    public class Broker
     {
-        private uint MaxConns;
-        private TimeSpan? KeepAliveTime;
-        private ImmutableList<Channel> Connections;
-        private ImmutableDictionary<Channel, Timer> Timers;
+        public Grpc.Core.Channel Channel { get; init; }
+        public Proto.API.APIClient Client { get; init; }
+        public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; init; }
 
-        public ConnectionPool(uint maxConnections, TimeSpan? keepAliveTime = null)
+        public Broker(BrokerAddress address)
         {
-            MaxConns = maxConnections;
-            KeepAliveTime = keepAliveTime;
-            Connections = ImmutableList<Channel>.Empty;
-            Timers = ImmutableDictionary<Channel, Timer>.Empty;
+            Channel = new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
+            Client = new Proto.API.APIClient(Channel);
+            Stream = Client.PublishAsync();
         }
 
-        public Channel Get(Func<Channel> factory)
+        public Task Close()
         {
-            lock (Connections)
+            return Channel.ShutdownAsync();
+        }
+    }
+
+    public class Brokers
+    {
+        ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool;
+
+
+        public Brokers(IEnumerable<BrokerAddress> addresses)
+        {
+            addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+              Update(addresses);
+        }
+
+
+        public Task Update(IEnumerable<BrokerAddress> addresses)
+        {
+            ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+            foreach(var address in addresses)
             {
-                if (Connections.IsEmpty)
+                if(!addressConnectionPool.ContainsKey(address))
                 {
-                    var ch = factory();
-                    Connections = Connections.Add(ch);
+                    newBrokers = newBrokers.Add(address, new Broker(address));
                 }
-
-                var conn = Connections[0];
-                Connections.Remove(conn);
-                Timer keepAliveTimer = Timers[conn];
-                keepAliveTimer.Stop();
-                Timers.Remove(conn);
-                return conn;
-            }
-        }
-
-        public async void Put(Channel conn)
-        {
-            // Close connection if the pool is full;
-            if (Connections.Count == MaxConns)
-            {
-                await conn.ShutdownAsync();
-                return;
-            }
-            lock (Connections)
-            {
-                Connections = Connections.Add(conn);
-                if (KeepAliveTime != null)
+                else
                 {
-                    var timer = new Timer(KeepAliveTime.Value.TotalMilliseconds);
-                    Timers = Timers.Add(conn, timer);
-                    timer.Elapsed += async (object sender, ElapsedEventArgs e) =>
-                    {
-                        Connections = Connections.Remove(conn);
-                        await conn.ShutdownAsync();
-                        Timers = Timers.Remove(conn);
-                        timer.Dispose();
-                    };
-                    timer.Start();
+                    newBrokers = newBrokers.Add(address, addressConnectionPool[address]);
                 }
             }
+
+            var closeOldConnections =  Task.WhenAll(addressConnectionPool
+                .Where(broker => !newBrokers.ContainsKey(broker.Key))
+                .Select(broker => broker.Value.Channel.ShutdownAsync()));
+
+            addressConnectionPool = newBrokers;
+
+            return closeOldConnections;
         }
 
-        public async void Close()
+        public Broker GetFromAddress(BrokerAddress address)
         {
-            ImmutableList<Task> closing = ImmutableList<Task>.Empty;
-            foreach (var conn in Connections)
-            {
-                closing = closing.Add(conn.ShutdownAsync());
-            }
+            return addressConnectionPool[address];
+        }
 
-            foreach (var timer in Timers.Values)
-            {
-                timer.Stop();
-                timer.Dispose();
-            }
+        public Broker GetRandom()
+        {
+            var rand = new Random();
+            var n = rand.Next(0, addressConnectionPool.Count);
+            var key = addressConnectionPool.Keys.ElementAt(n);
+            return addressConnectionPool[key];
+        }
 
-            Connections = Connections.Clear();
-            Timers = Timers.Clear();
-            await Task.WhenAll(closing);
+        public Broker GetFromStream(string stream, int partition)
+        {
+            var hash = System.Text.Encoding.ASCII.GetBytes($"{stream}:{partition}");
+            var n = Dexiom.QuickCrc32.QuickCrc32.Compute(hash) % addressConnectionPool.Count;
+
+            return null;
+        }
+
+        public Task CloseAll()
+        {
+            return Task.WhenAll(
+                addressConnectionPool.Select(pair =>
+                {
+                    return pair.Value.Close();
+                })
+            );
         }
     }
 }

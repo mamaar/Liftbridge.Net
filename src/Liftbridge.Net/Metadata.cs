@@ -122,13 +122,30 @@ namespace Liftbridge.Net
                 .AddRange(BootstrapAddresses);
         }
 
+        public StreamInfo GetStreamInfo(string stream)
+        {
+            try
+            {
+                return Streams[stream];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new StreamNotExistsException();
+            }
+        }
+
+        public bool HasStreamInfo(string stream)
+        {
+            return Streams.ContainsKey(stream);
+        }
+
         public int StreamPartitionCount(string stream)
         {
             try
             {
-                return Streams[stream].Partitions.Count;
+                return GetStreamInfo(stream).Partitions.Count;
             }
-            catch (KeyNotFoundException)
+            catch (StreamNotExistsException)
             {
                 return 0;
             }

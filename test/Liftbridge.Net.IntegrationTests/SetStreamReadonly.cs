@@ -20,33 +20,12 @@ namespace Liftbridge.Net.IntegrationTests
         }
 
         [Fact]
-        public void TestSetStreamReadonly()
-        {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
-
-            var streamName = Guid.NewGuid().ToString();
-            client.CreateStream(streamName, "test");
-            client.SetStreamReadonly(streamName);
-            return;
-        }
-
-        [Fact]
         public async Task TestSetStreamReadonlyNoNameAsync()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
             var client = new Client(options);
 
             await Assert.ThrowsAsync<StreamNotExistsException>(() => client.SetStreamReadonlyAsync(""));
-            return;
-        }
-
-        [Fact]
-        public void TestSetStreamNoNameReadonly()
-        {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
-            Assert.Throws<StreamNotExistsException>(() => client.SetStreamReadonly(""));
             return;
         }
     }

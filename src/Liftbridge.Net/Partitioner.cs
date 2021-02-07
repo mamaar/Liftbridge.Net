@@ -6,14 +6,14 @@ namespace Liftbridge.Net
 {
     public abstract class IPartitioner
     {
-        public abstract long Partition(string stream, byte[] key, byte[] value, Metadata metadata);
+        public abstract int Partition(string stream, byte[] key, byte[] value, Metadata metadata);
 
-        public long Partition(string stream, string key, string value, Metadata metadata) => Partition(stream, Encoding.ASCII.GetBytes(key), Encoding.ASCII.GetBytes(value), metadata);
+        public int Partition(string stream, string key, string value, Metadata metadata) => Partition(stream, Encoding.ASCII.GetBytes(key), Encoding.ASCII.GetBytes(value), metadata);
     }
 
     public class PartitionByKey : IPartitioner
     {
-        public override long Partition(string stream, byte[] key, byte[] value, Metadata metadata)
+        public override int Partition(string stream, byte[] key, byte[] value, Metadata metadata)
         {
             var partitionsCount = metadata.StreamPartitionCount(stream);
             if (partitionsCount == 0)
@@ -26,8 +26,8 @@ namespace Liftbridge.Net
                 key = Encoding.ASCII.GetBytes("");
             }
 
-            var hash = Dexiom.QuickCrc32.QuickCrc32.Compute(key);
-            return hash % partitionsCount;
+            var hash = Dexiom.QuickCrc32.QuickCrc32.Compute(key) % partitionsCount;
+            return (int)hash;
         }
     }
 
@@ -39,7 +39,7 @@ namespace Liftbridge.Net
             counter = ImmutableDictionary<string, int>.Empty;
         }
 
-        public override long Partition(string stream, byte[] key, byte[] value, Metadata metadata)
+        public override int Partition(string stream, byte[] key, byte[] value, Metadata metadata)
         {
             var partitionsCount = metadata.StreamPartitionCount(stream);
             if (partitionsCount == 0)

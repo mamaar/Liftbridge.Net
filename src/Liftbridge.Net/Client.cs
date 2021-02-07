@@ -4,6 +4,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+using AckPolicy = Proto.AckPolicy;
+
 namespace Liftbridge.Net
 {
     public class LiftbridgeException : Exception
@@ -77,12 +80,8 @@ namespace Liftbridge.Net
         const int RPCResiliencyTryCount = 10;
         const int SubscriptionResiliencyTryCount = 5;
 
-        private Proto.API.APIClient internalClient;
-        private Grpc.Core.Channel internalChannel;
-
+        private Brokers Brokers;
         private Metadata metadata;
-
-        private ImmutableDictionary<BrokerAddress, ConnectionPool> clientPools;
 
         private ClientOptions options;
 
@@ -95,76 +94,24 @@ namespace Liftbridge.Net
                 BootstrapAddresses = options.Brokers.ToImmutableHashSet(),
             };
 
-            CreateRpcClient();
-        }
-
-        static Grpc.Core.Channel CreateChannel(IEnumerable<BrokerAddress> addresses)
-        {
-            var rand = new Random();
-            var addressIndex = rand.Next(0, addresses.Count());
-            var address = addresses.ElementAt(addressIndex);
-            return new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
-        }
-
-        Proto.API.APIClient CreateRpcClient()
-        {
-            internalChannel = CreateChannel(metadata.GetAddresses());
-            internalClient = new Proto.API.APIClient(internalChannel);
-            return internalClient;
-        }
-
-        private ConnectionPool GetPoolForAddress(BrokerAddress address)
-        {
-            if (!clientPools.ContainsKey(address))
-            {
-                clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
-            }
-            return clientPools[address];
-        }
-
-        private ConnectionPool GetPoolForStreamPartition(string stream, int partition, bool isISRReplica)
-        {
-            var address = metadata.GetAddress(stream, partition, isISRReplica);
-            var pool = GetPoolForAddress(address);
-            return pool;
-        }
-
-        private T DoResilientRPC<T>(Func<Proto.API.APIClient, T> func)
-        {
-            for (var i = 0; i < RPCResiliencyTryCount; i++)
-            {
-                try
-                {
-                    return func(internalClient);
-                }
-                catch (Grpc.Core.RpcException ex)
-                {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
-                    {
-                        // Reconnect before next try.
-                        CreateRpcClient();
-                        continue;
-                    }
-                    throw;
-                }
-            }
-            throw new ConnectionErrorException();
+            Brokers = new Brokers(metadata.BootstrapAddresses);
         }
 
         private async Task<T> DoResilientRPCAsync<T>(Func<Proto.API.APIClient, Task<T>> func)
         {
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
+                var broker = Brokers.GetRandom();
                 try
                 {
-                    return await func(internalClient);
+                    return await func(broker.Client);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
                     if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
                     {
-                        // Reconnect before next try.
-                        CreateRpcClient();
+                        await Task.Delay(100);
+                        await UpdateMetadataCache();
                         continue;
                     }
                     throw;
@@ -173,16 +120,16 @@ namespace Liftbridge.Net
             throw new ConnectionErrorException();
         }
 
-        private async Task DoResilientLeaderRPC(string stream, int partition, Func<Proto.API.APIClient, Task> func)
+        private async Task<T> DoResilientLeaderRPC<T>(string stream, int partition, Func<Proto.API.APIClient, Task<T>> func)
         {
-            await func(internalClient);
+            return default(T);
         }
 
         public async Task<Metadata> FetchMetadataAsync()
         {
-            return await DoResilientRPC(async client =>
+            return await DoResilientRPCAsync(async client =>
             {
-                var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, deadline: DateTime.UtcNow.AddSeconds(3));
+                var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, deadline: DateTime.UtcNow.AddSeconds(10));
                 var brokers = meta.Brokers
                         .Select(broker => BrokerInfo.FromProto(broker))
                         .ToImmutableHashSet();
@@ -198,10 +145,15 @@ namespace Liftbridge.Net
             });
         }
 
-        public async Task FetchPartitionMetadataAsync(string stream, int partition)
+        private async Task UpdateMetadataCache()
         {
-            PartitionInfo partitionInfo;
-            await DoResilientLeaderRPC(stream, partition, async client =>
+            metadata = await FetchMetadataAsync();
+            await Brokers.Update(metadata.GetAddresses());
+        }
+
+        public async Task<PartitionInfo> FetchPartitionMetadataAsync(string stream, int partition)
+        {
+            return await DoResilientLeaderRPC(stream, partition, async client =>
             {
                 var request = new Proto.FetchPartitionMetadataRequest { Stream = stream, Partition = partition };
                 var result = await client.FetchPartitionMetadataAsync(request);
@@ -216,7 +168,7 @@ namespace Liftbridge.Net
 
                 var leaderInfo = metadata.GetBroker(leader);
 
-                partitionInfo = new PartitionInfo
+                return new PartitionInfo
                 {
                     Id = partitionMeta.Id,
                     Leader = leaderInfo.Id,
@@ -229,35 +181,6 @@ namespace Liftbridge.Net
                     PausedTimestamps = PartitionEventTimestamps.FromProto(partitionMeta.PauseTimestamps),
                     ReadonlyTimestamps = PartitionEventTimestamps.FromProto(partitionMeta.ReadonlyTimestamps),
                 };
-            });
-        }
-
-        public void CreateStream(string name, string subject)
-        {
-            var opts = new StreamOptions();
-            CreateStream(name, subject, opts);
-        }
-
-        public void CreateStream(string name, string subject, StreamOptions streamOptions)
-        {
-            var request = streamOptions.Request();
-            request.Name = name;
-            request.Subject = subject;
-
-            DoResilientRPC(client =>
-            {
-                try
-                {
-                    return client.CreateStream(request);
-                }
-                catch (Grpc.Core.RpcException ex)
-                {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.AlreadyExists)
-                    {
-                        throw new StreamAlreadyExistsException();
-                    }
-                    throw;
-                }
             });
         }
 
@@ -290,26 +213,6 @@ namespace Liftbridge.Net
             });
         }
 
-        public void DeleteStream(string name)
-        {
-            var request = new Proto.DeleteStreamRequest { Name = name };
-            DoResilientRPC(client =>
-            {
-                try
-                {
-                    return client.DeleteStream(request);
-                }
-                catch (Grpc.Core.RpcException ex)
-                {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
-                    {
-                        throw new StreamNotExistsException();
-                    }
-                    throw;
-                }
-            });
-        }
-
         public async Task DeleteStreamAsync(string name)
         {
             var request = new Proto.DeleteStreamRequest { Name = name };
@@ -324,54 +227,6 @@ namespace Liftbridge.Net
                     if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
                     {
                         throw new StreamNotExistsException();
-                    }
-                    throw;
-                }
-            });
-        }
-
-        public void PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
-        {
-            var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
-            if (partitions != null)
-            {
-                request.Partitions.AddRange(partitions);
-            }
-            DoResilientRPC(client =>
-            {
-                try
-                {
-                    return client.PauseStream(request);
-                }
-                catch (Grpc.Core.RpcException ex)
-                {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
-                    {
-                        throw new StreamNotExistsException();
-                    }
-                    throw;
-                }
-            });
-        }
-
-        public void SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
-        {
-            var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
-            if (partitions != null)
-            {
-                request.Partitions.AddRange(partitions);
-            }
-            DoResilientRPC(client =>
-            {
-                try
-                {
-                    return client.SetStreamReadonly(request);
-                }
-                catch (Grpc.Core.RpcException ex)
-                {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
-                    {
-                        throw new StreamNotExistsException(ex.Message);
                     }
                     throw;
                 }
@@ -426,6 +281,43 @@ namespace Liftbridge.Net
             });
         }
 
+        public async Task PublishAsync(string stream, byte[] value, MessageOptions opts)
+        {
+            if (opts.CorrelationId == string.Empty)
+            {
+                opts = opts with { CorrelationId = Guid.NewGuid().ToString() };
+            }
+
+            int partition = 0;
+            if (opts.Partition != null)
+            {
+                partition = opts.Partition.Value;
+            }
+            else if (opts.Partitioner != null)
+            {
+                if (!metadata.HasStreamInfo(stream))
+                {
+                    throw new StreamNotExistsException("No metadata for stream");
+                }
+                partition = opts.Partitioner.Partition(stream, opts.Key, value, metadata);
+            }
+
+            var request = new Proto.PublishRequest
+            {
+                Stream = stream,
+                Partition = partition,
+                Key = Google.Protobuf.ByteString.CopyFrom(opts.Key),
+                Value = Google.Protobuf.ByteString.CopyFrom(value),
+                AckInbox = opts.AckInbox,
+                CorrelationId = opts.CorrelationId,
+                AckPolicy = opts.AckPolicy,
+                ExpectedOffset = opts.ExpectedOffset,
+            };
+
+            var broker = Brokers.GetFromStream(stream, partition);
+            await broker.Stream.RequestStream.WriteAsync(request);
+        }
+
         public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
@@ -433,23 +325,14 @@ namespace Liftbridge.Net
                 try
                 {
                     var address = metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
-                    if (!clientPools.ContainsKey(address))
-                    {
-                        clientPools = clientPools.Add(address, new ConnectionPool(options.MaxConnsPerBroker, options.KeepAliveTime));
-                    }
-                    var connectionPool = clientPools[address];
+                    var broker = Brokers.GetFromAddress(address);
 
-                    var channel = connectionPool.Get(() =>
-                    {
-                        return CreateChannel(new List<BrokerAddress> { address });
-                    });
-                    var subscriptionClient = new Proto.API.APIClient(channel);
                     var request = new Proto.SubscribeRequest
                     {
                         Partition = opts.Partition,
                         ReadISRReplica = opts.ReadIsrReplica,
                     };
-                    using var subscription = subscriptionClient.Subscribe(request);
+                    using var subscription = broker.Client.Subscribe(request);
                     try
                     {
                         while (await subscription.ResponseStream.MoveNext(default))
@@ -487,7 +370,7 @@ namespace Liftbridge.Net
                         throw;
                     }
                     await Task.Delay(50);
-                    metadata = await FetchMetadataAsync();
+                    await UpdateMetadataCache();
                 }
             }
         }
@@ -497,5 +380,17 @@ namespace Liftbridge.Net
     {
         public int Partition { get; init; }
         public bool ReadIsrReplica { get; init; }
+    }
+
+    public record MessageOptions
+    {
+        public byte[] Key { get; init; }
+        public string AckInbox { get; init; }
+        public string CorrelationId { get; init; }
+        public AckPolicy AckPolicy { get; init; }
+        public ImmutableDictionary<string, byte[]> Headers { get; init; }
+        public IPartitioner Partitioner { get; init; }
+        public int? Partition { get; init; }
+        public long ExpectedOffset { get; init; }
     }
 }
