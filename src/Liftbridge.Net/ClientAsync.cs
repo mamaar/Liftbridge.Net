@@ -70,13 +70,12 @@ namespace Liftbridge.Net
     public class ClientOptions
     {
         public IEnumerable<BrokerAddress> Brokers { get; init; }
-        public uint MaxConnsPerBroker { get; init; }
-        public TimeSpan KeepAliveTime { get; init; }
         public string TLSCert { get; init; }
         public TimeSpan ResubscribeWaitTime { get; init; }
+        public TimeSpan AckWaitTime { get; init; }
     }
 
-    public class Client
+    public class ClientAsync
     {
         const int RPCResiliencyTryCount = 10;
         const int SubscriptionResiliencyTryCount = 5;
@@ -86,14 +85,14 @@ namespace Liftbridge.Net
 
         private ClientOptions options;
 
-        public Client(ClientOptions opts)
+        public ClientAsync(ClientOptions opts)
         {
             options = opts;
             metadata = new MetadataCache();
             Brokers = new Brokers(opts.Brokers);
         }
 
-        private async Task<T> DoResilientRPCAsync<T>(Func<Proto.API.APIClient, Task<T>> func)
+        private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
         {
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
@@ -122,9 +121,9 @@ namespace Liftbridge.Net
             return default(T);
         }
 
-        public async Task<Metadata> FetchMetadataAsync()
+        public async Task<Metadata> FetchMetadata()
         {
-            return await DoResilientRPCAsync(async client =>
+            return await DoResilientRPC(async client =>
             {
                 var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, deadline: DateTime.UtcNow.AddSeconds(10));
                 var brokers = meta.Brokers
@@ -145,12 +144,12 @@ namespace Liftbridge.Net
         private async Task UpdateMetadataCache()
         {
             await metadata.Update(async () => {
-                return await FetchMetadataAsync();
+                return await FetchMetadata();
             });
             await Brokers.Update(metadata.GetAddresses());
         }
 
-        public async Task<PartitionInfo> FetchPartitionMetadataAsync(string stream, int partition)
+        public async Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition)
         {
             return await DoResilientLeaderRPC(stream, partition, async client =>
             {
@@ -183,19 +182,19 @@ namespace Liftbridge.Net
             });
         }
 
-        public Task CreateStreamAsync(string name, string subject)
+        public Task CreateStream(string name, string subject)
         {
             var opts = new StreamOptions();
-            return CreateStreamAsync(name, subject, opts);
+            return CreateStream(name, subject, opts);
         }
 
-        public async Task CreateStreamAsync(string name, string subject, StreamOptions streamOptions)
+        public async Task CreateStream(string name, string subject, StreamOptions streamOptions)
         {
             var request = streamOptions.Request();
             request.Name = name;
             request.Subject = subject;
 
-            await DoResilientRPCAsync(async client =>
+            await DoResilientRPC(async client =>
             {
                 try
                 {
@@ -212,10 +211,10 @@ namespace Liftbridge.Net
             });
         }
 
-        public async Task DeleteStreamAsync(string name)
+        public async Task DeleteStream(string name)
         {
             var request = new Proto.DeleteStreamRequest { Name = name };
-            await DoResilientRPCAsync(async client =>
+            await DoResilientRPC(async client =>
             {
                 try
                 {
@@ -232,14 +231,14 @@ namespace Liftbridge.Net
             });
         }
 
-        public async Task SetStreamReadonlyAsync(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
+        public async Task SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
         {
             var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
             }
-            await DoResilientRPCAsync(async client =>
+            await DoResilientRPC(async client =>
             {
                 try
                 {
@@ -256,14 +255,14 @@ namespace Liftbridge.Net
             });
         }
 
-        public async Task PauseStreamAsync(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
+        public async Task PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
         {
             var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
             }
-            await DoResilientRPCAsync(async client =>
+            await DoResilientRPC(async client =>
             {
                 try
                 {
@@ -324,7 +323,7 @@ namespace Liftbridge.Net
 
             if(ackHandler is not null)
             {
-
+                var timeout = options.AckWaitTime;
             }
 
             var broker = Brokers.GetFromStream(stream, partition);

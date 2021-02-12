@@ -11,10 +11,10 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestCreateNewStreamAsync()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
+            var client = new ClientAsync(options);
 
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStreamAsync(streamName, "test");
+            await client.CreateStream(streamName, "test");
             return;
         }
 
@@ -22,11 +22,11 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestCreateStreamWithSameNameAsync()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
+            var client = new ClientAsync(options);
 
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStreamAsync(streamName, "test.samename.async.first");
-            await Assert.ThrowsAsync<StreamAlreadyExistsException>(() => client.CreateStreamAsync(streamName, "test.samename.async.second"));
+            await client.CreateStream(streamName, "test.samename.async.first");
+            await Assert.ThrowsAsync<StreamAlreadyExistsException>(() => client.CreateStream(streamName, "test.samename.async.second"));
             return;
         }
     }

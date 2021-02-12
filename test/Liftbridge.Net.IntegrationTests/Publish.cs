@@ -11,10 +11,10 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestPublishNoAck()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
+            var client = new ClientAsync(options);
 
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStreamAsync(streamName, "test");
+            await client.CreateStream(streamName, "test");
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
             await client.PublishAsync(streamName, value);

@@ -11,11 +11,11 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestPauseStreamAsync()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
+            var client = new ClientAsync(options);
 
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStreamAsync(streamName, "test");
-            await client.PauseStreamAsync(streamName);
+            await client.CreateStream(streamName, "test");
+            await client.PauseStream(streamName);
             return;
         }
 
@@ -23,9 +23,9 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestPauseStreamNoNameAsync()
         {
             var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new Client(options);
+            var client = new ClientAsync(options);
 
-            await Assert.ThrowsAsync<StreamNotExistsException>(async () => await client.PauseStreamAsync(""));
+            await Assert.ThrowsAsync<StreamNotExistsException>(async () => await client.PauseStream(""));
             return;
         }
     }
