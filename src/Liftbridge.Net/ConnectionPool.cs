@@ -34,7 +34,7 @@ namespace Liftbridge.Net
         public Brokers(IEnumerable<BrokerAddress> addresses)
         {
             addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>.Empty;
-              Update(addresses);
+            Update(addresses);
         }
 
 
@@ -78,9 +78,10 @@ namespace Liftbridge.Net
         public Broker GetFromStream(string stream, int partition)
         {
             var hash = System.Text.Encoding.ASCII.GetBytes($"{stream}:{partition}");
-            var n = Dexiom.QuickCrc32.QuickCrc32.Compute(hash) % addressConnectionPool.Count;
+            var n = (int)(Dexiom.QuickCrc32.QuickCrc32.Compute(hash) % addressConnectionPool.Count);
 
-            return null;
+            var key = addressConnectionPool.Keys.ElementAt(n);
+            return addressConnectionPool[key];
         }
 
         public Task CloseAll()

@@ -65,6 +65,7 @@ namespace Liftbridge.Net
     }
 
     public delegate Task MessageHandler(Proto.Message message);
+    public delegate Task AckHandler(Proto.Ack ack);
 
     public class ClientOptions
     {
@@ -81,20 +82,15 @@ namespace Liftbridge.Net
         const int SubscriptionResiliencyTryCount = 5;
 
         private Brokers Brokers;
-        private Metadata metadata;
+        private MetadataCache metadata;
 
         private ClientOptions options;
 
         public Client(ClientOptions opts)
         {
             options = opts;
-            metadata = new Metadata
-            {
-                Brokers = ImmutableHashSet<BrokerInfo>.Empty,
-                BootstrapAddresses = options.Brokers.ToImmutableHashSet(),
-            };
-
-            Brokers = new Brokers(metadata.BootstrapAddresses);
+            metadata = new MetadataCache();
+            Brokers = new Brokers(opts.Brokers);
         }
 
         private async Task<T> DoResilientRPCAsync<T>(Func<Proto.API.APIClient, Task<T>> func)
@@ -122,6 +118,7 @@ namespace Liftbridge.Net
 
         private async Task<T> DoResilientLeaderRPC<T>(string stream, int partition, Func<Proto.API.APIClient, Task<T>> func)
         {
+            await Task.Delay(0);
             return default(T);
         }
 
@@ -136,7 +133,7 @@ namespace Liftbridge.Net
                 var streams = meta.Metadata
                     .Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream)))
                     .ToImmutableDictionary();
-                return metadata with
+                return new Metadata
                 {
                     LastUpdated = DateTime.UtcNow,
                     Brokers = brokers,
@@ -147,7 +144,9 @@ namespace Liftbridge.Net
 
         private async Task UpdateMetadataCache()
         {
-            metadata = await FetchMetadataAsync();
+            await metadata.Update(async () => {
+                return await FetchMetadataAsync();
+            });
             await Brokers.Update(metadata.GetAddresses());
         }
 
@@ -281,19 +280,25 @@ namespace Liftbridge.Net
             });
         }
 
-        public async Task PublishAsync(string stream, byte[] value, MessageOptions opts)
+        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler)
         {
-            if (opts.CorrelationId == string.Empty)
+            var opts = new MessageOptions { };
+            return PublishAsync(stream, value, ackHandler, opts);
+        }
+
+        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts)
+        {
+            if (opts.CorrelationId is null)
             {
                 opts = opts with { CorrelationId = Guid.NewGuid().ToString() };
             }
 
             int partition = 0;
-            if (opts.Partition != null)
+            if (opts.Partition.HasValue)
             {
                 partition = opts.Partition.Value;
             }
-            else if (opts.Partitioner != null)
+            else if (opts.Partitioner is not null)
             {
                 if (!metadata.HasStreamInfo(stream))
                 {
@@ -302,17 +307,25 @@ namespace Liftbridge.Net
                 partition = opts.Partitioner.Partition(stream, opts.Key, value, metadata);
             }
 
+            var key = opts.Key == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(opts.Key);
+            var valueBytes = value == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(value);
+
             var request = new Proto.PublishRequest
             {
                 Stream = stream,
                 Partition = partition,
-                Key = Google.Protobuf.ByteString.CopyFrom(opts.Key),
-                Value = Google.Protobuf.ByteString.CopyFrom(value),
+                Key = key,
+                Value = valueBytes,
                 AckInbox = opts.AckInbox,
                 CorrelationId = opts.CorrelationId,
                 AckPolicy = opts.AckPolicy,
                 ExpectedOffset = opts.ExpectedOffset,
             };
+
+            if(ackHandler is not null)
+            {
+
+            }
 
             var broker = Brokers.GetFromStream(stream, partition);
             await broker.Stream.RequestStream.WriteAsync(request);
@@ -356,7 +369,7 @@ namespace Liftbridge.Net
                                 throw new EndOfReadonlyException();
                             case Grpc.Core.StatusCode.Unavailable:
                                 await Task.Delay(50);
-                                metadata = await FetchMetadataAsync();
+                                await UpdateMetadataCache();
                                 continue;
                         }
                         throw;
@@ -385,8 +398,8 @@ namespace Liftbridge.Net
     public record MessageOptions
     {
         public byte[] Key { get; init; }
-        public string AckInbox { get; init; }
-        public string CorrelationId { get; init; }
+        public string AckInbox { get; init; } = String.Empty;
+        public string CorrelationId { get; init; } = String.Empty;
         public AckPolicy AckPolicy { get; init; }
         public ImmutableDictionary<string, byte[]> Headers { get; init; }
         public IPartitioner Partitioner { get; init; }

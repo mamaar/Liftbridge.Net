@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Liftbridge.Net
 {
@@ -80,13 +81,21 @@ namespace Liftbridge.Net
         }
     }
 
-    public record Metadata
+    public interface IMetadata
+    {
+        BrokerInfo GetBroker(string brokerId);
+        BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica);
+        ImmutableList<BrokerAddress> GetAddresses();
+        StreamInfo GetStreamInfo(string stream);
+        bool HasStreamInfo(string stream);
+        int StreamPartitionCount(string stream);
+    }
+
+    public record Metadata : IMetadata
     {
         public DateTime LastUpdated { get; init; } = DateTime.UtcNow;
         public ImmutableHashSet<BrokerInfo> Brokers { get; init; } = ImmutableHashSet<BrokerInfo>.Empty;
         public ImmutableDictionary<string, StreamInfo> Streams { get; init; } = ImmutableDictionary<string, StreamInfo>.Empty;
-
-        public ImmutableHashSet<BrokerAddress> BootstrapAddresses { get; init; } = ImmutableHashSet<BrokerAddress>.Empty;
 
         public BrokerInfo GetBroker(string brokerId)
         {
@@ -118,8 +127,7 @@ namespace Liftbridge.Net
         public ImmutableList<BrokerAddress> GetAddresses()
         {
             return ImmutableList<BrokerAddress>.Empty
-                .AddRange(Brokers.Select((broker, _) => broker.GetAddress()))
-                .AddRange(BootstrapAddresses);
+                .AddRange(Brokers.Select((broker, _) => broker.GetAddress()));
         }
 
         public StreamInfo GetStreamInfo(string stream)
@@ -149,6 +157,56 @@ namespace Liftbridge.Net
             {
                 return 0;
             }
+        }
+    }
+
+    public class MetadataCache : IMetadata
+    {
+        private Metadata metadata { get; set; }
+        private System.Threading.Mutex mutex { get; init; }
+
+        public MetadataCache()
+        {
+            metadata = new Metadata { };
+            mutex = new System.Threading.Mutex();
+        }
+
+        internal async Task Update(Func<Task<Metadata>> fetchHandler)
+        {
+            mutex.WaitOne();
+            var newMetadata = await fetchHandler();
+            metadata = newMetadata;
+            mutex.ReleaseMutex();
+        }
+
+        public ImmutableList<BrokerAddress> GetAddresses()
+        {
+            return ((IMetadata)metadata).GetAddresses();
+        }
+
+        public StreamInfo GetStreamInfo(string stream)
+        {
+            return ((IMetadata)metadata).GetStreamInfo(stream);
+        }
+
+        public bool HasStreamInfo(string stream)
+        {
+            return ((IMetadata)metadata).HasStreamInfo(stream);
+        }
+
+        public int StreamPartitionCount(string stream)
+        {
+            return ((IMetadata)metadata).StreamPartitionCount(stream);
+        }
+
+        public BrokerInfo GetBroker(string brokerId)
+        {
+            return ((IMetadata)metadata).GetBroker(brokerId);
+        }
+
+        public BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica)
+        {
+            return ((IMetadata)metadata).GetAddress(streamName, partitionId, isISRReplica);
         }
     }
 }

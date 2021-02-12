@@ -6,14 +6,14 @@ namespace Liftbridge.Net
 {
     public abstract class IPartitioner
     {
-        public abstract int Partition(string stream, byte[] key, byte[] value, Metadata metadata);
+        public abstract int Partition(string stream, byte[] key, byte[] value, IMetadata metadata);
 
         public int Partition(string stream, string key, string value, Metadata metadata) => Partition(stream, Encoding.ASCII.GetBytes(key), Encoding.ASCII.GetBytes(value), metadata);
     }
 
     public class PartitionByKey : IPartitioner
     {
-        public override int Partition(string stream, byte[] key, byte[] value, Metadata metadata)
+        public override int Partition(string stream, byte[] key, byte[] value, IMetadata metadata)
         {
             var partitionsCount = metadata.StreamPartitionCount(stream);
             if (partitionsCount == 0)
@@ -39,7 +39,7 @@ namespace Liftbridge.Net
             counter = ImmutableDictionary<string, int>.Empty;
         }
 
-        public override int Partition(string stream, byte[] key, byte[] value, Metadata metadata)
+        public override int Partition(string stream, byte[] key, byte[] value, IMetadata metadata)
         {
             var partitionsCount = metadata.StreamPartitionCount(stream);
             if (partitionsCount == 0)
