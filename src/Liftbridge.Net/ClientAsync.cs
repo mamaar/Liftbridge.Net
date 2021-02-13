@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 
 using AckPolicy = Proto.AckPolicy;
@@ -63,9 +64,21 @@ namespace Liftbridge.Net
         public EndOfReadonlyException(string message) : base(message) { }
         public EndOfReadonlyException(string message, Exception inner) : base(message, inner) { }
     }
+    public class AckTimeoutException : LiftbridgeException
+    {
+        public AckTimeoutException() { }
+        public AckTimeoutException(string message) : base(message) { }
+        public AckTimeoutException(string message, Exception inner) : base(message, inner) { }
+    }
 
     public delegate Task MessageHandler(Proto.Message message);
-    public delegate Task AckHandler(Proto.Ack ack);
+    public delegate Task AckHandler(Proto.PublishResponse message);
+
+    internal record AckContext
+    {
+        public AckHandler Handler { get; init; }
+        public System.Timers.Timer Timer { get; init; }
+    }
 
     public class ClientOptions
     {
@@ -83,13 +96,17 @@ namespace Liftbridge.Net
         private Brokers Brokers;
         private MetadataCache metadata;
 
+        private ImmutableDictionary<string, AckContext> AckContexts;
+
         private ClientOptions options;
 
         public ClientAsync(ClientOptions opts)
         {
             options = opts;
             metadata = new MetadataCache();
-            Brokers = new Brokers(opts.Brokers);
+            Brokers = new Brokers(opts.Brokers, PublishResponseReceived);
+
+            AckContexts = ImmutableDictionary<string, AckContext>.Empty;
         }
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
@@ -143,7 +160,8 @@ namespace Liftbridge.Net
 
         private async Task UpdateMetadataCache()
         {
-            await metadata.Update(async () => {
+            await metadata.Update(async () =>
+            {
                 return await FetchMetadata();
             });
             await Brokers.Update(metadata.GetAddresses());
@@ -279,15 +297,48 @@ namespace Liftbridge.Net
             });
         }
 
-        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler)
+        public async Task<Proto.Ack> Publish(string stream, byte[] value, MessageOptions opts)
         {
-            var opts = new MessageOptions { };
-            return PublishAsync(stream, value, ackHandler, opts);
+            opts = opts with { ExpectedOffset = 1 };
+
+            if (opts.AckPolicy == AckPolicy.None)
+            {
+                // Fire and forget
+                _ = PublishAsync(stream, value, null, opts, null);
+                return null;
+            }
+
+            var ackOnce = new WriteOnceBlock<Proto.Ack>(null);
+            // Publish and wait for ack
+            await PublishAsync(stream, value, async (msg) =>
+            {
+                // If the message is null, the ack waiting timed out.
+                if (msg is null)
+                {
+                    await ackOnce.SendAsync(null);
+                }
+                else
+                {
+                    await ackOnce.SendAsync(msg.Ack);
+                }
+            }, opts, null);
+            var res = await ackOnce.ReceiveAsync();
+            if(res is null)
+            {
+                throw new TimeoutException("Ack awaiting timed out.");
+            }
+            return res;
         }
 
-        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts)
+        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, DateTime? deadline)
         {
-            if (opts.CorrelationId is null)
+            var opts = new MessageOptions { };
+            return PublishAsync(stream, value, ackHandler, opts, deadline);
+        }
+
+        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts, DateTime? deadline)
+        {
+            if (opts.CorrelationId == string.Empty)
             {
                 opts = opts with { CorrelationId = Guid.NewGuid().ToString() };
             }
@@ -321,13 +372,68 @@ namespace Liftbridge.Net
                 ExpectedOffset = opts.ExpectedOffset,
             };
 
-            if(ackHandler is not null)
+            if (ackHandler is not null)
             {
                 var timeout = options.AckWaitTime;
+                if (deadline.HasValue && deadline.Value > DateTime.UtcNow)
+                {
+                    timeout = deadline.Value.Subtract(DateTime.UtcNow);
+                }
+
+                var ackCtx = new AckContext
+                {
+                    Handler = ackHandler,
+                    Timer = new System.Timers.Timer(timeout.TotalMilliseconds),
+                };
+                ackCtx.Timer.Elapsed += async (sender, e) =>
+                {
+                    var ctx = RemoveAckContext(request.CorrelationId);
+                    if (ctx is not null)
+                    {
+                        await ctx.Handler(null);
+                    }
+                };
+                lock (AckContexts)
+                {
+                    AckContexts = AckContexts.Add(request.CorrelationId, ackCtx);
+                    ackCtx.Timer.Start();
+                }
             }
 
             var broker = Brokers.GetFromStream(stream, partition);
             await broker.Stream.RequestStream.WriteAsync(request);
+        }
+
+        private Task PublishResponseReceived(Proto.PublishResponse message)
+        {
+            string correlationId = null;
+            if (message.CorrelationId is not null)
+            {
+                correlationId = message.CorrelationId;
+            }
+            else if (message.Ack.CorrelationId is not null)
+            {
+                correlationId = message.Ack.CorrelationId;
+            }
+
+            if (correlationId is not null)
+            {
+                var context = RemoveAckContext(correlationId);
+                return context.Handler(message);
+            }
+            return null;
+        }
+
+        private AckContext RemoveAckContext(string correlationID)
+        {
+            lock (AckContexts)
+            {
+                var ctx = AckContexts[correlationID];
+                AckContexts = AckContexts.Remove(correlationID);
+                ctx.Timer.Stop();
+                ctx.Timer.Dispose();
+                return ctx;
+            }
         }
 
         public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)

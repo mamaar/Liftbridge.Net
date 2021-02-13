@@ -9,15 +9,27 @@ namespace Liftbridge.Net
 {
     public class Broker
     {
-        public Grpc.Core.Channel Channel { get; init; }
+        public Channel Channel { get; init; }
         public Proto.API.APIClient Client { get; init; }
         public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; init; }
 
-        public Broker(BrokerAddress address)
+        public Broker(BrokerAddress address, AckHandler ackHandler)
         {
-            Channel = new Grpc.Core.Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
+            Channel = new Channel(address.Host, address.Port, Grpc.Core.ChannelCredentials.Insecure);
             Client = new Proto.API.APIClient(Channel);
             Stream = Client.PublishAsync();
+
+            Task.Run(async () =>
+            {
+                while (await Stream.ResponseStream.MoveNext())
+                {
+                    var message = Stream.ResponseStream.Current;
+                    if (ackHandler is not null)
+                    {
+                        await ackHandler(message);
+                    }
+                }
+            });
         }
 
         public Task Close()
@@ -28,38 +40,42 @@ namespace Liftbridge.Net
 
     public class Brokers
     {
-        ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool;
+        ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool { get; set; }
+        AckHandler AckReceivedHandler { get; set; }
 
 
-        public Brokers(IEnumerable<BrokerAddress> addresses)
+        public Brokers(IEnumerable<BrokerAddress> addresses, AckHandler ackHandler)
         {
             addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+            AckReceivedHandler = ackHandler;
             Update(addresses);
         }
 
 
         public Task Update(IEnumerable<BrokerAddress> addresses)
         {
-            ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
-            foreach(var address in addresses)
+            lock (addressConnectionPool)
             {
-                if(!addressConnectionPool.ContainsKey(address))
+                ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+                foreach (var address in addresses)
                 {
-                    newBrokers = newBrokers.Add(address, new Broker(address));
+                    if (!addressConnectionPool.ContainsKey(address))
+                    {
+                        newBrokers = newBrokers.Add(address, new Broker(address, AckReceivedHandler));
+                    }
+                    else
+                    {
+                        newBrokers = newBrokers.Add(address, addressConnectionPool[address]);
+                    }
                 }
-                else
-                {
-                    newBrokers = newBrokers.Add(address, addressConnectionPool[address]);
-                }
+
+                var closeOldConnections = Task.WhenAll(addressConnectionPool
+                    .Where(broker => !newBrokers.ContainsKey(broker.Key))
+                    .Select(broker => broker.Value.Channel.ShutdownAsync()));
+
+                addressConnectionPool = newBrokers;
+                return closeOldConnections;
             }
-
-            var closeOldConnections =  Task.WhenAll(addressConnectionPool
-                .Where(broker => !newBrokers.ContainsKey(broker.Key))
-                .Select(broker => broker.Value.Channel.ShutdownAsync()));
-
-            addressConnectionPool = newBrokers;
-
-            return closeOldConnections;
         }
 
         public Broker GetFromAddress(BrokerAddress address)

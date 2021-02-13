@@ -163,20 +163,20 @@ namespace Liftbridge.Net
     public class MetadataCache : IMetadata
     {
         private Metadata metadata { get; set; }
-        private System.Threading.Mutex mutex { get; init; }
+        private System.Threading.SemaphoreSlim semaphore { get; init; }
 
         public MetadataCache()
         {
             metadata = new Metadata { };
-            mutex = new System.Threading.Mutex();
+            semaphore = new System.Threading.SemaphoreSlim(1);
         }
 
         internal async Task Update(Func<Task<Metadata>> fetchHandler)
         {
-            mutex.WaitOne();
+            await semaphore.WaitAsync();
             var newMetadata = await fetchHandler();
             metadata = newMetadata;
-            mutex.ReleaseMutex();
+            semaphore.Release();
         }
 
         public ImmutableList<BrokerAddress> GetAddresses()
