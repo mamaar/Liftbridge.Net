@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -77,7 +78,6 @@ namespace Liftbridge.Net
     internal record AckContext
     {
         public AckHandler Handler { get; init; }
-        public System.Timers.Timer Timer { get; init; }
     }
 
     public class ClientOptions
@@ -93,8 +93,8 @@ namespace Liftbridge.Net
         const int RPCResiliencyTryCount = 10;
         const int SubscriptionResiliencyTryCount = 5;
 
-        private Brokers Brokers;
-        private MetadataCache metadata;
+        private Brokers Brokers { get; set; }
+        private MetadataCache Metadata { get; set; }
 
         private ImmutableDictionary<string, AckContext> AckContexts;
 
@@ -103,28 +103,40 @@ namespace Liftbridge.Net
         public ClientAsync(ClientOptions opts)
         {
             options = opts;
-            metadata = new MetadataCache();
+            Metadata = new MetadataCache();
             Brokers = new Brokers(opts.Brokers, PublishResponseReceived);
 
             AckContexts = ImmutableDictionary<string, AckContext>.Empty;
         }
 
-        private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, Task<T>> func)
+        private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, CancellationToken, Task<T>> func, CancellationToken cancellationToken = default)
         {
+            var hasBrokers = Metadata.HasBrokers();
+            if (!Metadata.HasBrokers())
+            {
+                await UpdateMetadataCache(cancellationToken);
+            }
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
                 var broker = Brokers.GetRandom();
                 try
                 {
-                    return await func(broker.Client);
+                    return await func(broker.Client, cancellationToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
                     if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
                     {
-                        await Task.Delay(100);
-                        await UpdateMetadataCache();
-                        continue;
+                        try
+                        {
+                            var cancelTokenSource = new CancellationTokenSource();
+                            cancelTokenSource.CancelAfter(1000);
+                            await UpdateMetadataCache(cancelTokenSource.Token);
+                            continue;
+                        }
+                        catch (Grpc.Core.RpcException)
+                        {
+                        }
                     }
                     throw;
                 }
@@ -138,11 +150,11 @@ namespace Liftbridge.Net
             return default(T);
         }
 
-        public async Task<Metadata> FetchMetadata()
+        public async Task<Metadata> FetchMetadata(CancellationToken cancellationToken = default)
         {
-            return await DoResilientRPC(async client =>
+            foreach(var broker in Brokers)
             {
-                var meta = await client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, deadline: DateTime.UtcNow.AddSeconds(10));
+                var meta = await broker.Client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, cancellationToken: cancellationToken);
                 var brokers = meta.Brokers
                         .Select(broker => BrokerInfo.FromProto(broker))
                         .ToImmutableHashSet();
@@ -155,34 +167,36 @@ namespace Liftbridge.Net
                     Brokers = brokers,
                     Streams = streams,
                 };
-            });
+            }
+
+            return new Metadata() { LastUpdated = DateTime.MinValue };
         }
 
-        private async Task UpdateMetadataCache()
+        private async Task UpdateMetadataCache(CancellationToken cancellationToken = default)
         {
-            await metadata.Update(async () =>
+            await Metadata.Update(async () =>
             {
-                return await FetchMetadata();
+                return await FetchMetadata(cancellationToken);
             });
-            await Brokers.Update(metadata.GetAddresses());
+            await Brokers.Update(Metadata.GetAddresses());
         }
 
-        public async Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition)
+        public async Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition, CancellationToken cancellationToken = default)
         {
             return await DoResilientLeaderRPC(stream, partition, async client =>
             {
                 var request = new Proto.FetchPartitionMetadataRequest { Stream = stream, Partition = partition };
-                var result = await client.FetchPartitionMetadataAsync(request);
+                var result = await client.FetchPartitionMetadataAsync(request, cancellationToken: cancellationToken);
 
                 var partitionMeta = result.Metadata;
                 var leader = partitionMeta.Leader;
                 var replicas = partitionMeta.Replicas.ToList();
                 var isrs = partitionMeta.Isr.ToList();
 
-                var replicaIds = replicas.Select(replica => metadata.GetBroker(replica).Id).ToImmutableHashSet();
-                var isrIds = isrs.Select(isr => metadata.GetBroker(isr).Id).ToImmutableHashSet();
+                var replicaIds = replicas.Select(replica => Metadata.GetBroker(replica).Id).ToImmutableHashSet();
+                var isrIds = isrs.Select(isr => Metadata.GetBroker(isr).Id).ToImmutableHashSet();
 
-                var leaderInfo = metadata.GetBroker(leader);
+                var leaderInfo = Metadata.GetBroker(leader);
 
                 return new PartitionInfo
                 {
@@ -200,23 +214,23 @@ namespace Liftbridge.Net
             });
         }
 
-        public Task CreateStream(string name, string subject)
+        public Task CreateStream(string name, string subject, CancellationToken cancellationToken = default)
         {
             var opts = new StreamOptions();
-            return CreateStream(name, subject, opts);
+            return CreateStream(name, subject, opts, cancellationToken: cancellationToken);
         }
 
-        public async Task CreateStream(string name, string subject, StreamOptions streamOptions)
+        public async Task CreateStream(string name, string subject, StreamOptions streamOptions, CancellationToken cancellationToken = default)
         {
             var request = streamOptions.Request();
             request.Name = name;
             request.Subject = subject;
 
-            await DoResilientRPC(async client =>
+            await DoResilientRPC(async (client, cancelToken) =>
             {
                 try
                 {
-                    return await client.CreateStreamAsync(request);
+                    return await client.CreateStreamAsync(request, cancellationToken: cancelToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
@@ -226,17 +240,17 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
-            });
+            }, cancellationToken);
         }
 
-        public async Task DeleteStream(string name)
+        public async Task DeleteStream(string name, CancellationToken cancellationToken = default)
         {
             var request = new Proto.DeleteStreamRequest { Name = name };
-            await DoResilientRPC(async client =>
+            await DoResilientRPC(async (client, cancelToken) =>
             {
                 try
                 {
-                    return await client.DeleteStreamAsync(request);
+                    return await client.DeleteStreamAsync(request, cancellationToken: cancelToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
@@ -246,21 +260,21 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
-            });
+            }, cancellationToken);
         }
 
-        public async Task SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true)
+        public async Task SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true, CancellationToken cancellationToken = default)
         {
             var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
             }
-            await DoResilientRPC(async client =>
+            await DoResilientRPC(async (client, cancelToken) =>
             {
                 try
                 {
-                    return await client.SetStreamReadonlyAsync(request);
+                    return await client.SetStreamReadonlyAsync(request, cancellationToken: cancelToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
@@ -270,21 +284,21 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
-            });
+            }, cancellationToken);
         }
 
-        public async Task PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false)
+        public async Task PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false, CancellationToken cancellationToken = default)
         {
             var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
             }
-            await DoResilientRPC(async client =>
+            await DoResilientRPC(async (client, cancelToken) =>
             {
                 try
                 {
-                    return await client.PauseStreamAsync(request);
+                    return await client.PauseStreamAsync(request, cancellationToken: cancelToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
@@ -294,49 +308,49 @@ namespace Liftbridge.Net
                     }
                     throw;
                 }
-            });
+            }, cancellationToken);
         }
 
-        public async Task<Proto.Ack> Publish(string stream, byte[] value, MessageOptions opts)
+        public async Task<Proto.Ack> Publish(string stream, byte[] value, MessageOptions opts, CancellationToken cancellationToken = default)
         {
             opts = opts with { ExpectedOffset = 1 };
 
             if (opts.AckPolicy == AckPolicy.None)
             {
                 // Fire and forget
-                _ = PublishAsync(stream, value, null, opts, null);
+                _ = PublishAsync(stream, value, ackHandler: null, opts, cancellationToken: cancellationToken);
                 return null;
             }
 
             var ackOnce = new WriteOnceBlock<Proto.Ack>(null);
-            // Publish and wait for ack
+            // Publish and wait for ack or timeout
             await PublishAsync(stream, value, async (msg) =>
             {
                 // If the message is null, the ack waiting timed out.
                 if (msg is null)
                 {
-                    await ackOnce.SendAsync(null);
+                    await ackOnce.SendAsync(null, cancellationToken);
                 }
                 else
                 {
-                    await ackOnce.SendAsync(msg.Ack);
+                    await ackOnce.SendAsync(msg.Ack, cancellationToken);
                 }
-            }, opts, null);
-            var res = await ackOnce.ReceiveAsync();
-            if(res is null)
+            }, opts, cancellationToken: cancellationToken);
+            var res = await ackOnce.ReceiveAsync(cancellationToken);
+            if (res is null)
             {
                 throw new TimeoutException("Ack awaiting timed out.");
             }
             return res;
         }
 
-        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, DateTime? deadline)
+        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, CancellationToken cancellationToken = default)
         {
             var opts = new MessageOptions { };
-            return PublishAsync(stream, value, ackHandler, opts, deadline);
+            return PublishAsync(stream, value, ackHandler, opts, cancellationToken);
         }
 
-        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts, DateTime? deadline)
+        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts, CancellationToken cancellationToken = default)
         {
             if (opts.CorrelationId == string.Empty)
             {
@@ -350,11 +364,11 @@ namespace Liftbridge.Net
             }
             else if (opts.Partitioner is not null)
             {
-                if (!metadata.HasStreamInfo(stream))
+                if (!Metadata.HasStreamInfo(stream))
                 {
                     throw new StreamNotExistsException("No metadata for stream");
                 }
-                partition = opts.Partitioner.Partition(stream, opts.Key, value, metadata);
+                partition = opts.Partitioner.Partition(stream, opts.Key, value, Metadata);
             }
 
             var key = opts.Key == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(opts.Key);
@@ -374,29 +388,21 @@ namespace Liftbridge.Net
 
             if (ackHandler is not null)
             {
-                var timeout = options.AckWaitTime;
-                if (deadline.HasValue && deadline.Value > DateTime.UtcNow)
-                {
-                    timeout = deadline.Value.Subtract(DateTime.UtcNow);
-                }
-
                 var ackCtx = new AckContext
                 {
                     Handler = ackHandler,
-                    Timer = new System.Timers.Timer(timeout.TotalMilliseconds),
                 };
-                ackCtx.Timer.Elapsed += async (sender, e) =>
+                cancellationToken.Register(async () =>
                 {
                     var ctx = RemoveAckContext(request.CorrelationId);
                     if (ctx is not null)
                     {
                         await ctx.Handler(null);
                     }
-                };
+                });
                 lock (AckContexts)
                 {
                     AckContexts = AckContexts.Add(request.CorrelationId, ackCtx);
-                    ackCtx.Timer.Start();
                 }
             }
 
@@ -430,19 +436,17 @@ namespace Liftbridge.Net
             {
                 var ctx = AckContexts[correlationID];
                 AckContexts = AckContexts.Remove(correlationID);
-                ctx.Timer.Stop();
-                ctx.Timer.Dispose();
                 return ctx;
             }
         }
 
-        public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler)
+        public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler, CancellationToken cancellationToken = default)
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
                 try
                 {
-                    var address = metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
+                    var address = Metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
                     var broker = Brokers.GetFromAddress(address);
 
                     var request = new Proto.SubscribeRequest
@@ -453,7 +457,7 @@ namespace Liftbridge.Net
                     using var subscription = broker.Client.Subscribe(request);
                     try
                     {
-                        while (await subscription.ResponseStream.MoveNext(default))
+                        while (await subscription.ResponseStream.MoveNext(cancellationToken))
                         {
                             var message = subscription.ResponseStream.Current;
                             await messageHandler(message);

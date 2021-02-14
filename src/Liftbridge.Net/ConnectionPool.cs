@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Liftbridge.Net
     {
         public Channel Channel { get; init; }
         public Proto.API.APIClient Client { get; init; }
-        public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; init; }
+        public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; set; }
 
         public Broker(BrokerAddress address, AckHandler ackHandler)
         {
@@ -19,7 +20,7 @@ namespace Liftbridge.Net
             Client = new Proto.API.APIClient(Channel);
             Stream = Client.PublishAsync();
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 while (await Stream.ResponseStream.MoveNext())
                 {
@@ -38,7 +39,7 @@ namespace Liftbridge.Net
         }
     }
 
-    public class Brokers
+    public class Brokers : IEnumerable<Broker>
     {
         ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool { get; set; }
         AckHandler AckReceivedHandler { get; set; }
@@ -46,36 +47,41 @@ namespace Liftbridge.Net
 
         public Brokers(IEnumerable<BrokerAddress> addresses, AckHandler ackHandler)
         {
-            addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+            addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>
+                .Empty
+                .AddRange(addresses.Select(address =>
+                    new KeyValuePair<BrokerAddress, Broker>(address, new Broker(address, ackHandler))
+                ));
             AckReceivedHandler = ackHandler;
-            Update(addresses);
         }
 
 
-        public Task Update(IEnumerable<BrokerAddress> addresses)
+        public async Task Update(IEnumerable<BrokerAddress> addresses, System.Threading.CancellationToken cancellationToken = default)
         {
+            ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
+            foreach (var address in addresses)
+            {
+                if (!addressConnectionPool.ContainsKey(address))
+                {
+                    var broker = new Broker(address, AckReceivedHandler);
+                    newBrokers = newBrokers.Add(address, broker);
+                }
+                else
+                {
+                    newBrokers = newBrokers.Add(address, addressConnectionPool[address]);
+                }
+            }
+            var closeOldConnections = addressConnectionPool
+                .Where(broker => !newBrokers.ContainsKey(broker.Key))
+                .Where(broker => broker.Value.Channel.State == ChannelState.TransientFailure)
+                .ToList();
+            //
+            //!.Select(broker => broker.Value.Channel.ShutdownAsync())) ;
             lock (addressConnectionPool)
             {
-                ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
-                foreach (var address in addresses)
-                {
-                    if (!addressConnectionPool.ContainsKey(address))
-                    {
-                        newBrokers = newBrokers.Add(address, new Broker(address, AckReceivedHandler));
-                    }
-                    else
-                    {
-                        newBrokers = newBrokers.Add(address, addressConnectionPool[address]);
-                    }
-                }
-
-                var closeOldConnections = Task.WhenAll(addressConnectionPool
-                    .Where(broker => !newBrokers.ContainsKey(broker.Key))
-                    .Select(broker => broker.Value.Channel.ShutdownAsync()));
-
                 addressConnectionPool = newBrokers;
-                return closeOldConnections;
             }
+            return;
         }
 
         public Broker GetFromAddress(BrokerAddress address)
@@ -108,6 +114,16 @@ namespace Liftbridge.Net
                     return pair.Value.Close();
                 })
             );
+        }
+
+        public IEnumerator<Broker> GetEnumerator()
+        {
+            return addressConnectionPool.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
         }
     }
 }

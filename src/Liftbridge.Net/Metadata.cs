@@ -83,6 +83,7 @@ namespace Liftbridge.Net
 
     public interface IMetadata
     {
+        bool HasBrokers();
         BrokerInfo GetBroker(string brokerId);
         BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica);
         ImmutableList<BrokerAddress> GetAddresses();
@@ -158,6 +159,11 @@ namespace Liftbridge.Net
                 return 0;
             }
         }
+
+        public bool HasBrokers()
+        {
+            return !Brokers.IsEmpty;
+        }
     }
 
     public class MetadataCache : IMetadata
@@ -207,6 +213,11 @@ namespace Liftbridge.Net
         public BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica)
         {
             return ((IMetadata)metadata).GetAddress(streamName, partitionId, isISRReplica);
+        }
+
+        public bool HasBrokers()
+        {
+            return ((IMetadata)metadata).HasBrokers();
         }
     }
 }

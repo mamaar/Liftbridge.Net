@@ -17,7 +17,7 @@ namespace Liftbridge.Net.IntegrationTests
             await client.CreateStream(streamName, "test");
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            var ack = await client.Publish(streamName, value, new MessageOptions {});
+            var ack = await client.Publish(streamName, value, new MessageOptions { });
             Assert.Equal(Proto.Ack.Types.Error.Ok, ack.AckError);
             return;
         }
