@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liftbridge.Net.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liftbridge.Net.IntegrationTests", "test\Liftbridge.Net.IntegrationTests\Liftbridge.Net.IntegrationTests.csproj", "{426AE2A4-D436-4371-96CE-BC241E46E13E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.QuickCrc32", "vendor\Dexiom.QuickCrc32\Dexiom.QuickCrc32\Dexiom.QuickCrc32.csproj", "{31CCB868-1391-40B4-9393-2D2CF1F97DF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dexiom.QuickCrc32", "vendor\Dexiom.QuickCrc32\Dexiom.QuickCrc32\Dexiom.QuickCrc32.csproj", "{31CCB868-1391-40B4-9393-2D2CF1F97DF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

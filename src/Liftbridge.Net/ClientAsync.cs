@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 
-using AckPolicy = Proto.AckPolicy;
 
 namespace Liftbridge.Net
 {
+    using AckPolicy = Proto.AckPolicy;
+    using StartPosition = Proto.StartPosition;
+    using StopPosition = Proto.StopPosition;
+
     public class LiftbridgeException : Exception
     {
         public LiftbridgeException() { }
@@ -71,8 +74,14 @@ namespace Liftbridge.Net
         public AckTimeoutException(string message) : base(message) { }
         public AckTimeoutException(string message, Exception inner) : base(message, inner) { }
     }
+    public class ReadOnlyException : LiftbridgeException
+    {
+        public ReadOnlyException() { }
+        public ReadOnlyException(string message) : base(message) { }
+        public ReadOnlyException(string message, Exception inner) : base(message, inner) { }
+    }
 
-    public delegate Task MessageHandler(Proto.Message message);
+    public delegate Task MessageHandler(Message message);
     public delegate Task AckHandler(Proto.PublishResponse message);
 
     internal record AckContext
@@ -152,7 +161,7 @@ namespace Liftbridge.Net
 
         public async Task<Metadata> FetchMetadata(CancellationToken cancellationToken = default)
         {
-            foreach(var broker in Brokers)
+            foreach (var broker in Brokers)
             {
                 var meta = await broker.Client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, cancellationToken: cancellationToken);
                 var brokers = meta.Brokers
@@ -407,7 +416,18 @@ namespace Liftbridge.Net
             }
 
             var broker = Brokers.GetFromStream(stream, partition);
-            await broker.Stream.RequestStream.WriteAsync(request);
+            try
+            {
+                await broker.Stream.RequestStream.WriteAsync(request);
+            }
+            catch (Grpc.Core.RpcException ex)
+            {
+                RemoveAckContext(request.CorrelationId);
+                if (ex.StatusCode == Grpc.Core.StatusCode.FailedPrecondition)
+                {
+                    throw new ReadOnlyException("The partition is readonly", ex);
+                }
+            }
         }
 
         private Task PublishResponseReceived(Proto.PublishResponse message)
@@ -425,7 +445,10 @@ namespace Liftbridge.Net
             if (correlationId is not null)
             {
                 var context = RemoveAckContext(correlationId);
-                return context.Handler(message);
+                if (context is not null)
+                {
+                    return context.Handler(message);
+                }
             }
             return null;
         }
@@ -434,16 +457,21 @@ namespace Liftbridge.Net
         {
             lock (AckContexts)
             {
+                if (!AckContexts.ContainsKey(correlationID))
+                {
+                    return null;
+                }
                 var ctx = AckContexts[correlationID];
                 AckContexts = AckContexts.Remove(correlationID);
                 return ctx;
             }
         }
 
-        public async Task Subscribe(string stream, SubscriptionOptions opts, MessageHandler messageHandler, CancellationToken cancellationToken = default)
+        public async Task<Subscription> Subscribe(string stream, SubscriptionOptions opts, CancellationToken cancellationToken = default)
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
+                await UpdateMetadataCache(cancellationToken);
                 try
                 {
                     var address = Metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
@@ -451,57 +479,52 @@ namespace Liftbridge.Net
 
                     var request = new Proto.SubscribeRequest
                     {
+                        Stream = stream,
+                        StartPosition = opts.StartPosition,
+                        StartOffset = opts.StartOffset,
+                        StartTimestamp = opts.StartTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
+                        StopPosition = opts.StopPosition,
+                        StopOffset = opts.StopOffset,
+                        StopTimestamp = opts.StopTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
                         Partition = opts.Partition,
                         ReadISRReplica = opts.ReadIsrReplica,
                     };
-                    using var subscription = broker.Client.Subscribe(request);
+                    var rpcSub = broker.Client.Subscribe(request);
+                    // Server responds with an empty message or error.
+                    // Retry on error.
                     try
                     {
-                        while (await subscription.ResponseStream.MoveNext(cancellationToken))
-                        {
-                            var message = subscription.ResponseStream.Current;
-                            await messageHandler(message);
-                        }
+                        await rpcSub.ResponseStream.MoveNext(cancellationToken);
                     }
-                    catch (Grpc.Core.RpcException ex)
+                    catch (Grpc.Core.RpcException)
                     {
-                        switch (ex.StatusCode)
-                        {
-                            case Grpc.Core.StatusCode.Cancelled:
-                                return;
-                            case Grpc.Core.StatusCode.NotFound:
-                                throw new StreamDeletedException();
-                            case Grpc.Core.StatusCode.FailedPrecondition:
-                                throw new StreamPausedException();
-                            case Grpc.Core.StatusCode.ResourceExhausted:
-                                // Indicates the end of a readonly partition has been reached.
-                                throw new EndOfReadonlyException();
-                            case Grpc.Core.StatusCode.Unavailable:
-                                await Task.Delay(50);
-                                await UpdateMetadataCache();
-                                continue;
-                        }
-                        throw;
+                        continue;
                     }
+
+                    var subscription = new Subscription(rpcSub, cancellationToken);
+                    return subscription;
                 }
                 catch (BrokerNotFoundException)
                 {
-                    // Re-throws when the last try failed
-                    if (i == SubscriptionResiliencyTryCount)
-                    {
-                        throw;
-                    }
                     await Task.Delay(50);
                     await UpdateMetadataCache();
                 }
             }
+            throw new BrokerNotFoundException();
         }
     }
 
     public record SubscriptionOptions
     {
+        public StartPosition StartPosition { get; init; }
+        public long StartOffset { get; init; }
+        public DateTimeOffset StartTimestamp { get; init; }
+        public StopPosition StopPosition { get; init; }
+        public long StopOffset { get; init; }
+        public DateTimeOffset StopTimestamp { get; init; }
         public int Partition { get; init; }
         public bool ReadIsrReplica { get; init; }
+        public bool Resume { get; init; }
     }
 
     public record MessageOptions

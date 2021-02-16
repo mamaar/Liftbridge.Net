@@ -112,17 +112,24 @@ namespace Liftbridge.Net
 
         public BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica)
         {
-            var stream = Streams[streamName];
-            var partitionInfo = stream.GetPartition(partitionId);
-
-            if (isISRReplica)
+            try
             {
-                var rand = new Random();
-                var isrId = partitionInfo.ISR.ElementAt(rand.Next(partitionInfo.ISR.Count));
-                return GetBroker(isrId).GetAddress();
-            }
+                var stream = Streams[streamName];
+                var partitionInfo = stream.GetPartition(partitionId);
 
-            return GetBroker(partitionInfo.Leader).GetAddress();
+                if (isISRReplica)
+                {
+                    var rand = new Random();
+                    var isrId = partitionInfo.ISR.ElementAt(rand.Next(partitionInfo.ISR.Count));
+                    return GetBroker(isrId).GetAddress();
+                }
+
+                return GetBroker(partitionInfo.Leader).GetAddress();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new StreamNotExistsException();
+            }
         }
 
         public ImmutableList<BrokerAddress> GetAddresses()
