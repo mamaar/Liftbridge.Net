@@ -223,16 +223,33 @@ namespace Liftbridge.Net
             });
         }
 
-        public Task CreateStream(string name, string subject, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// CreateStream creates a new stream attached to a NATS subject or set of NATS subjects.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="subject"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="StreamAlreadyExistsException">Thrown when a stream with the given name already exists.</exception>
+        public Task CreateStream(string stream, string subject, CancellationToken cancellationToken = default)
         {
             var opts = new StreamOptions();
-            return CreateStream(name, subject, opts, cancellationToken: cancellationToken);
+            return CreateStream(stream, subject, opts, cancellationToken: cancellationToken);
         }
 
-        public async Task CreateStream(string name, string subject, StreamOptions streamOptions, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// CreateStream creates a new stream attached to a NATS subject or set of NATS subjects.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="subject"></param>
+        /// <param name="streamOptions"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="StreamAlreadyExistsException">Thrown when a stream with the given name already exists.</exception>
+        public async Task CreateStream(string stream, string subject, StreamOptions streamOptions, CancellationToken cancellationToken = default)
         {
             var request = streamOptions.Request();
-            request.Name = name;
+            request.Name = stream;
             request.Subject = subject;
 
             await DoResilientRPC(async (client, cancelToken) =>
@@ -252,9 +269,16 @@ namespace Liftbridge.Net
             }, cancellationToken);
         }
 
-        public async Task DeleteStream(string name, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// DeleteStream deletes a stream and all of its partitions. This will remove any data stored on disk for the stream and all of its partitions.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="StreamNotExistsException">Thrown when a stream with the given name does not exist.</exception>
+        public async Task DeleteStream(string stream, CancellationToken cancellationToken = default)
         {
-            var request = new Proto.DeleteStreamRequest { Name = name };
+            var request = new Proto.DeleteStreamRequest { Name = stream };
             await DoResilientRPC(async (client, cancelToken) =>
             {
                 try
@@ -272,9 +296,17 @@ namespace Liftbridge.Net
             }, cancellationToken);
         }
 
-        public async Task SetStreamReadonly(string name, IEnumerable<int> partitions = null, bool isReadOnly = true, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// SetStreamReadonly sets some or all of a stream's partitions as readonly or readwrite.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="partitions"></param>
+        /// <param name="isReadOnly">Whether the stream partitions should be readonly or not.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task SetStreamReadonly(string stream, IEnumerable<int> partitions = null, bool isReadOnly = true, CancellationToken cancellationToken = default)
         {
-            var request = new Proto.SetStreamReadonlyRequest { Name = name, Readonly = isReadOnly };
+            var request = new Proto.SetStreamReadonlyRequest { Name = stream, Readonly = isReadOnly };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
@@ -296,9 +328,18 @@ namespace Liftbridge.Net
             }, cancellationToken);
         }
 
-        public async Task PauseStream(string name, IEnumerable<int> partitions = null, bool resumeAll = false, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// PauseStream pauses some or all of a stream's partitions.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="partitions"></param>
+        /// <param name="resumeAll"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="StreamNotExistsException">Thrown when a stream with the given name does not exist.</exception>
+        public async Task PauseStream(string stream, IEnumerable<int> partitions = null, bool resumeAll = false, CancellationToken cancellationToken = default)
         {
-            var request = new Proto.PauseStreamRequest { Name = name, ResumeAll = resumeAll };
+            var request = new Proto.PauseStreamRequest { Name = stream, ResumeAll = resumeAll };
             if (partitions != null)
             {
                 request.Partitions.AddRange(partitions);
@@ -320,6 +361,19 @@ namespace Liftbridge.Net
             }, cancellationToken);
         }
 
+        /// <summary>
+        /// Publish sends a message to a Liftbridge stream.
+        /// Publish is a synchronous operation, meaning when it returns, the message has been successfully published.
+        /// Publish can also be configured to block until a message acknowledgement (ack) is returned from the cluster. 
+        /// This is useful for ensuring a message has been stored and replicated, guaranteeing at-least-once delivery. 
+        /// The default ack policy is Leader, meaning the ack is sent once the partition leader has stored the message.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="value"></param>
+        /// <param name="opts"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns the ack, or null if AckPolicy is set to None.</returns>
+        /// <exception cref="TimeoutException">Thrown when the ack was not returned in time.</exception>
         public async Task<Proto.Ack> Publish(string stream, byte[] value, MessageOptions opts, CancellationToken cancellationToken = default)
         {
             opts = opts with { ExpectedOffset = 1 };
@@ -353,12 +407,29 @@ namespace Liftbridge.Net
             return res;
         }
 
+        /// <summary>
+        /// PublishAsync sends a message to a Liftbridge stream asynchronously. This is similar to <c>Publish</c>, but rather than waiting for the ack, it dispatches the ack with an ack handler callback.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="value"></param>
+        /// <param name="ackHandler"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, CancellationToken cancellationToken = default)
         {
             var opts = new MessageOptions { };
             return PublishAsync(stream, value, ackHandler, opts, cancellationToken);
         }
 
+        /// <summary>
+        /// PublishAsync sends a message to a Liftbridge stream asynchronously. This is similar to <c>Publish</c>, but rather than waiting for the ack, it dispatches the ack with an ack handler callback.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="value"></param>
+        /// <param name="ackHandler"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ReadOnlyException">Thrown when the stream partition is set to readonly.</exception>
         public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts, CancellationToken cancellationToken = default)
         {
             if (opts.CorrelationId == string.Empty)
@@ -366,12 +437,8 @@ namespace Liftbridge.Net
                 opts = opts with { CorrelationId = Guid.NewGuid().ToString() };
             }
 
-            int partition = 0;
-            if (opts.Partition.HasValue)
-            {
-                partition = opts.Partition.Value;
-            }
-            else if (opts.Partitioner is not null)
+            var partition = opts.Partition;
+            if (opts.Partitioner is not null)
             {
                 if (!Metadata.HasStreamInfo(stream))
                 {
@@ -467,6 +534,13 @@ namespace Liftbridge.Net
             }
         }
 
+        /// <summary>
+        /// Subscribe is used to consume streams.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="opts"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns <see cref="Subscription" /></returns>
         public async Task<Subscription> Subscribe(string stream, SubscriptionOptions opts, CancellationToken cancellationToken = default)
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
@@ -512,30 +586,5 @@ namespace Liftbridge.Net
             }
             throw new BrokerNotFoundException();
         }
-    }
-
-    public record SubscriptionOptions
-    {
-        public StartPosition StartPosition { get; init; }
-        public long StartOffset { get; init; }
-        public DateTimeOffset StartTimestamp { get; init; }
-        public StopPosition StopPosition { get; init; }
-        public long StopOffset { get; init; }
-        public DateTimeOffset StopTimestamp { get; init; }
-        public int Partition { get; init; }
-        public bool ReadIsrReplica { get; init; }
-        public bool Resume { get; init; }
-    }
-
-    public record MessageOptions
-    {
-        public byte[] Key { get; init; }
-        public string AckInbox { get; init; } = String.Empty;
-        public string CorrelationId { get; init; } = String.Empty;
-        public AckPolicy AckPolicy { get; init; }
-        public ImmutableDictionary<string, byte[]> Headers { get; init; }
-        public IPartitioner Partitioner { get; init; }
-        public int? Partition { get; init; }
-        public long ExpectedOffset { get; init; }
     }
 }

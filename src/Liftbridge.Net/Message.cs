@@ -6,6 +6,21 @@ using System.Linq;
 
 namespace Liftbridge.Net
 {
+    public record MessageOptions
+    {
+        public byte[] Key { get; init; }
+        public string AckInbox { get; init; } = String.Empty;
+        public string CorrelationId { get; init; } = String.Empty;
+        public Proto.AckPolicy AckPolicy { get; init; }
+        public ImmutableDictionary<string, byte[]> Headers { get; init; }
+        public IPartitioner Partitioner { get; init; }
+        public int Partition { get; init; } = 0;
+        public long ExpectedOffset { get; init; }
+    }
+
+    /// <summary>
+    /// Represents a message consumed from Liftbridge.
+    /// </summary>
     public record Message
     {
         public long Offset { get; init; }

@@ -107,7 +107,7 @@ namespace Liftbridge.Net
             }
             var closeOldConnections = addressConnectionPool
                 .Where(broker => !newBrokers.ContainsKey(broker.Key))
-                .Select(broker => broker.Value.Channel.ShutdownAsync()) ;
+                .Select(broker => broker.Value.Channel.ShutdownAsync());
             lock (addressConnectionPool)
             {
                 addressConnectionPool = newBrokers;
