@@ -15,11 +15,6 @@
 		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="5.0.0" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\vendor\Dexiom.QuickCrc32\Dexiom.QuickCrc32\Dexiom.QuickCrc32.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<Protobuf Include="api.proto" GrpcServices="Client" />
 	</ItemGroup>
