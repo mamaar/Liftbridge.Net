@@ -22,6 +22,8 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Test
-      run: dotnet test test/Liftbridge.Net.UnitTests --no-build --verbosity normal
+      run: dotnet test test/Liftbridge.Net.UnitTests -c Release --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack -c Release --version-suffix alpha
+      run: dotnet pack -c Release -o assets --version-suffix alpha
+    - name: Push
+      run: dotnet nuget push .\assets\Liftbridge.Net.*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
