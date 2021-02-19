@@ -24,6 +24,6 @@ jobs:
     - name: Test
       run: dotnet test test/Liftbridge.Net.UnitTests -c Release --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack -c Release -o assets --version-suffix alpha
+      run: dotnet pack -c Release -o assets --version-suffix `date +%s`-ci
     - name: Push
-      run: dotnet nuget add source https://nuget.pkg.github.com/mamaar/index.json -n github && dotnet nuget push .\assets\Liftbridge.Net.*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget add source https://nuget.pkg.github.com/mamaar/index.json -n github && dotnet nuget push ./assets/Liftbridge.Net.*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
