@@ -86,6 +86,7 @@ namespace Liftbridge.Net
         bool HasBrokers();
         BrokerInfo GetBroker(string brokerId);
         BrokerAddress GetAddress(string streamName, int partitionId, bool isISRReplica);
+        BrokerAddress GetLeaderAddress(string stream, int partition);
         ImmutableList<BrokerAddress> GetAddresses();
         StreamInfo GetStreamInfo(string stream);
         bool HasStreamInfo(string stream);
@@ -123,7 +124,6 @@ namespace Liftbridge.Net
                     var isrId = partitionInfo.ISR.ElementAt(rand.Next(partitionInfo.ISR.Count));
                     return GetBroker(isrId).GetAddress();
                 }
-
                 return GetBroker(partitionInfo.Leader).GetAddress();
             }
             catch (KeyNotFoundException)
@@ -170,6 +170,11 @@ namespace Liftbridge.Net
         public bool HasBrokers()
         {
             return !Brokers.IsEmpty;
+        }
+
+        public BrokerAddress GetLeaderAddress(string stream, int partition)
+        {
+            return GetAddress(stream, partition, false);
         }
     }
 
@@ -225,6 +230,11 @@ namespace Liftbridge.Net
         public bool HasBrokers()
         {
             return ((IMetadata)metadata).HasBrokers();
+        }
+
+        public BrokerAddress GetLeaderAddress(string stream, int partition)
+        {
+            return ((IMetadata)metadata).GetLeaderAddress(stream, partition);
         }
     }
 }

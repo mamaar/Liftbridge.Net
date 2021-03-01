@@ -96,6 +96,7 @@ namespace Liftbridge.Net
     {
         const int RPCResiliencyTryCount = 10;
         const int SubscriptionResiliencyTryCount = 5;
+        const string CursorsStream = "__cursors";
 
         private Brokers Brokers { get; set; }
         private MetadataCache Metadata { get; set; }
@@ -115,7 +116,6 @@ namespace Liftbridge.Net
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, CancellationToken, Task<T>> func, CancellationToken cancellationToken = default)
         {
-            var hasBrokers = Metadata.HasBrokers();
             if (!Metadata.HasBrokers())
             {
                 await UpdateMetadataCache(cancellationToken);
@@ -148,10 +148,39 @@ namespace Liftbridge.Net
             throw new ConnectionErrorException();
         }
 
-        private async Task<T> DoResilientLeaderRPC<T>(string stream, int partition, Func<Proto.API.APIClient, Task<T>> func)
+        private async Task<T> DoResilientLeaderRPC<T>(string stream, int partition, Func<Proto.API.APIClient, CancellationToken, Task<T>> func, CancellationToken cancellationToken = default)
         {
-            await Task.Delay(0);
-            return default(T);
+            if (!Metadata.HasBrokers() || !Metadata.HasStreamInfo(stream))
+            {
+                await UpdateMetadataCache(cancellationToken);
+            }
+            for (var i = 0; i < RPCResiliencyTryCount; i++)
+            {
+                var address = Metadata.GetLeaderAddress(stream, partition);
+                var broker = Brokers.GetFromAddress(address);
+                try
+                {
+                    return await func(broker.Client, cancellationToken);
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
+                    {
+                        try
+                        {
+                            var cancelTokenSource = new CancellationTokenSource();
+                            cancelTokenSource.CancelAfter(1000);
+                            await UpdateMetadataCache(cancelTokenSource.Token);
+                            continue;
+                        }
+                        catch (Grpc.Core.RpcException)
+                        {
+                        }
+                    }
+                    throw;
+                }
+            }
+            throw new ConnectionErrorException();
         }
 
         public async Task<Metadata> FetchMetadata(CancellationToken cancellationToken = default)
@@ -187,10 +216,10 @@ namespace Liftbridge.Net
 
         public async Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition, CancellationToken cancellationToken = default)
         {
-            return await DoResilientLeaderRPC(stream, partition, async client =>
+            return await DoResilientLeaderRPC(stream, partition, async (client, cancelToken) =>
             {
                 var request = new Proto.FetchPartitionMetadataRequest { Stream = stream, Partition = partition };
-                var result = await client.FetchPartitionMetadataAsync(request, cancellationToken: cancellationToken);
+                var result = await client.FetchPartitionMetadataAsync(request, cancellationToken: cancelToken);
 
                 var partitionMeta = result.Metadata;
                 var leader = partitionMeta.Leader;
@@ -215,7 +244,7 @@ namespace Liftbridge.Net
                     PausedTimestamps = PartitionEventTimestamps.FromProto(partitionMeta.PauseTimestamps),
                     ReadonlyTimestamps = PartitionEventTimestamps.FromProto(partitionMeta.ReadonlyTimestamps),
                 };
-            });
+            }, cancellationToken);
         }
 
         /// <summary>
@@ -578,6 +607,44 @@ namespace Liftbridge.Net
                 }
             }
             throw new BrokerNotFoundException();
+        }
+
+        public Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = default)
+        {
+            var cursorKey = System.Text.Encoding.ASCII.GetBytes($"{cursorId},{stream},{partition}");
+            var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
+            var cursorPartition = (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
+
+            var request = new Proto.SetCursorRequest
+            {
+                CursorId = cursorId,
+                Stream = stream,
+                Partition = partition,
+                Offset = offset,
+            };
+            return DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
+            {
+                return await client.SetCursorAsync(request, cancellationToken: cancelToken);
+            }, cancellationToken);
+        }
+
+        public Task<long> FetchCursor(string cursorId, string stream, int partition, CancellationToken cancellationToken = default)
+        {
+            var cursorKey = System.Text.Encoding.ASCII.GetBytes($"{cursorId},{stream},{partition}");
+            var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
+            var cursorPartition = (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
+
+            var request = new Proto.FetchCursorRequest
+            {
+                CursorId = cursorId,
+                Stream = stream,
+                Partition = partition,
+            };
+            return DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
+            {
+                var response = await client.FetchCursorAsync(request, cancellationToken: cancelToken);
+                return response.Offset;
+            }, cancellationToken);
         }
     }
 }
