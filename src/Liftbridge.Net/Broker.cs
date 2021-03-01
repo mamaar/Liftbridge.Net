@@ -47,8 +47,9 @@ namespace Liftbridge.Net
         public Channel Channel { get; init; }
         public Proto.API.APIClient Client { get; init; }
         public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; set; }
+        private System.Threading.SemaphoreSlim publishSemaphore = new System.Threading.SemaphoreSlim(1);
 
-        public Broker(BrokerAddress address, AckHandler ackHandler)
+        public Broker(BrokerAddress address, Func<Proto.PublishResponse, Task> ackHandler)
         {
             Channel = new Channel(address.Host, address.Port, ChannelCredentials.Insecure);
             Client = new Proto.API.APIClient(Channel);
@@ -67,19 +68,31 @@ namespace Liftbridge.Net
             });
         }
 
+        /// <summary>
+        /// Safe call for writing to the stream if the caller doesn't await.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task Publish(Proto.PublishRequest request)
+        {
+            await publishSemaphore.WaitAsync();
+            await Stream.RequestStream.WriteAsync(request);
+            publishSemaphore.Release();
+        }
+
         public Task Close()
         {
-            return Channel.ShutdownAsync();
+            return Task.WhenAll(Channel.ShutdownAsync(), Stream.RequestStream.CompleteAsync());
         }
     }
 
     public class Brokers : IEnumerable<Broker>
     {
         ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool { get; set; }
-        AckHandler AckReceivedHandler { get; set; }
+        Func<Proto.PublishResponse, Task> AckReceivedHandler { get; set; }
 
 
-        public Brokers(IEnumerable<BrokerAddress> addresses, AckHandler ackHandler)
+        public Brokers(IEnumerable<BrokerAddress> addresses, Func<Proto.PublishResponse, Task> ackHandler)
         {
             addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>
                 .Empty

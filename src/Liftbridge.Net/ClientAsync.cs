@@ -11,8 +11,6 @@ using System.Threading.Tasks.Dataflow;
 namespace Liftbridge.Net
 {
     using AckPolicy = Proto.AckPolicy;
-    using StartPosition = Proto.StartPosition;
-    using StopPosition = Proto.StopPosition;
 
     public class LiftbridgeException : Exception
     {
@@ -81,12 +79,9 @@ namespace Liftbridge.Net
         public ReadOnlyException(string message, Exception inner) : base(message, inner) { }
     }
 
-    public delegate Task MessageHandler(Message message);
-    public delegate Task AckHandler(Proto.PublishResponse message);
-
     internal record AckContext
     {
-        public AckHandler Handler { get; init; }
+        public Func<Proto.PublishResponse, Task> Handler { get; init; }
     }
 
     public class ClientOptions
@@ -381,13 +376,13 @@ namespace Liftbridge.Net
             if (opts.AckPolicy == AckPolicy.None)
             {
                 // Fire and forget
-                _ = PublishAsync(stream, value, ackHandler: null, opts, cancellationToken: cancellationToken);
+                _ = PublishAsync(stream, value, opts, ackHandler: null, cancellationToken: cancellationToken);
                 return null;
             }
 
             var ackOnce = new WriteOnceBlock<Proto.Ack>(null);
             // Publish and wait for ack or timeout
-            await PublishAsync(stream, value, async (msg) =>
+            await PublishAsync(stream, value, opts, async (msg) =>
             {
                 // If the message is null, the ack waiting timed out.
                 if (msg is null)
@@ -398,7 +393,7 @@ namespace Liftbridge.Net
                 {
                     await ackOnce.SendAsync(msg.Ack, cancellationToken);
                 }
-            }, opts, cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken);
             var res = await ackOnce.ReceiveAsync(cancellationToken);
             if (res is null)
             {
@@ -415,23 +410,24 @@ namespace Liftbridge.Net
         /// <param name="ackHandler"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, CancellationToken cancellationToken = default)
+        /// <exception cref="ReadOnlyException">Thrown when the stream partition is set to readonly.</exception>
+        public Task PublishAsync(string stream, byte[] value, MessageOptions opts, Func<Proto.PublishResponse, Task> ackHandler, CancellationToken cancellationToken = default)
         {
-            var opts = new MessageOptions { };
-            return PublishAsync(stream, value, ackHandler, opts, cancellationToken);
+            var message = Message.Default with
+            {
+                Stream = stream,
+                Value = value,
+            };
+
+            return PublishAsync(message, opts, ackHandler, cancellationToken);
         }
 
-        /// <summary>
-        /// PublishAsync sends a message to a Liftbridge stream asynchronously. This is similar to <c>Publish</c>, but rather than waiting for the ack, it dispatches the ack with an ack handler callback.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="value"></param>
-        /// <param name="ackHandler"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="ReadOnlyException">Thrown when the stream partition is set to readonly.</exception>
-        public async Task PublishAsync(string stream, byte[] value, AckHandler ackHandler, MessageOptions opts, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(Message message, MessageOptions opts, Func<Proto.PublishResponse, Task> ackHandler, CancellationToken cancellationToken = default)
         {
+            if (opts is null)
+            {
+                opts = MessageOptions.Default;
+            }
             if (opts.CorrelationId == string.Empty)
             {
                 opts = opts with { CorrelationId = Guid.NewGuid().ToString() };
@@ -440,19 +436,19 @@ namespace Liftbridge.Net
             var partition = opts.Partition;
             if (opts.Partitioner is not null)
             {
-                if (!Metadata.HasStreamInfo(stream))
+                if (!Metadata.HasStreamInfo(message.Stream))
                 {
                     throw new StreamNotExistsException("No metadata for stream");
                 }
-                partition = opts.Partitioner.Partition(stream, opts.Key, value, Metadata);
+                partition = opts.Partitioner.Partition(message.Stream, opts.Key, message.Value, Metadata);
             }
 
             var key = opts.Key == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(opts.Key);
-            var valueBytes = value == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(value);
+            var valueBytes = message.Value == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(message.Value);
 
             var request = new Proto.PublishRequest
             {
-                Stream = stream,
+                Stream = message.Stream,
                 Partition = partition,
                 Key = key,
                 Value = valueBytes,
@@ -464,28 +460,25 @@ namespace Liftbridge.Net
 
             if (ackHandler is not null)
             {
-                var ackCtx = new AckContext
-                {
-                    Handler = ackHandler,
-                };
-                cancellationToken.Register(async () =>
-                {
-                    var ctx = RemoveAckContext(request.CorrelationId);
-                    if (ctx is not null)
-                    {
-                        await ctx.Handler(null);
-                    }
-                });
                 lock (AckContexts)
                 {
+                    var ackCtx = new AckContext
+                    {
+                        Handler = ackHandler,
+                    };
                     AckContexts = AckContexts.Add(request.CorrelationId, ackCtx);
                 }
+                cancellationToken.Register(() =>
+                {
+                    _ = RemoveAckContext(request.CorrelationId);
+                    throw new TimeoutException("Ack awaiting was cancelled");
+                });
             }
 
-            var broker = Brokers.GetFromStream(stream, partition);
+            var broker = Brokers.GetFromStream(message.Stream, partition);
             try
             {
-                await broker.Stream.RequestStream.WriteAsync(request);
+                await broker.Publish(request);
             }
             catch (Grpc.Core.RpcException ex)
             {

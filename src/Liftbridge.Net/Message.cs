@@ -16,6 +16,14 @@ namespace Liftbridge.Net
         public IPartitioner Partitioner { get; init; }
         public int Partition { get; init; } = 0;
         public long ExpectedOffset { get; init; }
+
+        public static MessageOptions Default
+        {
+            get => new MessageOptions
+            {
+
+            };
+        }
     }
 
     /// <summary>
@@ -32,6 +40,14 @@ namespace Liftbridge.Net
         public string Subject { get; init; }
         public string ReplySubject { get; init; }
         public ImmutableDictionary<string, byte[]> Headers { get; init; }
+
+        public static Message Default
+        {
+            get => new Message
+            {
+
+            };
+        }
 
         public static Message FromProto(Proto.Message proto)
         {
