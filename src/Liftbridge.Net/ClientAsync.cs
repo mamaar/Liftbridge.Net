@@ -12,72 +12,6 @@ namespace Liftbridge.Net
 {
     using AckPolicy = Proto.AckPolicy;
 
-    public class LiftbridgeException : Exception
-    {
-        public LiftbridgeException() { }
-        public LiftbridgeException(string message) : base(message) { }
-        public LiftbridgeException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class ConnectionErrorException : LiftbridgeException
-    {
-        public ConnectionErrorException() { }
-        public ConnectionErrorException(string message) : base(message) { }
-        public ConnectionErrorException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class StreamNotExistsException : LiftbridgeException
-    {
-        public StreamNotExistsException() { }
-        public StreamNotExistsException(string message) : base(message) { }
-        public StreamNotExistsException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class StreamAlreadyExistsException : LiftbridgeException
-    {
-        public StreamAlreadyExistsException() { }
-        public StreamAlreadyExistsException(string message) : base(message) { }
-        public StreamAlreadyExistsException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class BrokerNotFoundException : LiftbridgeException
-    {
-        public BrokerNotFoundException() { }
-        public BrokerNotFoundException(string message) : base(message) { }
-        public BrokerNotFoundException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class PartitionPausedException : LiftbridgeException
-    {
-        public PartitionPausedException() { }
-        public PartitionPausedException(string message) : base(message) { }
-        public PartitionPausedException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class StreamDeletedException : LiftbridgeException
-    {
-        public StreamDeletedException() { }
-        public StreamDeletedException(string message) : base(message) { }
-        public StreamDeletedException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class StreamPausedException : LiftbridgeException
-    {
-        public StreamPausedException() { }
-        public StreamPausedException(string message) : base(message) { }
-        public StreamPausedException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class EndOfReadonlyException : LiftbridgeException
-    {
-        public EndOfReadonlyException() { }
-        public EndOfReadonlyException(string message) : base(message) { }
-        public EndOfReadonlyException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class AckTimeoutException : LiftbridgeException
-    {
-        public AckTimeoutException() { }
-        public AckTimeoutException(string message) : base(message) { }
-        public AckTimeoutException(string message, Exception inner) : base(message, inner) { }
-    }
-    public class ReadOnlyException : LiftbridgeException
-    {
-        public ReadOnlyException() { }
-        public ReadOnlyException(string message) : base(message) { }
-        public ReadOnlyException(string message, Exception inner) : base(message, inner) { }
-    }
 
     internal record AckContext
     {
@@ -103,11 +37,11 @@ namespace Liftbridge.Net
 
         private ImmutableDictionary<string, AckContext> AckContexts;
 
-        private ClientOptions options;
+        private readonly ClientOptions Options;
 
         public ClientAsync(ClientOptions opts)
         {
-            options = opts;
+            Options = opts;
             Metadata = new MetadataCache();
             Brokers = new Brokers(opts.Brokers, PublishResponseReceived);
 
@@ -152,7 +86,7 @@ namespace Liftbridge.Net
         {
             if (!Metadata.HasBrokers() || !Metadata.HasStreamInfo(stream))
             {
-                await UpdateMetadataCache(cancellationToken);
+                await UpdateMetadataCache(new[] { stream }, cancellationToken);
             }
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
@@ -170,7 +104,7 @@ namespace Liftbridge.Net
                         {
                             var cancelTokenSource = new CancellationTokenSource();
                             cancelTokenSource.CancelAfter(1000);
-                            await UpdateMetadataCache(cancelTokenSource.Token);
+                            await UpdateMetadataCache(new[] { stream }, cancelTokenSource.Token);
                             continue;
                         }
                         catch (Grpc.Core.RpcException)
@@ -183,22 +117,30 @@ namespace Liftbridge.Net
             throw new ConnectionErrorException();
         }
 
-        public async Task<Metadata> FetchMetadata(CancellationToken cancellationToken = default)
+        public Task<Metadata> FetchMetadata(CancellationToken cancellationToken = default)
         {
+            return FetchMetadata(Array.Empty<string>(), cancellationToken);
+        }
+
+        public async Task<Metadata> FetchMetadata(IEnumerable<string> streams, CancellationToken cancellationToken = default)
+        {
+            var request = new Proto.FetchMetadataRequest { };
+            request.Streams.AddRange(streams);
             foreach (var broker in Brokers)
             {
-                var meta = await broker.Client.FetchMetadataAsync(new Proto.FetchMetadataRequest { }, cancellationToken: cancellationToken);
+                var meta = await broker.Client.FetchMetadataAsync(request, cancellationToken: cancellationToken);
                 var brokers = meta.Brokers
                         .Select(broker => BrokerInfo.FromProto(broker))
                         .ToImmutableHashSet();
-                var streams = meta.Metadata
+                var streamMetadata = meta.Metadata
+                    .Where(s => s.Error == Proto.StreamMetadata.Types.Error.Ok)
                     .Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream)))
                     .ToImmutableDictionary();
                 return new Metadata
                 {
                     LastUpdated = DateTime.UtcNow,
                     Brokers = brokers,
-                    Streams = streams,
+                    Streams = streamMetadata,
                 };
             }
 
@@ -207,9 +149,14 @@ namespace Liftbridge.Net
 
         private async Task UpdateMetadataCache(CancellationToken cancellationToken = default)
         {
-            await Metadata.Update(async () =>
+            await UpdateMetadataCache(Array.Empty<string>(), cancellationToken);
+        }
+
+        private async Task UpdateMetadataCache(IEnumerable<string> streams, CancellationToken cancellationToken = default)
+        {
+            await Metadata.Update(streams, async () =>
             {
-                return await FetchMetadata(cancellationToken);
+                return await FetchMetadata(streams, cancellationToken);
             });
             await Brokers.Update(Metadata.GetAddresses());
         }
@@ -245,6 +192,21 @@ namespace Liftbridge.Net
                     ReadonlyTimestamps = PartitionEventTimestamps.FromProto(partitionMeta.ReadonlyTimestamps),
                 };
             }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Returns whether a stream exists in the cluster.
+        /// Will send a request to the server if the stream is not found in the cache.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public async Task<bool> StreamExists(string stream)
+        {
+            if (!Metadata.HasStreamInfo(stream))
+            {
+                await UpdateMetadataCache(new[] { stream });
+            }
+            return Metadata.HasStreamInfo(stream);
         }
 
         /// <summary>
@@ -453,6 +415,7 @@ namespace Liftbridge.Net
 
         public async Task PublishAsync(Message message, MessageOptions opts, Func<Proto.PublishResponse, Task> ackHandler, CancellationToken cancellationToken = default)
         {
+            await UpdateMetadataCache(new[] { message.Stream }, cancellationToken);
             if (opts is null)
             {
                 opts = MessageOptions.Default;
@@ -567,7 +530,7 @@ namespace Liftbridge.Net
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
-                await UpdateMetadataCache(cancellationToken);
+                await UpdateMetadataCache(new[] { stream }, cancellationToken);
                 try
                 {
                     var address = Metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
@@ -602,8 +565,7 @@ namespace Liftbridge.Net
                 }
                 catch (BrokerNotFoundException)
                 {
-                    await Task.Delay(50);
-                    await UpdateMetadataCache();
+                    await UpdateMetadataCache(new[] { stream }, cancellationToken);
                 }
             }
             throw new BrokerNotFoundException();

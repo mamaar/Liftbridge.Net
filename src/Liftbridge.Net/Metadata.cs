@@ -189,11 +189,24 @@ namespace Liftbridge.Net
             semaphore = new System.Threading.SemaphoreSlim(1);
         }
 
-        internal async Task Update(Func<Task<Metadata>> fetchHandler)
+        internal async Task Update(IEnumerable<string> streams, Func<Task<Metadata>> fetchHandler)
         {
             await semaphore.WaitAsync();
             var newMetadata = await fetchHandler();
-            metadata = newMetadata;
+            // Updates all streams
+            if (streams.Count() == 0)
+            {
+                metadata = newMetadata;
+            }
+            // Updates only specified streams
+            else
+            {
+                var updatedStreams = metadata.Streams;
+                foreach (var stream in streams.Where(s => newMetadata.HasStreamInfo(s))) {
+                    updatedStreams = updatedStreams.SetItem(stream, newMetadata.Streams[stream]);
+                }
+                metadata = newMetadata with { Streams = updatedStreams };
+            }
             semaphore.Release();
         }
 
