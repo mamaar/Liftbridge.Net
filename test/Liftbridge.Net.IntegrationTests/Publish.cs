@@ -21,5 +21,20 @@ namespace Liftbridge.Net.IntegrationTests
             Assert.Equal(Proto.Ack.Types.Error.Ok, ack.AckError);
             return;
         }
+
+        [Fact]
+        public async Task TestPublishToSubject()
+        {
+            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } }, AckWaitTime = new TimeSpan(0, 0, 0, 0, 1), };
+            var client = new ClientAsync(options);
+
+            var subject = "test.to.subject";
+            var streamName = Guid.NewGuid().ToString();
+            await client.CreateStream(streamName, subject);
+
+            var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
+            await client.PublishToSubject(subject, value, MessageOptions.Default);
+            return;
+        }
     }
 }

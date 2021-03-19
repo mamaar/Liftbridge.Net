@@ -21,7 +21,7 @@ namespace Liftbridge.Net
         {
             get => new MessageOptions
             {
-
+                CorrelationId = Guid.NewGuid().ToString(),
             };
         }
     }

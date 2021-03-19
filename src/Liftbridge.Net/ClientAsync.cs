@@ -519,6 +519,24 @@ namespace Liftbridge.Net
             }
         }
 
+        public async Task PublishToSubject(string subject, byte[] value, MessageOptions opts, CancellationToken cancellationToken = default) {
+            var key = opts.Key == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(opts.Key);
+            var request = new Proto.PublishToSubjectRequest {
+                Subject = subject,
+                Value = Google.Protobuf.ByteString.CopyFrom(value),
+                Key = key,
+                AckInbox = opts.AckInbox,
+                CorrelationId = opts.CorrelationId,
+                AckPolicy = opts.AckPolicy,
+            };
+
+            await DoResilientRPC(async (client, cancellationToken) =>
+            {
+                var response = await client.PublishToSubjectAsync(request, cancellationToken: cancellationToken);
+                return response;
+            }, cancellationToken);
+        }
+
         /// <summary>
         /// Subscribe is used to consume streams.
         /// </summary>
