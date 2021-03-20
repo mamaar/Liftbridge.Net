@@ -48,24 +48,40 @@ namespace Liftbridge.Net
         public Proto.API.APIClient Client { get; init; }
         public AsyncDuplexStreamingCall<Proto.PublishRequest, Proto.PublishResponse> Stream { get; set; }
         private System.Threading.SemaphoreSlim publishSemaphore = new System.Threading.SemaphoreSlim(1);
+        private ImmutableDictionary<string, AckContext> AckContexts;
 
-        public Broker(BrokerAddress address, Func<Proto.PublishResponse, Task> ackHandler)
+        public Broker(BrokerAddress address)
         {
             Channel = new Channel(address.Host, address.Port, ChannelCredentials.Insecure);
             Client = new Proto.API.APIClient(Channel);
             Stream = Client.PublishAsync();
+            AckContexts = ImmutableDictionary<string, AckContext>.Empty;
+            _ = Task.Run(AckTask);
+        }
 
-            _ = Task.Run(async () =>
+        private async Task AckTask()
+        {
+            while (await Stream.ResponseStream.MoveNext())
             {
-                while (await Stream.ResponseStream.MoveNext())
+                var message = Stream.ResponseStream.Current;
+                var ctx = RemoveAckContext(message.CorrelationId ?? message.Ack.CorrelationId);
+                ctx?.Handler.Invoke(message);
+            }
+            return;
+        }
+
+        private AckContext RemoveAckContext(string correlationID)
+        {
+            lock (AckContexts)
+            {
+                if (!AckContexts.ContainsKey(correlationID))
                 {
-                    var message = Stream.ResponseStream.Current;
-                    if (ackHandler is not null)
-                    {
-                        await ackHandler(message);
-                    }
+                    return null;
                 }
-            });
+                var ctx = AckContexts[correlationID];
+                AckContexts = AckContexts.Remove(correlationID);
+                return ctx;
+            }
         }
 
         /// <summary>
@@ -73,9 +89,27 @@ namespace Liftbridge.Net
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task Publish(Proto.PublishRequest request)
+        public async Task Publish(Proto.PublishRequest request, Func<Proto.PublishResponse, Task> ackHandler, System.Threading.CancellationToken cancellationToken = default)
         {
             await publishSemaphore.WaitAsync();
+
+
+            if (ackHandler is not null)
+            {
+                lock (AckContexts)
+                {
+                    var ackCtx = new AckContext
+                    {
+                        Handler = ackHandler,
+                    };
+                    AckContexts = AckContexts.Add(request.CorrelationId, ackCtx);
+                }
+                cancellationToken.Register(() =>
+                {
+                    _ = RemoveAckContext(request.CorrelationId);
+                });
+            }
+
             await Stream.RequestStream.WriteAsync(request);
             publishSemaphore.Release();
         }
@@ -90,27 +124,28 @@ namespace Liftbridge.Net
     {
         ImmutableDictionary<BrokerAddress, Broker> addressConnectionPool { get; set; }
         Func<Proto.PublishResponse, Task> AckReceivedHandler { get; set; }
+        private System.Threading.SemaphoreSlim updateSemaphore = new System.Threading.SemaphoreSlim(1);
 
 
-        public Brokers(IEnumerable<BrokerAddress> addresses, Func<Proto.PublishResponse, Task> ackHandler)
+        public Brokers(IEnumerable<BrokerAddress> addresses)
         {
             addressConnectionPool = ImmutableDictionary<BrokerAddress, Broker>
                 .Empty
                 .AddRange(addresses.Select(address =>
-                    new KeyValuePair<BrokerAddress, Broker>(address, new Broker(address, ackHandler))
+                    new KeyValuePair<BrokerAddress, Broker>(address, new Broker(address))
                 ));
-            AckReceivedHandler = ackHandler;
         }
 
 
-        public Task Update(IEnumerable<BrokerAddress> addresses, System.Threading.CancellationToken cancellationToken = default)
+        public async Task Update(IEnumerable<BrokerAddress> addresses, System.Threading.CancellationToken cancellationToken = default)
         {
+            await updateSemaphore.WaitAsync();
             ImmutableDictionary<BrokerAddress, Broker> newBrokers = ImmutableDictionary<BrokerAddress, Broker>.Empty;
             foreach (var address in addresses)
             {
                 if (!addressConnectionPool.ContainsKey(address))
                 {
-                    var broker = new Broker(address, AckReceivedHandler);
+                    var broker = new Broker(address);
                     newBrokers = newBrokers.Add(address, broker);
                 }
                 else
@@ -125,7 +160,8 @@ namespace Liftbridge.Net
             {
                 addressConnectionPool = newBrokers;
             }
-            return Task.WhenAll(closeOldConnections);
+            updateSemaphore.Release();
+            await Task.WhenAll(closeOldConnections);
         }
 
         public Broker GetFromAddress(BrokerAddress address)

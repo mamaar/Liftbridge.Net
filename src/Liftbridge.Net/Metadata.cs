@@ -202,7 +202,8 @@ namespace Liftbridge.Net
             else
             {
                 var updatedStreams = metadata.Streams;
-                foreach (var stream in streams.Where(s => newMetadata.HasStreamInfo(s))) {
+                foreach (var stream in streams.Where(s => newMetadata.HasStreamInfo(s)))
+                {
                     updatedStreams = updatedStreams.SetItem(stream, newMetadata.Streams[stream]);
                 }
                 metadata = newMetadata with { Streams = updatedStreams };

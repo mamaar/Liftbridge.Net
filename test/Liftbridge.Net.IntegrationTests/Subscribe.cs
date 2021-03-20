@@ -21,8 +21,7 @@ namespace Liftbridge.Net.IntegrationTests
             await client.CreateStream(streamName, "test.subscribe", cts.Token);
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            await client.PublishAsync(streamName, value, null, null, cts.Token);
-
+            await client.Publish(streamName, value, MessageOptions.Default, cts.Token);
 
             var sub = await client.Subscribe(streamName, new SubscriptionOptions
             {

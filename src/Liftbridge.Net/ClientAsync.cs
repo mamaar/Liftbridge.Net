@@ -35,17 +35,14 @@ namespace Liftbridge.Net
         private Brokers Brokers { get; set; }
         private MetadataCache Metadata { get; set; }
 
-        private ImmutableDictionary<string, AckContext> AckContexts;
-
         private readonly ClientOptions Options;
 
         public ClientAsync(ClientOptions opts)
         {
             Options = opts;
             Metadata = new MetadataCache();
-            Brokers = new Brokers(opts.Brokers, PublishResponseReceived);
+            Brokers = new Brokers(opts.Brokers);
 
-            AckContexts = ImmutableDictionary<string, AckContext>.Empty;
         }
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, CancellationToken, Task<T>> func, CancellationToken cancellationToken = default)
@@ -372,25 +369,14 @@ namespace Liftbridge.Net
             }
 
             var ackOnce = new WriteOnceBlock<Proto.Ack>(null);
+
             // Publish and wait for ack or timeout
-            await PublishAsync(stream, value, opts, async (msg) =>
+            await PublishAsync(stream, value, opts, ackHandler: (message) =>
             {
-                // If the message is null, the ack waiting timed out.
-                if (msg is null)
-                {
-                    await ackOnce.SendAsync(null, cancellationToken);
-                }
-                else
-                {
-                    await ackOnce.SendAsync(msg.Ack, cancellationToken);
-                }
+                ackOnce.Post(message.Ack);
+                return Task.CompletedTask;
             }, cancellationToken: cancellationToken);
-            var res = await ackOnce.ReceiveAsync(cancellationToken);
-            if (res is null)
-            {
-                throw new TimeoutException("Ack awaiting timed out.");
-            }
-            return res;
+            return await ackOnce.ReceiveAsync(cancellationToken);
         }
 
         /// <summary>
@@ -450,31 +436,13 @@ namespace Liftbridge.Net
                 ExpectedOffset = opts.ExpectedOffset,
             };
 
-            if (ackHandler is not null)
-            {
-                lock (AckContexts)
-                {
-                    var ackCtx = new AckContext
-                    {
-                        Handler = ackHandler,
-                    };
-                    AckContexts = AckContexts.Add(request.CorrelationId, ackCtx);
-                }
-                cancellationToken.Register(() =>
-                {
-                    _ = RemoveAckContext(request.CorrelationId);
-                    throw new TimeoutException("Ack awaiting was cancelled");
-                });
-            }
-
             var broker = Brokers.GetFromStream(message.Stream, partition);
             try
             {
-                await broker.Publish(request);
+                await broker.Publish(request, ackHandler);
             }
             catch (Grpc.Core.RpcException ex)
             {
-                RemoveAckContext(request.CorrelationId);
                 if (ex.StatusCode == Grpc.Core.StatusCode.FailedPrecondition)
                 {
                     throw new ReadOnlyException("The partition is readonly", ex);
@@ -482,46 +450,11 @@ namespace Liftbridge.Net
             }
         }
 
-        private Task PublishResponseReceived(Proto.PublishResponse message)
+        public async Task PublishToSubject(string subject, byte[] value, MessageOptions opts, CancellationToken cancellationToken = default)
         {
-            string correlationId = null;
-            if (message.CorrelationId is not null)
-            {
-                correlationId = message.CorrelationId;
-            }
-            else if (message.Ack.CorrelationId is not null)
-            {
-                correlationId = message.Ack.CorrelationId;
-            }
-
-            if (correlationId is not null)
-            {
-                var context = RemoveAckContext(correlationId);
-                if (context is not null)
-                {
-                    return context.Handler(message);
-                }
-            }
-            return null;
-        }
-
-        private AckContext RemoveAckContext(string correlationID)
-        {
-            lock (AckContexts)
-            {
-                if (!AckContexts.ContainsKey(correlationID))
-                {
-                    return null;
-                }
-                var ctx = AckContexts[correlationID];
-                AckContexts = AckContexts.Remove(correlationID);
-                return ctx;
-            }
-        }
-
-        public async Task PublishToSubject(string subject, byte[] value, MessageOptions opts, CancellationToken cancellationToken = default) {
             var key = opts.Key == null ? Google.Protobuf.ByteString.Empty : Google.Protobuf.ByteString.CopyFrom(opts.Key);
-            var request = new Proto.PublishToSubjectRequest {
+            var request = new Proto.PublishToSubjectRequest
+            {
                 Subject = subject,
                 Value = Google.Protobuf.ByteString.CopyFrom(value),
                 Key = key,
