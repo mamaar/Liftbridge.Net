@@ -42,6 +42,11 @@ namespace Liftbridge.Net
         }
     }
 
+    internal record AckContext
+    {
+        public Action<Proto.PublishResponse> Handler { get; init; }
+    }
+
     public class Broker
     {
         public Channel Channel { get; init; }
@@ -89,10 +94,9 @@ namespace Liftbridge.Net
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task Publish(Proto.PublishRequest request, Func<Proto.PublishResponse, Task> ackHandler, System.Threading.CancellationToken cancellationToken = default)
+        public async Task Publish(Proto.PublishRequest request, Action<Proto.PublishResponse> ackHandler, System.Threading.CancellationToken cancellationToken = default)
         {
             await publishSemaphore.WaitAsync();
-
 
             if (ackHandler is not null)
             {

@@ -12,12 +12,6 @@ namespace Liftbridge.Net
 {
     using AckPolicy = Proto.AckPolicy;
 
-
-    internal record AckContext
-    {
-        public Func<Proto.PublishResponse, Task> Handler { get; init; }
-    }
-
     public class ClientOptions
     {
         public IEnumerable<BrokerAddress> Brokers { get; init; }
@@ -374,7 +368,6 @@ namespace Liftbridge.Net
             await PublishAsync(stream, value, opts, ackHandler: (message) =>
             {
                 ackOnce.Post(message.Ack);
-                return Task.CompletedTask;
             }, cancellationToken: cancellationToken);
             return await ackOnce.ReceiveAsync(cancellationToken);
         }
@@ -388,7 +381,7 @@ namespace Liftbridge.Net
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ReadOnlyException">Thrown when the stream partition is set to readonly.</exception>
-        public Task PublishAsync(string stream, byte[] value, MessageOptions opts, Func<Proto.PublishResponse, Task> ackHandler, CancellationToken cancellationToken = default)
+        public Task PublishAsync(string stream, byte[] value, MessageOptions opts, Action<Proto.PublishResponse> ackHandler, CancellationToken cancellationToken = default)
         {
             var message = Message.Default with
             {
@@ -399,7 +392,7 @@ namespace Liftbridge.Net
             return PublishAsync(message, opts, ackHandler, cancellationToken);
         }
 
-        public async Task PublishAsync(Message message, MessageOptions opts, Func<Proto.PublishResponse, Task> ackHandler, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(Message message, MessageOptions opts, Action<Proto.PublishResponse> ackHandler, CancellationToken cancellationToken = default)
         {
             await UpdateMetadataCache(new[] { message.Stream }, cancellationToken);
             if (opts is null)
