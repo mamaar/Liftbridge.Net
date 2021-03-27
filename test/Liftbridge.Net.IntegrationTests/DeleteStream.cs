@@ -28,5 +28,19 @@ namespace Liftbridge.Net.IntegrationTests
             await Assert.ThrowsAsync<StreamNotExistsException>(async () => await client.DeleteStream(""));
             return;
         }
+
+        [Fact]
+        public async Task TestDeleteUpdatesMetadata()
+        {
+            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
+            var client = new ClientAsync(options);
+
+            var streamName = Guid.NewGuid().ToString();
+            await client.CreateStream(streamName, "test");
+            Assert.True(await client.StreamExists(streamName));
+            await client.DeleteStream(streamName);
+            Assert.False(await client.StreamExists(streamName));
+            return;
+        }
     }
 }

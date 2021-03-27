@@ -260,7 +260,10 @@ namespace Liftbridge.Net
             {
                 try
                 {
-                    return await client.DeleteStreamAsync(request, cancellationToken: cancelToken);
+                    var result = await client.DeleteStreamAsync(request, cancellationToken: cancelToken);
+                    // Removes the stream from cache
+                    Metadata.RemoveStream(stream);
+                    return result;
                 }
                 catch (Grpc.Core.RpcException ex)
                 {

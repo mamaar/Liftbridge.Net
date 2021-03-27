@@ -202,12 +202,29 @@ namespace Liftbridge.Net
             else
             {
                 var updatedStreams = metadata.Streams;
+
+                // Removes streams from the cache that are not found in the cluster
+                foreach(var stream in streams.Where(s => !newMetadata.HasStreamInfo(s)))
+                {
+                    updatedStreams = updatedStreams.Remove(stream);
+                }
+                // Update the stream info for existing streams
                 foreach (var stream in streams.Where(s => newMetadata.HasStreamInfo(s)))
                 {
                     updatedStreams = updatedStreams.SetItem(stream, newMetadata.Streams[stream]);
                 }
                 metadata = newMetadata with { Streams = updatedStreams };
             }
+            semaphore.Release();
+        }
+
+        /// <summary>
+        /// Removes the stream entry from the cache.
+        /// </summary>
+        public void RemoveStream(string stream)
+        {
+            semaphore.Wait();
+            metadata = metadata with { Streams = metadata.Streams.Remove(stream) };
             semaphore.Release();
         }
 
