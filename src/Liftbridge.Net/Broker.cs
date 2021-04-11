@@ -26,9 +26,12 @@ namespace Liftbridge.Net
         public string Host { get; init; }
         public int Port { get; init; }
 
-        public BrokerAddress GetAddress()
+        public BrokerAddress Address
         {
-            return new BrokerAddress { Host = Host, Port = Port };
+            get
+            {
+                return new BrokerAddress { Host = Host, Port = Port };
+            }
         }
 
         public static BrokerInfo FromProto(Proto.Broker broker)
@@ -208,6 +211,11 @@ namespace Liftbridge.Net
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal bool TryGetFromAddress(BrokerAddress address, out Broker broker)
+        {
+            return addressConnectionPool.TryGetValue(address, out broker);
         }
     }
 }

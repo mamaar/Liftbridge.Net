@@ -23,7 +23,7 @@ namespace Liftbridge.Net.IntegrationTests
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
             await client.Publish(streamName, value, MessageOptions.Default, cts.Token);
 
-            var sub = await client.Subscribe(streamName, new SubscriptionOptions
+            var sub = client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,
@@ -54,18 +54,18 @@ namespace Liftbridge.Net.IntegrationTests
             await client.PublishAsync(streamName, value, null, null, cts.Token);
 
 
-            var sub1 = await client.Subscribe(streamName, new SubscriptionOptions
+            var sub1 = client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,
             }, cts.Token);
-            var sub2 = await client.Subscribe(streamName, new SubscriptionOptions
+            var sub2 = client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,
             }, cts.Token);
 
-            Func<Liftbridge.Net.Subscription, Task> subHandler = async (sub) =>
+            Func<IAsyncEnumerable<Message>, Task> subHandler = async (sub) =>
             {
                 await foreach (var message in sub)
                 {

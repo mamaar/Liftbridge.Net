@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -81,11 +82,11 @@ namespace Liftbridge.Net
             }
             for (var i = 0; i < RPCResiliencyTryCount; i++)
             {
-                var address = Metadata.GetLeaderAddress(stream, partition);
-                var broker = Brokers.GetFromAddress(address);
+                var leaderBrokerInfo = Metadata.GetLeader(stream, partition);
+                var leaderBroker = Brokers.GetFromAddress(leaderBrokerInfo.Address);
                 try
                 {
-                    return await func(broker.Client, cancellationToken);
+                    return await func(leaderBroker.Client, cancellationToken);
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
@@ -121,8 +122,8 @@ namespace Liftbridge.Net
             {
                 var meta = await broker.Client.FetchMetadataAsync(request, cancellationToken: cancellationToken);
                 var brokers = meta.Brokers
-                        .Select(broker => BrokerInfo.FromProto(broker))
-                        .ToImmutableHashSet();
+                        .Select(broker => KeyValuePair.Create(broker.Id, BrokerInfo.FromProto(broker)))
+                        .ToImmutableDictionary();
                 var streamMetadata = meta.Metadata
                     .Where(s => s.Error == Proto.StreamMetadata.Types.Error.Ok)
                     .Select(stream => new KeyValuePair<string, StreamInfo>(stream.Name, StreamInfo.FromProto(stream)))
@@ -472,50 +473,74 @@ namespace Liftbridge.Net
         /// <param name="stream"></param>
         /// <param name="opts"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns <see cref="Subscription" /></returns>
-        public async Task<Subscription> Subscribe(string stream, SubscriptionOptions opts, CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<Message> Subscribe(string stream, SubscriptionOptions opts, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
                 await UpdateMetadataCache(new[] { stream }, cancellationToken);
+                BrokerInfo brokerInfo;
+                if (!Metadata.TryGetBroker(stream, opts.Partition, opts.ReadIsrReplica, out brokerInfo))
+                {
+                    continue;
+                }
+                Broker broker;
+                if (!Brokers.TryGetFromAddress(brokerInfo.Address, out broker))
+                {
+                    continue;
+                }
+
+                var request = new Proto.SubscribeRequest
+                {
+                    Stream = stream,
+                    StartPosition = opts.StartPosition,
+                    StartOffset = opts.StartOffset,
+                    StartTimestamp = opts.StartTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
+                    StopPosition = opts.StopPosition,
+                    StopOffset = opts.StopOffset,
+                    StopTimestamp = opts.StopTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
+                    Partition = opts.Partition,
+                    ReadISRReplica = opts.ReadIsrReplica,
+                };
+                var rpcSub = broker.Client.Subscribe(request);
+                // Server responds with an empty message or error.
+                // Retry on error.
                 try
                 {
-                    var address = Metadata.GetAddress(stream, opts.Partition, opts.ReadIsrReplica);
-                    var broker = Brokers.GetFromAddress(address);
+                    await rpcSub.ResponseStream.MoveNext(cancellationToken);
+                }
+                catch (Grpc.Core.RpcException)
+                {
+                    continue;
+                }
 
-                    var request = new Proto.SubscribeRequest
-                    {
-                        Stream = stream,
-                        StartPosition = opts.StartPosition,
-                        StartOffset = opts.StartOffset,
-                        StartTimestamp = opts.StartTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
-                        StopPosition = opts.StopPosition,
-                        StopOffset = opts.StopOffset,
-                        StopTimestamp = opts.StopTimestamp.ToUnixTimeMilliseconds() * 1_000_000,
-                        Partition = opts.Partition,
-                        ReadISRReplica = opts.ReadIsrReplica,
-                    };
-                    var rpcSub = broker.Client.Subscribe(request);
-                    // Server responds with an empty message or error.
-                    // Retry on error.
+                while(true)
+                {
+
                     try
                     {
                         await rpcSub.ResponseStream.MoveNext(cancellationToken);
                     }
-                    catch (Grpc.Core.RpcException)
+                    catch (Grpc.Core.RpcException ex)
                     {
-                        continue;
+                        switch (ex.StatusCode)
+                        {
+                            case Grpc.Core.StatusCode.Cancelled:
+                                break;
+                            case Grpc.Core.StatusCode.NotFound:
+                                throw new StreamNotExistsException();
+                            case Grpc.Core.StatusCode.FailedPrecondition:
+                                throw new StreamPausedException();
+                            case Grpc.Core.StatusCode.ResourceExhausted:
+                                throw new EndOfReadonlyException();
+                            case Grpc.Core.StatusCode.Unavailable:
+                                throw new BrokerNotFoundException();
+                        }
+                        throw;
                     }
 
-                    var subscription = new Subscription(rpcSub, cancellationToken);
-                    return subscription;
-                }
-                catch (BrokerNotFoundException)
-                {
-                    await UpdateMetadataCache(new[] { stream }, cancellationToken);
+                    yield return Message.FromProto(rpcSub.ResponseStream.Current);
                 }
             }
-            throw new BrokerNotFoundException();
         }
 
         public Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = default)
