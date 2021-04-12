@@ -9,42 +9,6 @@ using System.Threading.Tasks;
 
 namespace Liftbridge.Net
 {
-    public record BrokerAddress
-    {
-        public string Host { get; init; }
-        public int Port { get; init; }
-
-        override public string ToString()
-        {
-            return $"{Host}:{Port}";
-        }
-    }
-
-    public record BrokerInfo
-    {
-        public string Id { get; init; }
-        public string Host { get; init; }
-        public int Port { get; init; }
-
-        public BrokerAddress Address
-        {
-            get
-            {
-                return new BrokerAddress { Host = Host, Port = Port };
-            }
-        }
-
-        public static BrokerInfo FromProto(Proto.Broker broker)
-        {
-            return new BrokerInfo
-            {
-                Id = broker.Id,
-                Host = broker.Host,
-                Port = broker.Port,
-            };
-        }
-    }
-
     internal record AckContext
     {
         public Action<Proto.PublishResponse> Handler { get; init; }
@@ -61,7 +25,7 @@ namespace Liftbridge.Net
         public Broker(BrokerAddress address)
         {
             Channel = new Channel(address.Host, address.Port, ChannelCredentials.Insecure);
-            Client = new Proto.API.APIClient(Channel);
+            Client = CreateClient();
             Stream = Client.PublishAsync();
             AckContexts = ImmutableDictionary<string, AckContext>.Empty;
             _ = Task.Run(AckTask);
@@ -124,6 +88,11 @@ namespace Liftbridge.Net
         public Task Close()
         {
             return Task.WhenAll(Channel.ShutdownAsync(), Stream.RequestStream.CompleteAsync());
+        }
+
+        internal Proto.API.APIClient CreateClient()
+        {
+            return new Proto.API.APIClient(Channel);
         }
     }
 

@@ -23,9 +23,9 @@ namespace Liftbridge.Net
 
     public class ClientAsync
     {
-        const int RPCResiliencyTryCount = 10;
-        const int SubscriptionResiliencyTryCount = 5;
-        const string CursorsStream = "__cursors";
+        private const int RPCResiliencyTryCount = 10;
+        private const int SubscriptionResiliencyTryCount = 5;
+        private const string CursorsStream = "__cursors";
 
         private Brokers Brokers { get; set; }
         private MetadataCache Metadata { get; set; }
@@ -37,7 +37,6 @@ namespace Liftbridge.Net
             Options = opts;
             Metadata = new MetadataCache();
             Brokers = new Brokers(opts.Brokers);
-
         }
 
         private async Task<T> DoResilientRPC<T>(Func<Proto.API.APIClient, CancellationToken, Task<T>> func, CancellationToken cancellationToken = default)
@@ -55,20 +54,20 @@ namespace Liftbridge.Net
                 }
                 catch (Grpc.Core.RpcException ex)
                 {
-                    if (ex.StatusCode == Grpc.Core.StatusCode.Unavailable)
+                    if (ex.StatusCode != Grpc.Core.StatusCode.Unavailable)
                     {
-                        try
-                        {
-                            var cancelTokenSource = new CancellationTokenSource();
-                            cancelTokenSource.CancelAfter(1000);
-                            await UpdateMetadataCache(cancelTokenSource.Token);
-                            continue;
-                        }
-                        catch (Grpc.Core.RpcException)
-                        {
-                        }
+                        throw;
                     }
-                    throw;
+                    try
+                    {
+                        var cancelTokenSource = new CancellationTokenSource();
+                        cancelTokenSource.CancelAfter(1000);
+                        await UpdateMetadataCache(cancelTokenSource.Token);
+                    }
+                    catch (Grpc.Core.RpcException)
+                    {
+                        continue;
+                    }
                 }
             }
             throw new ConnectionErrorException();
@@ -150,7 +149,7 @@ namespace Liftbridge.Net
             {
                 return await FetchMetadata(streams, cancellationToken);
             });
-            await Brokers.Update(Metadata.GetAddresses());
+            await Brokers.Update(Metadata.GetAddresses(), cancellationToken);
         }
 
         public async Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition, CancellationToken cancellationToken = default)
@@ -436,7 +435,7 @@ namespace Liftbridge.Net
             var broker = Brokers.GetFromStream(message.Stream, partition);
             try
             {
-                await broker.Publish(request, ackHandler);
+                await broker.Publish(request, ackHandler, cancellationToken);
             }
             catch (Grpc.Core.RpcException ex)
             {
@@ -478,13 +477,11 @@ namespace Liftbridge.Net
             for (var i = 1; i <= SubscriptionResiliencyTryCount; i++)
             {
                 await UpdateMetadataCache(new[] { stream }, cancellationToken);
-                BrokerInfo brokerInfo;
-                if (!Metadata.TryGetBroker(stream, opts.Partition, opts.ReadIsrReplica, out brokerInfo))
+                if (!Metadata.TryGetBroker(stream, opts.Partition, opts.ReadIsrReplica, out BrokerInfo brokerInfo))
                 {
                     continue;
                 }
-                Broker broker;
-                if (!Brokers.TryGetFromAddress(brokerInfo.Address, out broker))
+                if (!Brokers.TryGetFromAddress(brokerInfo.Address, out Broker broker))
                 {
                     continue;
                 }
@@ -501,7 +498,8 @@ namespace Liftbridge.Net
                     Partition = opts.Partition,
                     ReadISRReplica = opts.ReadIsrReplica,
                 };
-                var rpcSub = broker.Client.Subscribe(request);
+                var client = broker.CreateClient();
+                var rpcSub = client.Subscribe(request, cancellationToken: cancellationToken);
                 // Server responds with an empty message or error.
                 // Retry on error.
                 try
@@ -513,7 +511,7 @@ namespace Liftbridge.Net
                     continue;
                 }
 
-                while(true)
+                while (true)
                 {
 
                     try
@@ -543,11 +541,21 @@ namespace Liftbridge.Net
             }
         }
 
+        static byte[] GetCursorKey(string cursorId, string stream, int partition)
+        {
+            return System.Text.Encoding.ASCII.GetBytes($"{cursorId},{stream},{partition}");
+        }
+
+        private static int GetCursorPartition(byte[] cursorKey, StreamInfo cursorStreamInfo)
+        {
+            return (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
+        }
+
         public Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = default)
         {
-            var cursorKey = System.Text.Encoding.ASCII.GetBytes($"{cursorId},{stream},{partition}");
+            var cursorKey = GetCursorKey(cursorId, stream, partition);
             var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
-            var cursorPartition = (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
+            var cursorPartition = GetCursorPartition(cursorKey, cursorStreamInfo);
 
             var request = new Proto.SetCursorRequest
             {
@@ -564,9 +572,9 @@ namespace Liftbridge.Net
 
         public Task<long> FetchCursor(string cursorId, string stream, int partition, CancellationToken cancellationToken = default)
         {
-            var cursorKey = System.Text.Encoding.ASCII.GetBytes($"{cursorId},{stream},{partition}");
+            var cursorKey = GetCursorKey(cursorId, stream, partition);
             var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
-            var cursorPartition = (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
+            var cursorPartition = GetCursorPartition(cursorKey, cursorStreamInfo);
 
             var request = new Proto.FetchCursorRequest
             {

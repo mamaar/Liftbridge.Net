@@ -86,6 +86,43 @@ namespace Liftbridge.Net
         }
     }
 
+
+    public record BrokerAddress
+    {
+        public string Host { get; init; }
+        public int Port { get; init; }
+
+        override public string ToString()
+        {
+            return $"{Host}:{Port}";
+        }
+    }
+
+    public record BrokerInfo
+    {
+        public string Id { get; init; }
+        public string Host { get; init; }
+        public int Port { get; init; }
+
+        public BrokerAddress Address
+        {
+            get
+            {
+                return new BrokerAddress { Host = Host, Port = Port };
+            }
+        }
+
+        public static BrokerInfo FromProto(Proto.Broker broker)
+        {
+            return new BrokerInfo
+            {
+                Id = broker.Id,
+                Host = broker.Host,
+                Port = broker.Port,
+            };
+        }
+    }
+
     public interface IMetadata
     {
         bool HasBrokers();
@@ -109,8 +146,7 @@ namespace Liftbridge.Net
 
         public BrokerInfo GetBroker(string brokerId)
         {
-            BrokerInfo broker;
-            if (!TryGetBroker(brokerId, out broker))
+            if (!TryGetBroker(brokerId, out BrokerInfo broker))
             {
                 throw new BrokerNotFoundException();
             }
@@ -119,8 +155,7 @@ namespace Liftbridge.Net
 
         public BrokerInfo GetBroker(string streamName, int partitionId, bool isISRReplica)
         {
-            BrokerInfo broker;
-            if (!TryGetBroker(streamName, partitionId, isISRReplica, out broker))
+            if (!TryGetBroker(streamName, partitionId, isISRReplica, out BrokerInfo broker))
             {
                 throw new StreamNotExistsException();
             }
@@ -141,7 +176,6 @@ namespace Liftbridge.Net
             }
 
             return Streams[stream];
-
         }
 
         public bool HasStreamInfo(string stream)
@@ -178,14 +212,13 @@ namespace Liftbridge.Net
 
         public bool TryGetBroker(string streamName, int partitionId, bool isISRReplica, out BrokerInfo broker)
         {
-            if (!Streams.ContainsKey(streamName))
+            if (!Streams.TryGetValue(streamName, out StreamInfo stream))
             {
                 broker = null;
                 return false;
             }
-            var stream = Streams[streamName];
-            PartitionInfo partitionInfo;
-            if (!stream.TryGetPartition(partitionId, out partitionInfo))
+
+            if (!stream.TryGetPartition(partitionId, out PartitionInfo partitionInfo))
             {
                 broker = null;
                 return false;
@@ -208,28 +241,22 @@ namespace Liftbridge.Net
 
     public class MetadataCache : IMetadata
     {
-        private Metadata metadata { get; set; }
-        private System.Threading.SemaphoreSlim semaphore { get; init; }
-
-        public MetadataCache()
-        {
-            metadata = new Metadata { };
-            semaphore = new System.Threading.SemaphoreSlim(1);
-        }
+        private Metadata MetadataData = new Metadata { };
+        private System.Threading.SemaphoreSlim Semaphore = new System.Threading.SemaphoreSlim(1);
 
         internal async Task Update(IEnumerable<string> streams, Func<Task<Metadata>> fetchHandler)
         {
-            await semaphore.WaitAsync();
+            await Semaphore.WaitAsync();
             var newMetadata = await fetchHandler();
             // Updates all streams
-            if (streams.Count() == 0)
+            if (!streams.Any())
             {
-                metadata = newMetadata;
+                MetadataData = newMetadata;
             }
             // Updates only specified streams
             else
             {
-                var updatedStreams = metadata.Streams;
+                var updatedStreams = MetadataData.Streams;
 
                 // Removes streams from the cache that are not found in the cluster
                 foreach (var stream in streams.Where(s => !newMetadata.HasStreamInfo(s)))
@@ -241,9 +268,9 @@ namespace Liftbridge.Net
                 {
                     updatedStreams = updatedStreams.SetItem(stream, newMetadata.Streams[stream]);
                 }
-                metadata = newMetadata with { Streams = updatedStreams };
+                MetadataData = newMetadata with { Streams = updatedStreams };
             }
-            semaphore.Release();
+            Semaphore.Release();
         }
 
         /// <summary>
@@ -251,64 +278,64 @@ namespace Liftbridge.Net
         /// </summary>
         public void RemoveStream(string stream)
         {
-            semaphore.Wait();
-            metadata = metadata with { Streams = metadata.Streams.Remove(stream) };
-            semaphore.Release();
+            Semaphore.Wait();
+            MetadataData = MetadataData with { Streams = MetadataData.Streams.Remove(stream) };
+            Semaphore.Release();
         }
 
         public ImmutableList<BrokerAddress> GetAddresses()
         {
-            return ((IMetadata)metadata).GetAddresses();
+            return ((IMetadata)MetadataData).GetAddresses();
         }
 
         public StreamInfo GetStreamInfo(string stream)
         {
-            return ((IMetadata)metadata).GetStreamInfo(stream);
+            return ((IMetadata)MetadataData).GetStreamInfo(stream);
         }
 
         public bool HasStreamInfo(string stream)
         {
-            return ((IMetadata)metadata).HasStreamInfo(stream);
+            return ((IMetadata)MetadataData).HasStreamInfo(stream);
         }
 
         public int StreamPartitionCount(string stream)
         {
-            return ((IMetadata)metadata).StreamPartitionCount(stream);
+            return ((IMetadata)MetadataData).StreamPartitionCount(stream);
         }
 
         public BrokerInfo GetBroker(string brokerId)
         {
-            return ((IMetadata)metadata).GetBroker(brokerId);
+            return ((IMetadata)MetadataData).GetBroker(brokerId);
         }
 
         public bool TryGetBroker(string brokerId, out BrokerInfo broker)
         {
-            return ((IMetadata)metadata).TryGetBroker(brokerId, out broker);
+            return ((IMetadata)MetadataData).TryGetBroker(brokerId, out broker);
         }
 
         public BrokerInfo GetBroker(string streamName, int partitionId, bool isISRReplica)
         {
-            return ((IMetadata)metadata).GetBroker(streamName, partitionId, isISRReplica);
+            return ((IMetadata)MetadataData).GetBroker(streamName, partitionId, isISRReplica);
         }
 
         public bool HasBrokers()
         {
-            return ((IMetadata)metadata).HasBrokers();
+            return ((IMetadata)MetadataData).HasBrokers();
         }
 
         public BrokerInfo GetLeader(string stream, int partition)
         {
-            return ((IMetadata)metadata).GetLeader(stream, partition);
+            return ((IMetadata)MetadataData).GetLeader(stream, partition);
         }
 
         public bool TryGetBroker(string streamName, int partitionId, bool isISRReplica, out BrokerInfo broker)
         {
-            return ((IMetadata)metadata).TryGetBroker(streamName, partitionId, isISRReplica, out broker);
+            return ((IMetadata)MetadataData).TryGetBroker(streamName, partitionId, isISRReplica, out broker);
         }
 
         public bool TryGetLeader(string stream, int partition, out BrokerInfo broker)
         {
-            return ((IMetadata)metadata).TryGetLeader(stream, partition, out broker);
+            return ((IMetadata)MetadataData).TryGetLeader(stream, partition, out broker);
         }
     }
 }
