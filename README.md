@@ -24,13 +24,23 @@
   <h3 align="center">Liftbridge.Net </h3>
 
   <p align="center">
-    project_description
+  Go client for <a href="https://github.com/liftbridge-io/liftbridge">Liftbridge</a>, a
+system that provides lightweight, fault-tolerant message streams for
+  <a href="https://nats.io">NATS</a>.
+
+Liftbridge provides the following high-level features:
+
+- Log-based API for NATS
+- Replicated for fault-tolerance
+- Horizontally scalable
+- Wildcard subscription support
+- At-least-once delivery support and message replay
+- Message key-value support
+- Log compaction by key
     <br />
     <a href="https://github.com/mamaar/Liftbridge.Net"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/mamaar/Liftbridge.Net">View Demo</a>
-    ·
     <a href="https://github.com/mamaar/Liftbridge.Net/issues">Report Bug</a>
     ·
     <a href="https://github.com/mamaar/Liftbridge.Net/issues">Request Feature</a>
@@ -45,9 +55,6 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -70,17 +77,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`mamaar`, `Liftbridge.Net`, `Liftbridge.Net `, `project_description`
-
-
-### Built With
-
-* []()
-* []()
-* []()
-
 
 
 <!-- GETTING STARTED -->
@@ -89,14 +85,15 @@ Here's a blank template to get started:
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+A running [Liftbridge](https://github.com/liftbridge-io/liftbridge) cluster. For testing, the Liftbridge repository includes Docker configurations.
 
 ### Installation
+
+#### NuGet
+
+**This library is in early development and not published to NuGet. Development builds are based on *master* and deployed to [GitHub packages](https://github.com/mamaar/Liftbridge.Net/packages).**
+
+#### Source
 
 1. Clone the repo
    ```sh
@@ -104,7 +101,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 2. Install NPM packages
    ```sh
-   npm install
+   dotnet build
    ```
 
 
@@ -155,9 +152,7 @@ Project Link: [https://github.com/mamaar/Liftbridge.Net](https://github.com/mama
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+* [Liftbridge](https://github.com/liftbridge-io/liftbridge)
 
 
 
