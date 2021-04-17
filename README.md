@@ -15,19 +15,19 @@
 
 
 <!-- PROJECT LOGO -->
-<br />
 <p align="center">
   <a href="https://github.com/mamaar/Liftbridge.Net">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
-
+</p>
   <h3 align="center">Liftbridge.Net </h3>
 
-  <p align="center">
-  Go client for <a href="https://github.com/liftbridge-io/liftbridge">Liftbridge</a>, a
+  <p>
+  .NET client for <a href="https://github.com/liftbridge-io/liftbridge">Liftbridge</a>, a
 system that provides lightweight, fault-tolerant message streams for
   <a href="https://nats.io">NATS</a>.
-
+  </p>
+<p>
 Liftbridge provides the following high-level features:
 
 - Log-based API for NATS
@@ -37,21 +37,17 @@ Liftbridge provides the following high-level features:
 - At-least-once delivery support and message replay
 - Message key-value support
 - Log compaction by key
-    <br />
-    <a href="https://github.com/mamaar/Liftbridge.Net"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/mamaar/Liftbridge.Net/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/mamaar/Liftbridge.Net/issues">Request Feature</a>
-  </p>
+</p>
+<p>
+  <a href="https://github.com/mamaar/Liftbridge.Net/issues">Report Bug</a>
+  ·
+  <a href="https://github.com/mamaar/Liftbridge.Net/issues">Request Feature</a>
 </p>
 
 
 
 <!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <h2>Table of Contents</h2>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -70,7 +66,6 @@ Liftbridge provides the following high-level features:
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
-</details>
 
 
 
