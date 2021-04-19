@@ -104,10 +104,35 @@ A running [Liftbridge](https://github.com/liftbridge-io/liftbridge) cluster. For
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+```csharp
+var options = new ClientOptions { 
+    Brokers = new[] { new BrokerAddress { Host = "localhost", Port = 9292 }, } 
+};
+var client = new ClientAsync(options);
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+var subject = "foo";
+var streamName = "foo-stream";
 
+// Create a stream on the NATS subject "foo"
+await client.CreateStream(streamName, subject);
+
+// Publish a message on the stream
+var message = System.Text.Encoding.ASCII.GetBytes("hello, world");
+await client.Publish(streamName, message, new MessageOptions { });
+
+// Subscribe to the stream starting from the beginning
+var subscription = client.Subscribe(streamName, new SubscriptionOptions
+{
+    Partition = 0,
+    StartPosition = Proto.StartPosition.Earliest,
+});
+await foreach (var message in subscription)
+{
+    var messageString = System.Text.Encoding.UTF8.GetString(message.Value);
+    System.Console.WriteLine(messageString);
+}
+
+```
 
 
 <!-- ROADMAP -->
