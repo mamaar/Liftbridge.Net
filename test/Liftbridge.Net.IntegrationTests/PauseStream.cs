@@ -1,31 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Liftbridge.Net.IntegrationTests
 {
+    [Collection("Client collection")]
     public class PauseStream
     {
+        ClientFixture Fixture { get; }
+
+        public PauseStream(ClientFixture f)
+        {
+            Fixture = f;
+        }
+
         [Fact]
         public async Task TestPauseStreamAsync()
         {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new ClientAsync(options);
-
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, "test");
-            await client.PauseStream(streamName);
+            await Fixture.Client.CreateStream(streamName, "test");
+            await Fixture.Client.PauseStream(streamName);
             return;
         }
 
         [Fact]
         public async Task TestPauseStreamNoNameAsync()
         {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new ClientAsync(options);
-
-            await Assert.ThrowsAsync<StreamNotExistsException>(async () => await client.PauseStream(""));
+            await Assert.ThrowsAsync<StreamNotExistsException>(
+                async () => await Fixture.Client.PauseStream("")
+            );
             return;
         }
     }

@@ -1,23 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Liftbridge.Net.IntegrationTests
 {
+    [Collection("Client collection")]
     public class Publish
     {
+        ClientFixture Fixture { get; }
+
+        public Publish(ClientFixture f)
+        {
+            Fixture = f;
+        }
+
         [Fact]
         public async Task TestPublish()
         {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } }, AckWaitTime = new TimeSpan(0, 0, 0, 0, 1), };
-            var client = new ClientAsync(options);
-
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, "test");
+            await Fixture.Client.CreateStream(streamName, "test");
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            var ack = await client.Publish(streamName, value, new MessageOptions { });
+            var ack = await Fixture.Client.Publish(streamName, value, new MessageOptions { });
             Assert.Equal(Proto.Ack.Types.Error.Ok, ack.AckError);
             return;
         }
@@ -25,15 +29,12 @@ namespace Liftbridge.Net.IntegrationTests
         [Fact]
         public async Task TestPublishToSubject()
         {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } }, AckWaitTime = new TimeSpan(0, 0, 0, 0, 1), };
-            var client = new ClientAsync(options);
-
             var subject = "test.to.subject";
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, subject);
+            await Fixture.Client.CreateStream(streamName, subject);
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            await client.PublishToSubject(subject, value, MessageOptions.Default);
+            await Fixture.Client.PublishToSubject(subject, value, MessageOptions.Default);
             return;
         }
     }

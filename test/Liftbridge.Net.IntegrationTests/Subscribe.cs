@@ -5,8 +5,16 @@ using Xunit;
 
 namespace Liftbridge.Net.IntegrationTests
 {
+    [Collection("Client collection")]
     public class Subscribe
     {
+        ClientFixture Fixture { get; }
+
+        public Subscribe(ClientFixture f)
+        {
+            Fixture = f;
+        }
+
         [Fact]
         public async Task TestSubscribe()
         {
@@ -14,16 +22,13 @@ namespace Liftbridge.Net.IntegrationTests
             var cts = new System.Threading.CancellationTokenSource();
             cts.CancelAfter(5000);
 
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } }, };
-            var client = new ClientAsync(options);
-
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, "test.subscribe", cts.Token);
+            await Fixture.Client.CreateStream(streamName, "test.subscribe", cts.Token);
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            await client.Publish(streamName, value, MessageOptions.Default, cts.Token);
+            await Fixture.Client.Publish(streamName, value, MessageOptions.Default, cts.Token);
 
-            var sub = client.Subscribe(streamName, new SubscriptionOptions
+            var sub = Fixture.Client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,
@@ -44,22 +49,20 @@ namespace Liftbridge.Net.IntegrationTests
             var cts = new System.Threading.CancellationTokenSource();
             cts.CancelAfter(5000);
 
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } }, };
-            var client = new ClientAsync(options);
 
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, "test.subscribe", cts.Token);
+            await Fixture.Client.CreateStream(streamName, "test.subscribe", cts.Token);
 
             var value = System.Text.Encoding.ASCII.GetBytes("hello, world");
-            await client.PublishAsync(streamName, value, null, null, cts.Token);
+            await Fixture.Client.PublishAsync(streamName, value, null, null, cts.Token);
 
 
-            var sub1 = client.Subscribe(streamName, new SubscriptionOptions
+            var sub1 = Fixture.Client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,
             }, cts.Token);
-            var sub2 = client.Subscribe(streamName, new SubscriptionOptions
+            var sub2 = Fixture.Client.Subscribe(streamName, new SubscriptionOptions
             {
                 Partition = 0,
                 StartPosition = Proto.StartPosition.Earliest,

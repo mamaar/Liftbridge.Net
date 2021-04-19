@@ -1,23 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Liftbridge.Net.IntegrationTests
 {
+    [Collection("Client collection")]
     public class SetFetchCursor
     {
+        ClientFixture Fixture { get; }
+
+        public SetFetchCursor(ClientFixture f)
+        {
+            Fixture = f;
+        }
+
         [Fact]
         public async Task TestSetAndFetchCursor()
         {
-            var options = new ClientOptions { Brokers = new List<BrokerAddress> { new BrokerAddress { Host = "localhost", Port = 9292 }, new BrokerAddress { Host = "localhost", Port = 9393, } } };
-            var client = new ClientAsync(options);
-
             var streamName = Guid.NewGuid().ToString();
-            await client.CreateStream(streamName, "test");
+            await Fixture.Client.CreateStream(streamName, "test");
 
-            await client.SetCursor("my-cursor", streamName, 0, 12);
-            var offset = await client.FetchCursor("my-cursor", streamName, 0);
+            await Fixture.Client.SetCursor("my-cursor", streamName, 0, 12);
+            var offset = await Fixture.Client.FetchCursor("my-cursor", streamName, 0);
 
             Assert.Equal(12, offset);
 
