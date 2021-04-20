@@ -14,5 +14,22 @@ namespace Liftbridge.Net.Tests
             var broker = metadata.GetBroker("1");
             Assert.Equal(b, broker);
         }
+
+        [Fact]
+        public void TestDeserializeStreamInfoWithoutPartitions()
+        {
+            var protoStreamInfo = new Proto.StreamMetadata
+            {
+                Name = "test-stream",
+                Subject = "test",
+                CreationTimestamp = 1618912800_000000, // The Liftbridge server uses nanoseconds
+                Error = Proto.StreamMetadata.Types.Error.Ok,
+            };
+
+            var streamInfo = StreamInfo.FromProto(protoStreamInfo);
+            Assert.Equal(protoStreamInfo.Name, streamInfo.Name);
+            Assert.Equal(protoStreamInfo.Subject, streamInfo.Subject);
+            Assert.Equal(protoStreamInfo.CreationTimestamp, streamInfo.CreationTimestamp.ToUnixTimeMilliseconds() * 1_000_000);
+        }
     }
 }

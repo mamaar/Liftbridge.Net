@@ -59,7 +59,7 @@ namespace Liftbridge.Net
     {
         public string Name { get; init; }
         public string Subject { get; init; }
-        public DateTime CreationTimestamp { get; init; }
+        public DateTimeOffset CreationTimestamp { get; init; }
         public ImmutableDictionary<int, PartitionInfo> Partitions { get; init; }
 
         public PartitionInfo GetPartition(int partitionId)
@@ -71,9 +71,9 @@ namespace Liftbridge.Net
         {
             return new StreamInfo
             {
-                CreationTimestamp = DateTime.UnixEpoch.Add(TimeSpan.FromMilliseconds(proto.CreationTimestamp / 1_000_000)),
+                CreationTimestamp = DateTimeOffset.FromUnixTimeMilliseconds(proto.CreationTimestamp / 1_000_000),
                 Name = proto.Name,
-                Subject=proto.Subject,
+                Subject = proto.Subject,
                 Partitions = ImmutableDictionary<int, PartitionInfo>.Empty
                     .AddRange(proto.Partitions.Select((partition, _) =>
                         new KeyValuePair<int, PartitionInfo>(partition.Key, PartitionInfo.FromProto(partition.Value))
