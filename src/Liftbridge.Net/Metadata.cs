@@ -73,6 +73,7 @@ namespace Liftbridge.Net
             {
                 CreationTimestamp = DateTime.UnixEpoch.Add(TimeSpan.FromMilliseconds(proto.CreationTimestamp / 1_000_000)),
                 Name = proto.Name,
+                Subject=proto.Subject,
                 Partitions = ImmutableDictionary<int, PartitionInfo>.Empty
                     .AddRange(proto.Partitions.Select((partition, _) =>
                         new KeyValuePair<int, PartitionInfo>(partition.Key, PartitionInfo.FromProto(partition.Value))
