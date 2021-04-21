@@ -31,7 +31,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: StreamOptions
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Group
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: ReplicationFactor
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Partitions
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: RetentionMaxBytes
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: RetentionMaxMessages
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: RetentionMaxAge
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -252,7 +252,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: CleanerInterval
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -283,7 +283,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: SegmentMaxBytes
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: SegmentMaxAge
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: CompactMaxGoroutines
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: CompactEnabled
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: AutoPauseTime
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -438,7 +438,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: AutoPauseDisableIfSubscribers
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -469,7 +469,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: MinISR
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -500,7 +500,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: OptimisticConcurrencyControl
     path: ../src/Liftbridge.Net/StreamOptions.cs
@@ -531,7 +531,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/StreamOptions.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Request
     path: ../src/Liftbridge.Net/StreamOptions.cs

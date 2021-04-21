@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: ClientOptions
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Brokers
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: TLSCert
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: ResubscribeWaitTime
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: AckWaitTime
     path: ../src/Liftbridge.Net/ClientAsync.cs

@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: ClientAsync
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: .ctor
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: FetchMetadata
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: FetchMetadata
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: FetchPartitionMetadata
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: StreamExists
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: CreateStream
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: CreateStream
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -354,7 +354,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: DeleteStream
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: SetStreamReadonly
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -451,7 +451,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: PauseStream
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -506,7 +506,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Publish
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -557,7 +557,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: PublishAsync
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -614,7 +614,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: PublishAsync
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: PublishToSubject
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -702,7 +702,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Subscribe
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -746,7 +746,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: SetCursor
     path: ../src/Liftbridge.Net/ClientAsync.cs
@@ -789,7 +789,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/ClientAsync.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: FetchCursor
     path: ../src/Liftbridge.Net/ClientAsync.cs

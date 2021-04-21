@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/Partitioner.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: PartitionByKey
     path: ../src/Liftbridge.Net/Partitioner.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/Liftbridge.Net/Partitioner.cs
-      branch: init-docfx
+      branch: master
       repo: https://github.com/mamaar/Liftbridge.Net
     id: Partition
     path: ../src/Liftbridge.Net/Partitioner.cs
