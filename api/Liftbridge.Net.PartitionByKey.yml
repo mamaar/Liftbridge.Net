@@ -1,0 +1,334 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.PartitionByKey
+  commentId: T:Liftbridge.Net.PartitionByKey
+  id: PartitionByKey
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.PartitionByKey.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  langs:
+  - csharp
+  - vb
+  name: PartitionByKey
+  nameWithType: PartitionByKey
+  fullName: Liftbridge.Net.PartitionByKey
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/Partitioner.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PartitionByKey
+    path: ../src/Liftbridge.Net/Partitioner.cs
+    startLine: 13
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class PartitionByKey : IPartitioner'
+    content.vb: >-
+      Public Class PartitionByKey
+          Inherits IPartitioner
+  inheritance:
+  - System.Object
+  - Liftbridge.Net.IPartitioner
+  inheritedMembers:
+  - Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.PartitionByKey.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  commentId: M:Liftbridge.Net.PartitionByKey.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  id: Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  parent: Liftbridge.Net.PartitionByKey
+  langs:
+  - csharp
+  - vb
+  name: Partition(String, Byte[], Byte[], IMetadata)
+  nameWithType: PartitionByKey.Partition(String, Byte[], Byte[], IMetadata)
+  fullName: Liftbridge.Net.PartitionByKey.Partition(System.String, System.Byte[], System.Byte[], IMetadata)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/Partitioner.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Partition
+    path: ../src/Liftbridge.Net/Partitioner.cs
+    startLine: 15
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public override int Partition(string stream, byte[] key, byte[] value, IMetadata metadata)
+    parameters:
+    - id: stream
+      type: System.String
+    - id: key
+      type: System.Byte[]
+    - id: value
+      type: System.Byte[]
+    - id: metadata
+      type: IMetadata
+    return:
+      type: System.Int32
+    content.vb: Public Overrides Function Partition(stream As String, key As Byte(), value As Byte(), metadata As IMetadata) As Integer
+  overridden: Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  overload: Liftbridge.Net.PartitionByKey.Partition*
+  nameWithType.vb: PartitionByKey.Partition(String, Byte(), Byte(), IMetadata)
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+  fullName.vb: Liftbridge.Net.PartitionByKey.Partition(System.String, System.Byte(), System.Byte(), IMetadata)
+  name.vb: Partition(String, Byte(), Byte(), IMetadata)
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.IPartitioner
+  commentId: T:Liftbridge.Net.IPartitioner
+  parent: Liftbridge.Net
+  name: IPartitioner
+  nameWithType: IPartitioner
+  fullName: Liftbridge.Net.IPartitioner
+- uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+  commentId: M:Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+  parent: Liftbridge.Net.IPartitioner
+  isExternal: true
+  name: Partition(String, String, String, Metadata)
+  nameWithType: IPartitioner.Partition(String, String, String, Metadata)
+  fullName: Liftbridge.Net.IPartitioner.Partition(System.String, System.String, System.String, Metadata)
+  spec.csharp:
+  - uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+    name: Partition
+    nameWithType: IPartitioner.Partition
+    fullName: Liftbridge.Net.IPartitioner.Partition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Metadata
+    name: Metadata
+    nameWithType: Metadata
+    fullName: Metadata
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+    name: Partition
+    nameWithType: IPartitioner.Partition
+    fullName: Liftbridge.Net.IPartitioner.Partition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Metadata
+    name: Metadata
+    nameWithType: Metadata
+    fullName: Metadata
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  commentId: M:Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  parent: Liftbridge.Net.IPartitioner
+  isExternal: true
+  name: Partition(String, Byte[], Byte[], IMetadata)
+  nameWithType: IPartitioner.Partition(String, Byte[], Byte[], IMetadata)
+  fullName: Liftbridge.Net.IPartitioner.Partition(System.String, System.Byte[], System.Byte[], IMetadata)
+  nameWithType.vb: IPartitioner.Partition(String, Byte(), Byte(), IMetadata)
+  fullName.vb: Liftbridge.Net.IPartitioner.Partition(System.String, System.Byte(), System.Byte(), IMetadata)
+  name.vb: Partition(String, Byte(), Byte(), IMetadata)
+  spec.csharp:
+  - uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+    name: Partition
+    nameWithType: IPartitioner.Partition
+    fullName: Liftbridge.Net.IPartitioner.Partition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: IMetadata
+    name: IMetadata
+    nameWithType: IMetadata
+    fullName: IMetadata
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+    name: Partition
+    nameWithType: IPartitioner.Partition
+    fullName: Liftbridge.Net.IPartitioner.Partition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: IMetadata
+    name: IMetadata
+    nameWithType: IMetadata
+    fullName: IMetadata
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.PartitionByKey.Partition*
+  commentId: Overload:Liftbridge.Net.PartitionByKey.Partition
+  name: Partition
+  nameWithType: PartitionByKey.Partition
+  fullName: Liftbridge.Net.PartitionByKey.Partition
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: IMetadata
+  commentId: T:IMetadata
+  name: IMetadata
+  nameWithType: IMetadata
+  fullName: IMetadata
+- uid: System.Int32
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

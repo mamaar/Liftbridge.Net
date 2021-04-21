@@ -1,0 +1,299 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.ClientOptions
+  commentId: T:Liftbridge.Net.ClientOptions
+  id: ClientOptions
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.ClientOptions.AckWaitTime
+  - Liftbridge.Net.ClientOptions.Brokers
+  - Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  - Liftbridge.Net.ClientOptions.TLSCert
+  langs:
+  - csharp
+  - vb
+  name: ClientOptions
+  nameWithType: ClientOptions
+  fullName: Liftbridge.Net.ClientOptions
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: ClientOptions
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 15
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class ClientOptions : object'
+    content.vb: >-
+      Public Class ClientOptions
+          Inherits Object
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.ClientOptions.Brokers
+  commentId: P:Liftbridge.Net.ClientOptions.Brokers
+  id: Brokers
+  parent: Liftbridge.Net.ClientOptions
+  langs:
+  - csharp
+  - vb
+  name: Brokers
+  nameWithType: ClientOptions.Brokers
+  fullName: Liftbridge.Net.ClientOptions.Brokers
+  type: Property
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Brokers
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 17
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public IEnumerable<BrokerAddress> Brokers { get; }
+    parameters: []
+    return:
+      type: IEnumerable{BrokerAddress}
+    content.vb: Public ReadOnly Property Brokers As IEnumerable(Of BrokerAddress)
+  overload: Liftbridge.Net.ClientOptions.Brokers*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Liftbridge.Net.ClientOptions.TLSCert
+  commentId: P:Liftbridge.Net.ClientOptions.TLSCert
+  id: TLSCert
+  parent: Liftbridge.Net.ClientOptions
+  langs:
+  - csharp
+  - vb
+  name: TLSCert
+  nameWithType: ClientOptions.TLSCert
+  fullName: Liftbridge.Net.ClientOptions.TLSCert
+  type: Property
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: TLSCert
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 18
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public string TLSCert { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property TLSCert As String
+  overload: Liftbridge.Net.ClientOptions.TLSCert*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  commentId: P:Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  id: ResubscribeWaitTime
+  parent: Liftbridge.Net.ClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ResubscribeWaitTime
+  nameWithType: ClientOptions.ResubscribeWaitTime
+  fullName: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  type: Property
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: ResubscribeWaitTime
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 19
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan ResubscribeWaitTime { get; }
+    parameters: []
+    return:
+      type: TimeSpan
+    content.vb: Public ReadOnly Property ResubscribeWaitTime As TimeSpan
+  overload: Liftbridge.Net.ClientOptions.ResubscribeWaitTime*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Liftbridge.Net.ClientOptions.AckWaitTime
+  commentId: P:Liftbridge.Net.ClientOptions.AckWaitTime
+  id: AckWaitTime
+  parent: Liftbridge.Net.ClientOptions
+  langs:
+  - csharp
+  - vb
+  name: AckWaitTime
+  nameWithType: ClientOptions.AckWaitTime
+  fullName: Liftbridge.Net.ClientOptions.AckWaitTime
+  type: Property
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: AckWaitTime
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 20
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan AckWaitTime { get; }
+    parameters: []
+    return:
+      type: TimeSpan
+    content.vb: Public ReadOnly Property AckWaitTime As TimeSpan
+  overload: Liftbridge.Net.ClientOptions.AckWaitTime*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.ClientOptions.Brokers*
+  commentId: Overload:Liftbridge.Net.ClientOptions.Brokers
+  name: Brokers
+  nameWithType: ClientOptions.Brokers
+  fullName: Liftbridge.Net.ClientOptions.Brokers
+- uid: IEnumerable{BrokerAddress}
+  commentId: '!:IEnumerable{BrokerAddress}'
+  definition: IEnumerable`1
+  name: IEnumerable<BrokerAddress>
+  nameWithType: IEnumerable<BrokerAddress>
+  fullName: IEnumerable<BrokerAddress>
+  nameWithType.vb: IEnumerable(Of BrokerAddress)
+  fullName.vb: IEnumerable(Of BrokerAddress)
+  name.vb: IEnumerable(Of BrokerAddress)
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: BrokerAddress
+    name: BrokerAddress
+    nameWithType: BrokerAddress
+    fullName: BrokerAddress
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: BrokerAddress
+    name: BrokerAddress
+    nameWithType: BrokerAddress
+    fullName: BrokerAddress
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IEnumerable`1
+  isExternal: true
+  name: IEnumerable<>
+  nameWithType: IEnumerable<>
+  fullName: IEnumerable<>
+  nameWithType.vb: IEnumerable(Of )
+  fullName.vb: IEnumerable(Of )
+  name.vb: IEnumerable(Of )
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.ClientOptions.TLSCert*
+  commentId: Overload:Liftbridge.Net.ClientOptions.TLSCert
+  name: TLSCert
+  nameWithType: ClientOptions.TLSCert
+  fullName: Liftbridge.Net.ClientOptions.TLSCert
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Liftbridge.Net.ClientOptions.ResubscribeWaitTime*
+  commentId: Overload:Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  name: ResubscribeWaitTime
+  nameWithType: ClientOptions.ResubscribeWaitTime
+  fullName: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+- uid: TimeSpan
+  isExternal: true
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: TimeSpan
+- uid: Liftbridge.Net.ClientOptions.AckWaitTime*
+  commentId: Overload:Liftbridge.Net.ClientOptions.AckWaitTime
+  name: AckWaitTime
+  nameWithType: ClientOptions.AckWaitTime
+  fullName: Liftbridge.Net.ClientOptions.AckWaitTime

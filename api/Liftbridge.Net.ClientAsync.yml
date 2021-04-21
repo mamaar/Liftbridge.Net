@@ -1,0 +1,1535 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.ClientAsync
+  commentId: T:Liftbridge.Net.ClientAsync
+  id: ClientAsync
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.ClientAsync.#ctor(Liftbridge.Net.ClientOptions)
+  - Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,CancellationToken)
+  - Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  - Liftbridge.Net.ClientAsync.DeleteStream(System.String,CancellationToken)
+  - Liftbridge.Net.ClientAsync.FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  - Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  - Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable{System.String},CancellationToken)
+  - Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  - Liftbridge.Net.ClientAsync.PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  - Liftbridge.Net.ClientAsync.Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  - Liftbridge.Net.ClientAsync.PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  - Liftbridge.Net.ClientAsync.PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  - Liftbridge.Net.ClientAsync.PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  - Liftbridge.Net.ClientAsync.SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  - Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  - Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  - Liftbridge.Net.ClientAsync.Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  langs:
+  - csharp
+  - vb
+  name: ClientAsync
+  nameWithType: ClientAsync
+  fullName: Liftbridge.Net.ClientAsync
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: ClientAsync
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 23
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class ClientAsync : object'
+    content.vb: >-
+      Public Class ClientAsync
+          Inherits Object
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.ClientAsync.#ctor(Liftbridge.Net.ClientOptions)
+  commentId: M:Liftbridge.Net.ClientAsync.#ctor(Liftbridge.Net.ClientOptions)
+  id: '#ctor(Liftbridge.Net.ClientOptions)'
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: ClientAsync(ClientOptions)
+  nameWithType: ClientAsync.ClientAsync(ClientOptions)
+  fullName: Liftbridge.Net.ClientAsync.ClientAsync(Liftbridge.Net.ClientOptions)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 34
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public ClientAsync(ClientOptions opts)
+    parameters:
+    - id: opts
+      type: Liftbridge.Net.ClientOptions
+    content.vb: Public Sub New(opts As ClientOptions)
+  overload: Liftbridge.Net.ClientAsync.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  id: FetchMetadata(CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: FetchMetadata(CancellationToken)
+  nameWithType: ClientAsync.FetchMetadata(CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: FetchMetadata
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 110
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task<Metadata> FetchMetadata(CancellationToken cancellationToken = null)
+    parameters:
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task{Metadata}
+    content.vb: Public Function FetchMetadata(cancellationToken As CancellationToken = Nothing) As Task(Of Metadata)
+  overload: Liftbridge.Net.ClientAsync.FetchMetadata*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable{System.String},CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable{System.String},CancellationToken)
+  id: FetchMetadata(IEnumerable{System.String},CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: FetchMetadata(IEnumerable<String>, CancellationToken)
+  nameWithType: ClientAsync.FetchMetadata(IEnumerable<String>, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable<System.String>, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: FetchMetadata
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 115
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task<Metadata> FetchMetadata(IEnumerable<string> streams, CancellationToken cancellationToken = null)
+    parameters:
+    - id: streams
+      type: IEnumerable{System.String}
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task{Metadata}
+    content.vb: Public Function FetchMetadata(streams As IEnumerable(Of String), cancellationToken As CancellationToken = Nothing) As Task(Of Metadata)
+  overload: Liftbridge.Net.ClientAsync.FetchMetadata*
+  nameWithType.vb: ClientAsync.FetchMetadata(IEnumerable(Of String), CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable(Of System.String), CancellationToken)
+  name.vb: FetchMetadata(IEnumerable(Of String), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  id: FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: FetchPartitionMetadata(String, Int32, CancellationToken)
+  nameWithType: ClientAsync.FetchPartitionMetadata(String, Int32, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String, System.Int32, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: FetchPartitionMetadata
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 154
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task<PartitionInfo> FetchPartitionMetadata(string stream, int partition, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+    - id: partition
+      type: System.Int32
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task{PartitionInfo}
+    content.vb: Public Function FetchPartitionMetadata(stream As String, partition As Integer, cancellationToken As CancellationToken = Nothing) As Task(Of PartitionInfo)
+  overload: Liftbridge.Net.ClientAsync.FetchPartitionMetadata*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  commentId: M:Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  id: StreamExists(System.String)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: StreamExists(String)
+  nameWithType: ClientAsync.StreamExists(String)
+  fullName: Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: StreamExists
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 193
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nReturns whether a stream exists in the cluster.\nWill send a request to the server if the stream is not found in the cache.\n"
+  example: []
+  syntax:
+    content: public Task<bool> StreamExists(string stream)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    return:
+      type: Task{System.Boolean}
+      description: ''
+    content.vb: Public Function StreamExists(stream As String) As Task(Of Boolean)
+  overload: Liftbridge.Net.ClientAsync.StreamExists*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,CancellationToken)
+  id: CreateStream(System.String,System.String,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: CreateStream(String, String, CancellationToken)
+  nameWithType: ClientAsync.CreateStream(String, String, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.CreateStream(System.String, System.String, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: CreateStream
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 210
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nCreateStream creates a new stream attached to a NATS subject or set of NATS subjects.\n"
+  example: []
+  syntax:
+    content: public Task CreateStream(string stream, string subject, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: subject
+      type: System.String
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function CreateStream(stream As String, subject As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.CreateStream*
+  exceptions:
+  - type: Liftbridge.Net.StreamAlreadyExistsException
+    commentId: T:Liftbridge.Net.StreamAlreadyExistsException
+    description: Thrown when a stream with the given name already exists.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  id: CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: CreateStream(String, String, StreamOptions, CancellationToken)
+  nameWithType: ClientAsync.CreateStream(String, String, StreamOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.CreateStream(System.String, System.String, Liftbridge.Net.StreamOptions, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: CreateStream
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 225
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nCreateStream creates a new stream attached to a NATS subject or set of NATS subjects.\n"
+  example: []
+  syntax:
+    content: public Task CreateStream(string stream, string subject, StreamOptions streamOptions, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: subject
+      type: System.String
+      description: ''
+    - id: streamOptions
+      type: Liftbridge.Net.StreamOptions
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function CreateStream(stream As String, subject As String, streamOptions As StreamOptions, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.CreateStream*
+  exceptions:
+  - type: Liftbridge.Net.StreamAlreadyExistsException
+    commentId: T:Liftbridge.Net.StreamAlreadyExistsException
+    description: Thrown when a stream with the given name already exists.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.DeleteStream(System.String,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.DeleteStream(System.String,CancellationToken)
+  id: DeleteStream(System.String,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: DeleteStream(String, CancellationToken)
+  nameWithType: ClientAsync.DeleteStream(String, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.DeleteStream(System.String, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: DeleteStream
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 255
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nDeleteStream deletes a stream and all of its partitions. This will remove any data stored on disk for the stream and all of its partitions.\n"
+  example: []
+  syntax:
+    content: public Task DeleteStream(string stream, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function DeleteStream(stream As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.DeleteStream*
+  exceptions:
+  - type: Liftbridge.Net.StreamNotExistsException
+    commentId: T:Liftbridge.Net.StreamNotExistsException
+    description: Thrown when a stream with the given name does not exist.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  id: SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: SetStreamReadonly(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  nameWithType: ClientAsync.SetStreamReadonly(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String, IEnumerable<System.Int32>, System.Boolean, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: SetStreamReadonly
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 286
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nSetStreamReadonly sets some or all of a stream&apos;s partitions as readonly or readwrite.\n"
+  example: []
+  syntax:
+    content: public Task SetStreamReadonly(string stream, IEnumerable<int> partitions = null, bool isReadOnly = true, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: partitions
+      type: IEnumerable{System.Int32}
+      description: ''
+    - id: isReadOnly
+      type: System.Boolean
+      description: Whether the stream partitions should be readonly or not.
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function SetStreamReadonly(stream As String, partitions As IEnumerable(Of Integer) = Nothing, isReadOnly As Boolean = True, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.SetStreamReadonly*
+  nameWithType.vb: ClientAsync.SetStreamReadonly(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String, IEnumerable(Of System.Int32), System.Boolean, CancellationToken)
+  name.vb: SetStreamReadonly(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  id: PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: PauseStream(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  nameWithType: ClientAsync.PauseStream(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PauseStream(System.String, IEnumerable<System.Int32>, System.Boolean, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PauseStream
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 319
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nPauseStream pauses some or all of a stream&apos;s partitions.\n"
+  example: []
+  syntax:
+    content: public Task PauseStream(string stream, IEnumerable<int> partitions = null, bool resumeAll = false, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: partitions
+      type: IEnumerable{System.Int32}
+      description: ''
+    - id: resumeAll
+      type: System.Boolean
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function PauseStream(stream As String, partitions As IEnumerable(Of Integer) = Nothing, resumeAll As Boolean = False, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.PauseStream*
+  exceptions:
+  - type: Liftbridge.Net.StreamNotExistsException
+    commentId: T:Liftbridge.Net.StreamNotExistsException
+    description: Thrown when a stream with the given name does not exist.
+  nameWithType.vb: ClientAsync.PauseStream(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.PauseStream(System.String, IEnumerable(Of System.Int32), System.Boolean, CancellationToken)
+  name.vb: PauseStream(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  id: Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: Publish(String, Byte[], MessageOptions, CancellationToken)
+  nameWithType: ClientAsync.Publish(String, Byte[], MessageOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.Publish(System.String, System.Byte[], MessageOptions, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Publish
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 356
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nPublish sends a message to a Liftbridge stream.\nPublish is a synchronous operation, meaning when it returns, the message has been successfully published.\nPublish can also be configured to block until a message acknowledgement (ack) is returned from the cluster. \nThis is useful for ensuring a message has been stored and replicated, guaranteeing at-least-once delivery. \nThe default ack policy is Leader, meaning the ack is sent once the partition leader has stored the message.\n"
+  example: []
+  syntax:
+    content: public Task<Proto.Ack> Publish(string stream, byte[] value, MessageOptions opts, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: value
+      type: System.Byte[]
+      description: ''
+    - id: opts
+      type: MessageOptions
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task{Proto.Ack}
+      description: Returns the ack, or null if AckPolicy is set to None.
+    content.vb: Public Function Publish(stream As String, value As Byte(), opts As MessageOptions, cancellationToken As CancellationToken = Nothing) As Task(Of Proto.Ack)
+  overload: Liftbridge.Net.ClientAsync.Publish*
+  nameWithType.vb: ClientAsync.Publish(String, Byte(), MessageOptions, CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.Publish(System.String, System.Byte(), MessageOptions, CancellationToken)
+  name.vb: Publish(String, Byte(), MessageOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  id: PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: PublishAsync(String, Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  nameWithType: ClientAsync.PublishAsync(String, Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync(System.String, System.Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PublishAsync
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 386
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nPublishAsync sends a message to a Liftbridge stream asynchronously. This is similar to <code>Publish</code>, but rather than waiting for the ack, it dispatches the ack with an ack handler callback.\n"
+  example: []
+  syntax:
+    content: public Task PublishAsync(string stream, byte[] value, MessageOptions opts, Action<Proto.PublishResponse> ackHandler, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: value
+      type: System.Byte[]
+      description: ''
+    - id: opts
+      type: MessageOptions
+    - id: ackHandler
+      type: Action{Proto.PublishResponse}
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: Task
+      description: ''
+    content.vb: Public Function PublishAsync(stream As String, value As Byte(), opts As MessageOptions, ackHandler As Action(Of Proto.PublishResponse), cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.PublishAsync*
+  exceptions:
+  - type: Liftbridge.Net.ReadOnlyException
+    commentId: T:Liftbridge.Net.ReadOnlyException
+    description: Thrown when the stream partition is set to readonly.
+  nameWithType.vb: ClientAsync.PublishAsync(String, Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishAsync(System.String, System.Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  name.vb: PublishAsync(String, Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  id: PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  nameWithType: ClientAsync.PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PublishAsync
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 397
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task PublishAsync(Message message, MessageOptions opts, Action<Proto.PublishResponse> ackHandler, CancellationToken cancellationToken = null)
+    parameters:
+    - id: message
+      type: Message
+    - id: opts
+      type: MessageOptions
+    - id: ackHandler
+      type: Action{Proto.PublishResponse}
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task
+    content.vb: Public Function PublishAsync(message As Message, opts As MessageOptions, ackHandler As Action(Of Proto.PublishResponse), cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.PublishAsync*
+  nameWithType.vb: ClientAsync.PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  name.vb: PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  id: PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: PublishToSubject(String, Byte[], MessageOptions, CancellationToken)
+  nameWithType: ClientAsync.PublishToSubject(String, Byte[], MessageOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishToSubject(System.String, System.Byte[], MessageOptions, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PublishToSubject
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 448
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task PublishToSubject(string subject, byte[] value, MessageOptions opts, CancellationToken cancellationToken = null)
+    parameters:
+    - id: subject
+      type: System.String
+    - id: value
+      type: System.Byte[]
+    - id: opts
+      type: MessageOptions
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task
+    content.vb: Public Function PublishToSubject(subject As String, value As Byte(), opts As MessageOptions, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.PublishToSubject*
+  nameWithType.vb: ClientAsync.PublishToSubject(String, Byte(), MessageOptions, CancellationToken)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishToSubject(System.String, System.Byte(), MessageOptions, CancellationToken)
+  name.vb: PublishToSubject(String, Byte(), MessageOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  id: Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: Subscribe(String, SubscriptionOptions, CancellationToken)
+  nameWithType: ClientAsync.Subscribe(String, SubscriptionOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.Subscribe(System.String, SubscriptionOptions, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Subscribe
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 474
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  summary: "\nSubscribe is used to consume streams.\n"
+  example: []
+  syntax:
+    content: public IAsyncEnumerable<Message> Subscribe(string stream, SubscriptionOptions opts, CancellationToken cancellationToken = null)
+    parameters:
+    - id: stream
+      type: System.String
+      description: ''
+    - id: opts
+      type: SubscriptionOptions
+      description: ''
+    - id: cancellationToken
+      type: CancellationToken
+      description: ''
+    return:
+      type: IAsyncEnumerable{Message}
+    content.vb: Public Function Subscribe(stream As String, opts As SubscriptionOptions, cancellationToken As CancellationToken = Nothing) As IAsyncEnumerable(Of Message)
+  overload: Liftbridge.Net.ClientAsync.Subscribe*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  id: SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: SetCursor(String, String, Int32, Int64, CancellationToken)
+  nameWithType: ClientAsync.SetCursor(String, String, Int32, Int64, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.SetCursor(System.String, System.String, System.Int32, System.Int64, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: SetCursor
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 553
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = null)
+    parameters:
+    - id: cursorId
+      type: System.String
+    - id: stream
+      type: System.String
+    - id: partition
+      type: System.Int32
+    - id: offset
+      type: System.Int64
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task
+    content.vb: Public Function SetCursor(cursorId As String, stream As String, partition As Integer, offset As Long, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Liftbridge.Net.ClientAsync.SetCursor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ClientAsync.FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  commentId: M:Liftbridge.Net.ClientAsync.FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  id: FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  parent: Liftbridge.Net.ClientAsync
+  langs:
+  - csharp
+  - vb
+  name: FetchCursor(String, String, Int32, CancellationToken)
+  nameWithType: ClientAsync.FetchCursor(String, String, Int32, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchCursor(System.String, System.String, System.Int32, CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/ClientAsync.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: FetchCursor
+    path: ../src/Liftbridge.Net/ClientAsync.cs
+    startLine: 572
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Task<long> FetchCursor(string cursorId, string stream, int partition, CancellationToken cancellationToken = null)
+    parameters:
+    - id: cursorId
+      type: System.String
+    - id: stream
+      type: System.String
+    - id: partition
+      type: System.Int32
+    - id: cancellationToken
+      type: CancellationToken
+    return:
+      type: Task{System.Int64}
+    content.vb: Public Function FetchCursor(cursorId As String, stream As String, partition As Integer, cancellationToken As CancellationToken = Nothing) As Task(Of Long)
+  overload: Liftbridge.Net.ClientAsync.FetchCursor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.ClientAsync.#ctor*
+  commentId: Overload:Liftbridge.Net.ClientAsync.#ctor
+  name: ClientAsync
+  nameWithType: ClientAsync.ClientAsync
+  fullName: Liftbridge.Net.ClientAsync.ClientAsync
+- uid: Liftbridge.Net.ClientOptions
+  commentId: T:Liftbridge.Net.ClientOptions
+  parent: Liftbridge.Net
+  name: ClientOptions
+  nameWithType: ClientOptions
+  fullName: Liftbridge.Net.ClientOptions
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata*
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchMetadata
+  name: FetchMetadata
+  nameWithType: ClientAsync.FetchMetadata
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata
+- uid: CancellationToken
+  isExternal: true
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: CancellationToken
+- uid: Task{Metadata}
+  commentId: '!:Task{Metadata}'
+  definition: Task`1
+  name: Task<Metadata>
+  nameWithType: Task<Metadata>
+  fullName: Task<Metadata>
+  nameWithType.vb: Task(Of Metadata)
+  fullName.vb: Task(Of Metadata)
+  name.vb: Task(Of Metadata)
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Metadata
+    name: Metadata
+    nameWithType: Metadata
+    fullName: Metadata
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Metadata
+    name: Metadata
+    nameWithType: Metadata
+    fullName: Metadata
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Task`1
+  isExternal: true
+  name: Task<>
+  nameWithType: Task<>
+  fullName: Task<>
+  nameWithType.vb: Task(Of )
+  fullName.vb: Task(Of )
+  name.vb: Task(Of )
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IEnumerable{System.String}
+  commentId: '!:IEnumerable{System.String}'
+  definition: IEnumerable`1
+  name: IEnumerable<String>
+  nameWithType: IEnumerable<String>
+  fullName: IEnumerable<System.String>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: IEnumerable(Of System.String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IEnumerable`1
+  isExternal: true
+  name: IEnumerable<>
+  nameWithType: IEnumerable<>
+  fullName: IEnumerable<>
+  nameWithType.vb: IEnumerable(Of )
+  fullName.vb: IEnumerable(Of )
+  name.vb: IEnumerable(Of )
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.ClientAsync.FetchPartitionMetadata*
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchPartitionMetadata
+  name: FetchPartitionMetadata
+  nameWithType: ClientAsync.FetchPartitionMetadata
+  fullName: Liftbridge.Net.ClientAsync.FetchPartitionMetadata
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Int32
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Task{PartitionInfo}
+  commentId: '!:Task{PartitionInfo}'
+  definition: Task`1
+  name: Task<PartitionInfo>
+  nameWithType: Task<PartitionInfo>
+  fullName: Task<PartitionInfo>
+  nameWithType.vb: Task(Of PartitionInfo)
+  fullName.vb: Task(Of PartitionInfo)
+  name.vb: Task(Of PartitionInfo)
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PartitionInfo
+    name: PartitionInfo
+    nameWithType: PartitionInfo
+    fullName: PartitionInfo
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PartitionInfo
+    name: PartitionInfo
+    nameWithType: PartitionInfo
+    fullName: PartitionInfo
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.ClientAsync.StreamExists*
+  commentId: Overload:Liftbridge.Net.ClientAsync.StreamExists
+  name: StreamExists
+  nameWithType: ClientAsync.StreamExists
+  fullName: Liftbridge.Net.ClientAsync.StreamExists
+- uid: Task{System.Boolean}
+  commentId: '!:Task{System.Boolean}'
+  definition: Task`1
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: Task<System.Boolean>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: Task(Of System.Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.StreamAlreadyExistsException
+  commentId: T:Liftbridge.Net.StreamAlreadyExistsException
+  name: StreamAlreadyExistsException
+  nameWithType: StreamAlreadyExistsException
+  fullName: Liftbridge.Net.StreamAlreadyExistsException
+- uid: Liftbridge.Net.ClientAsync.CreateStream*
+  commentId: Overload:Liftbridge.Net.ClientAsync.CreateStream
+  name: CreateStream
+  nameWithType: ClientAsync.CreateStream
+  fullName: Liftbridge.Net.ClientAsync.CreateStream
+- uid: Task
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: Task
+- uid: Liftbridge.Net.StreamOptions
+  commentId: T:Liftbridge.Net.StreamOptions
+  parent: Liftbridge.Net
+  name: StreamOptions
+  nameWithType: StreamOptions
+  fullName: Liftbridge.Net.StreamOptions
+- uid: Liftbridge.Net.StreamNotExistsException
+  commentId: T:Liftbridge.Net.StreamNotExistsException
+  name: StreamNotExistsException
+  nameWithType: StreamNotExistsException
+  fullName: Liftbridge.Net.StreamNotExistsException
+- uid: Liftbridge.Net.ClientAsync.DeleteStream*
+  commentId: Overload:Liftbridge.Net.ClientAsync.DeleteStream
+  name: DeleteStream
+  nameWithType: ClientAsync.DeleteStream
+  fullName: Liftbridge.Net.ClientAsync.DeleteStream
+- uid: Liftbridge.Net.ClientAsync.SetStreamReadonly*
+  commentId: Overload:Liftbridge.Net.ClientAsync.SetStreamReadonly
+  name: SetStreamReadonly
+  nameWithType: ClientAsync.SetStreamReadonly
+  fullName: Liftbridge.Net.ClientAsync.SetStreamReadonly
+- uid: IEnumerable{System.Int32}
+  commentId: '!:IEnumerable{System.Int32}'
+  definition: IEnumerable`1
+  name: IEnumerable<Int32>
+  nameWithType: IEnumerable<Int32>
+  fullName: IEnumerable<System.Int32>
+  nameWithType.vb: IEnumerable(Of Int32)
+  fullName.vb: IEnumerable(Of System.Int32)
+  name.vb: IEnumerable(Of Int32)
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Boolean
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Liftbridge.Net.ClientAsync.PauseStream*
+  commentId: Overload:Liftbridge.Net.ClientAsync.PauseStream
+  name: PauseStream
+  nameWithType: ClientAsync.PauseStream
+  fullName: Liftbridge.Net.ClientAsync.PauseStream
+- uid: Liftbridge.Net.ClientAsync.Publish*
+  commentId: Overload:Liftbridge.Net.ClientAsync.Publish
+  name: Publish
+  nameWithType: ClientAsync.Publish
+  fullName: Liftbridge.Net.ClientAsync.Publish
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: MessageOptions
+  isExternal: true
+  name: MessageOptions
+  nameWithType: MessageOptions
+  fullName: MessageOptions
+- uid: Task{Proto.Ack}
+  commentId: '!:Task{Proto.Ack}'
+  definition: Task`1
+  name: Task<Proto.Ack>
+  nameWithType: Task<Proto.Ack>
+  fullName: Task<Proto.Ack>
+  nameWithType.vb: Task(Of Proto.Ack)
+  fullName.vb: Task(Of Proto.Ack)
+  name.vb: Task(Of Proto.Ack)
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Proto.Ack
+    name: Proto.Ack
+    nameWithType: Proto.Ack
+    fullName: Proto.Ack
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Proto.Ack
+    name: Proto.Ack
+    nameWithType: Proto.Ack
+    fullName: Proto.Ack
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.ReadOnlyException
+  commentId: T:Liftbridge.Net.ReadOnlyException
+  name: ReadOnlyException
+  nameWithType: ReadOnlyException
+  fullName: Liftbridge.Net.ReadOnlyException
+- uid: Liftbridge.Net.ClientAsync.PublishAsync*
+  commentId: Overload:Liftbridge.Net.ClientAsync.PublishAsync
+  name: PublishAsync
+  nameWithType: ClientAsync.PublishAsync
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync
+- uid: Action{Proto.PublishResponse}
+  commentId: '!:Action{Proto.PublishResponse}'
+  definition: Action`1
+  name: Action<Proto.PublishResponse>
+  nameWithType: Action<Proto.PublishResponse>
+  fullName: Action<Proto.PublishResponse>
+  nameWithType.vb: Action(Of Proto.PublishResponse)
+  fullName.vb: Action(Of Proto.PublishResponse)
+  name.vb: Action(Of Proto.PublishResponse)
+  spec.csharp:
+  - uid: Action`1
+    name: Action
+    nameWithType: Action
+    fullName: Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Proto.PublishResponse
+    name: Proto.PublishResponse
+    nameWithType: Proto.PublishResponse
+    fullName: Proto.PublishResponse
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Action`1
+    name: Action
+    nameWithType: Action
+    fullName: Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Proto.PublishResponse
+    name: Proto.PublishResponse
+    nameWithType: Proto.PublishResponse
+    fullName: Proto.PublishResponse
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Action`1
+  isExternal: true
+  name: Action<>
+  nameWithType: Action<>
+  fullName: Action<>
+  nameWithType.vb: Action(Of )
+  fullName.vb: Action(Of )
+  name.vb: Action(Of )
+  spec.csharp:
+  - uid: Action`1
+    name: Action
+    nameWithType: Action
+    fullName: Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Action`1
+    name: Action
+    nameWithType: Action
+    fullName: Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Message
+  commentId: '!:Message'
+  isExternal: true
+  name: Message
+  nameWithType: Message
+  fullName: Message
+- uid: Liftbridge.Net.ClientAsync.PublishToSubject*
+  commentId: Overload:Liftbridge.Net.ClientAsync.PublishToSubject
+  name: PublishToSubject
+  nameWithType: ClientAsync.PublishToSubject
+  fullName: Liftbridge.Net.ClientAsync.PublishToSubject
+- uid: Liftbridge.Net.ClientAsync.Subscribe*
+  commentId: Overload:Liftbridge.Net.ClientAsync.Subscribe
+  name: Subscribe
+  nameWithType: ClientAsync.Subscribe
+  fullName: Liftbridge.Net.ClientAsync.Subscribe
+- uid: SubscriptionOptions
+  commentId: '!:SubscriptionOptions'
+  isExternal: true
+  name: SubscriptionOptions
+  nameWithType: SubscriptionOptions
+  fullName: SubscriptionOptions
+- uid: IAsyncEnumerable{Message}
+  commentId: '!:IAsyncEnumerable{Message}'
+  definition: IAsyncEnumerable`1
+  name: IAsyncEnumerable<Message>
+  nameWithType: IAsyncEnumerable<Message>
+  fullName: IAsyncEnumerable<Message>
+  nameWithType.vb: IAsyncEnumerable(Of Message)
+  fullName.vb: IAsyncEnumerable(Of Message)
+  name.vb: IAsyncEnumerable(Of Message)
+  spec.csharp:
+  - uid: IAsyncEnumerable`1
+    name: IAsyncEnumerable
+    nameWithType: IAsyncEnumerable
+    fullName: IAsyncEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Message
+    name: Message
+    nameWithType: Message
+    fullName: Message
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IAsyncEnumerable`1
+    name: IAsyncEnumerable
+    nameWithType: IAsyncEnumerable
+    fullName: IAsyncEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Message
+    name: Message
+    nameWithType: Message
+    fullName: Message
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IAsyncEnumerable`1
+  commentId: '!:IAsyncEnumerable`1'
+  isExternal: true
+  name: IAsyncEnumerable<>
+  nameWithType: IAsyncEnumerable<>
+  fullName: IAsyncEnumerable<>
+  nameWithType.vb: IAsyncEnumerable(Of )
+  fullName.vb: IAsyncEnumerable(Of )
+  name.vb: IAsyncEnumerable(Of )
+  spec.csharp:
+  - uid: IAsyncEnumerable`1
+    name: IAsyncEnumerable
+    nameWithType: IAsyncEnumerable
+    fullName: IAsyncEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IAsyncEnumerable`1
+    name: IAsyncEnumerable
+    nameWithType: IAsyncEnumerable
+    fullName: IAsyncEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.ClientAsync.SetCursor*
+  commentId: Overload:Liftbridge.Net.ClientAsync.SetCursor
+  name: SetCursor
+  nameWithType: ClientAsync.SetCursor
+  fullName: Liftbridge.Net.ClientAsync.SetCursor
+- uid: System.Int64
+  commentId: '!:System.Int64'
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: Liftbridge.Net.ClientAsync.FetchCursor*
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchCursor
+  name: FetchCursor
+  nameWithType: ClientAsync.FetchCursor
+  fullName: Liftbridge.Net.ClientAsync.FetchCursor
+- uid: Task{System.Int64}
+  commentId: '!:Task{System.Int64}'
+  definition: Task`1
+  name: Task<Int64>
+  nameWithType: Task<Int64>
+  fullName: Task<System.Int64>
+  nameWithType.vb: Task(Of Int64)
+  fullName.vb: Task(Of System.Int64)
+  name.vb: Task(Of Int64)
+  spec.csharp:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Task`1
+    name: Task
+    nameWithType: Task
+    fullName: Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )

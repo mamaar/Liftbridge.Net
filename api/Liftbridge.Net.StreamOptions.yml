@@ -1,0 +1,788 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.StreamOptions
+  commentId: T:Liftbridge.Net.StreamOptions
+  id: StreamOptions
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  - Liftbridge.Net.StreamOptions.AutoPauseTime
+  - Liftbridge.Net.StreamOptions.CleanerInterval
+  - Liftbridge.Net.StreamOptions.CompactEnabled
+  - Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  - Liftbridge.Net.StreamOptions.Group
+  - Liftbridge.Net.StreamOptions.MinISR
+  - Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  - Liftbridge.Net.StreamOptions.Partitions
+  - Liftbridge.Net.StreamOptions.ReplicationFactor
+  - Liftbridge.Net.StreamOptions.Request
+  - Liftbridge.Net.StreamOptions.RetentionMaxAge
+  - Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  - Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  - Liftbridge.Net.StreamOptions.SegmentMaxAge
+  - Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  langs:
+  - csharp
+  - vb
+  name: StreamOptions
+  nameWithType: StreamOptions
+  fullName: Liftbridge.Net.StreamOptions
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: StreamOptions
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 4
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class StreamOptions : object'
+    content.vb: >-
+      Public Class StreamOptions
+          Inherits Object
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.StreamOptions.Group
+  commentId: F:Liftbridge.Net.StreamOptions.Group
+  id: Group
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: Group
+  nameWithType: StreamOptions.Group
+  fullName: Liftbridge.Net.StreamOptions.Group
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Group
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 7
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public string Group
+    return:
+      type: System.String
+    content.vb: Public Group As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.ReplicationFactor
+  commentId: F:Liftbridge.Net.StreamOptions.ReplicationFactor
+  id: ReplicationFactor
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: ReplicationFactor
+  nameWithType: StreamOptions.ReplicationFactor
+  fullName: Liftbridge.Net.StreamOptions.ReplicationFactor
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: ReplicationFactor
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 8
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public int ReplicationFactor
+    return:
+      type: System.Int32
+    content.vb: Public ReplicationFactor As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.Partitions
+  commentId: F:Liftbridge.Net.StreamOptions.Partitions
+  id: Partitions
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: Partitions
+  nameWithType: StreamOptions.Partitions
+  fullName: Liftbridge.Net.StreamOptions.Partitions
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Partitions
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 9
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public int Partitions
+    return:
+      type: System.Int32
+    content.vb: Public Partitions As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  id: RetentionMaxBytes
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: RetentionMaxBytes
+  nameWithType: StreamOptions.RetentionMaxBytes
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: RetentionMaxBytes
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 10
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public long? RetentionMaxBytes
+    return:
+      type: System.Nullable{System.Int64}
+    content.vb: Public RetentionMaxBytes As Long?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  id: RetentionMaxMessages
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: RetentionMaxMessages
+  nameWithType: StreamOptions.RetentionMaxMessages
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: RetentionMaxMessages
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 11
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public long? RetentionMaxMessages
+    return:
+      type: System.Nullable{System.Int64}
+    content.vb: Public RetentionMaxMessages As Long?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxAge
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxAge
+  id: RetentionMaxAge
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: RetentionMaxAge
+  nameWithType: StreamOptions.RetentionMaxAge
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxAge
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: RetentionMaxAge
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 12
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan? RetentionMaxAge
+    return:
+      type: System.Nullable{TimeSpan}
+    content.vb: Public RetentionMaxAge As TimeSpan?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.CleanerInterval
+  commentId: F:Liftbridge.Net.StreamOptions.CleanerInterval
+  id: CleanerInterval
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: CleanerInterval
+  nameWithType: StreamOptions.CleanerInterval
+  fullName: Liftbridge.Net.StreamOptions.CleanerInterval
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: CleanerInterval
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 13
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan? CleanerInterval
+    return:
+      type: System.Nullable{TimeSpan}
+    content.vb: Public CleanerInterval As TimeSpan?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  commentId: F:Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  id: SegmentMaxBytes
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: SegmentMaxBytes
+  nameWithType: StreamOptions.SegmentMaxBytes
+  fullName: Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: SegmentMaxBytes
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 14
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public long? SegmentMaxBytes
+    return:
+      type: System.Nullable{System.Int64}
+    content.vb: Public SegmentMaxBytes As Long?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.SegmentMaxAge
+  commentId: F:Liftbridge.Net.StreamOptions.SegmentMaxAge
+  id: SegmentMaxAge
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: SegmentMaxAge
+  nameWithType: StreamOptions.SegmentMaxAge
+  fullName: Liftbridge.Net.StreamOptions.SegmentMaxAge
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: SegmentMaxAge
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 15
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan? SegmentMaxAge
+    return:
+      type: System.Nullable{TimeSpan}
+    content.vb: Public SegmentMaxAge As TimeSpan?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  commentId: F:Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  id: CompactMaxGoroutines
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: CompactMaxGoroutines
+  nameWithType: StreamOptions.CompactMaxGoroutines
+  fullName: Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: CompactMaxGoroutines
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 16
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public int? CompactMaxGoroutines
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public CompactMaxGoroutines As Integer?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.CompactEnabled
+  commentId: F:Liftbridge.Net.StreamOptions.CompactEnabled
+  id: CompactEnabled
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: CompactEnabled
+  nameWithType: StreamOptions.CompactEnabled
+  fullName: Liftbridge.Net.StreamOptions.CompactEnabled
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: CompactEnabled
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 17
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public bool? CompactEnabled
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public CompactEnabled As Boolean?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.AutoPauseTime
+  commentId: F:Liftbridge.Net.StreamOptions.AutoPauseTime
+  id: AutoPauseTime
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: AutoPauseTime
+  nameWithType: StreamOptions.AutoPauseTime
+  fullName: Liftbridge.Net.StreamOptions.AutoPauseTime
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: AutoPauseTime
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 18
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public TimeSpan? AutoPauseTime
+    return:
+      type: System.Nullable{TimeSpan}
+    content.vb: Public AutoPauseTime As TimeSpan?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  commentId: F:Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  id: AutoPauseDisableIfSubscribers
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: AutoPauseDisableIfSubscribers
+  nameWithType: StreamOptions.AutoPauseDisableIfSubscribers
+  fullName: Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: AutoPauseDisableIfSubscribers
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 19
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public bool? AutoPauseDisableIfSubscribers
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public AutoPauseDisableIfSubscribers As Boolean?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.MinISR
+  commentId: F:Liftbridge.Net.StreamOptions.MinISR
+  id: MinISR
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: MinISR
+  nameWithType: StreamOptions.MinISR
+  fullName: Liftbridge.Net.StreamOptions.MinISR
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: MinISR
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 20
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public int? MinISR
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public MinISR As Integer?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  commentId: F:Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  id: OptimisticConcurrencyControl
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: OptimisticConcurrencyControl
+  nameWithType: StreamOptions.OptimisticConcurrencyControl
+  fullName: Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  type: Field
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: OptimisticConcurrencyControl
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 21
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public bool? OptimisticConcurrencyControl
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public OptimisticConcurrencyControl As Boolean?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamOptions.Request
+  commentId: M:Liftbridge.Net.StreamOptions.Request
+  id: Request
+  parent: Liftbridge.Net.StreamOptions
+  langs:
+  - csharp
+  - vb
+  name: Request()
+  nameWithType: StreamOptions.Request()
+  fullName: Liftbridge.Net.StreamOptions.Request()
+  type: Method
+  source:
+    remote:
+      path: src/Liftbridge.Net/StreamOptions.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: Request
+    path: ../src/Liftbridge.Net/StreamOptions.cs
+    startLine: 23
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public Proto.CreateStreamRequest Request()
+    return:
+      type: Proto.CreateStreamRequest
+    content.vb: Public Function Request As Proto.CreateStreamRequest
+  overload: Liftbridge.Net.StreamOptions.Request*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Int32
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Nullable{System.Int64}
+  commentId: '!:System.Nullable{System.Int64}'
+  definition: System.Nullable`1
+  name: Nullable<Int64>
+  nameWithType: Nullable<Int64>
+  fullName: System.Nullable<System.Int64>
+  nameWithType.vb: Nullable(Of Int64)
+  fullName.vb: System.Nullable(Of System.Int64)
+  name.vb: Nullable(Of Int64)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  isExternal: true
+  name: Nullable<>
+  nameWithType: Nullable<>
+  fullName: System.Nullable<>
+  nameWithType.vb: Nullable(Of )
+  fullName.vb: System.Nullable(Of )
+  name.vb: Nullable(Of )
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{TimeSpan}
+  commentId: '!:System.Nullable{TimeSpan}'
+  definition: System.Nullable`1
+  name: Nullable<TimeSpan>
+  nameWithType: Nullable<TimeSpan>
+  fullName: System.Nullable<TimeSpan>
+  nameWithType.vb: Nullable(Of TimeSpan)
+  fullName.vb: System.Nullable(Of TimeSpan)
+  name.vb: Nullable(Of TimeSpan)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: TimeSpan
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: TimeSpan
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{System.Int32}
+  commentId: '!:System.Nullable{System.Int32}'
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{System.Boolean}
+  commentId: '!:System.Nullable{System.Boolean}'
+  definition: System.Nullable`1
+  name: Nullable<Boolean>
+  nameWithType: Nullable<Boolean>
+  fullName: System.Nullable<System.Boolean>
+  nameWithType.vb: Nullable(Of Boolean)
+  fullName.vb: System.Nullable(Of System.Boolean)
+  name.vb: Nullable(Of Boolean)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Liftbridge.Net.StreamOptions.Request*
+  commentId: Overload:Liftbridge.Net.StreamOptions.Request
+  name: Request
+  nameWithType: StreamOptions.Request
+  fullName: Liftbridge.Net.StreamOptions.Request
+- uid: Proto.CreateStreamRequest
+  commentId: '!:Proto.CreateStreamRequest'
+  isExternal: true
+  name: Proto.CreateStreamRequest
+  nameWithType: Proto.CreateStreamRequest
+  fullName: Proto.CreateStreamRequest

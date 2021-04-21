@@ -1,0 +1,167 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.EndOfReadonlyException
+  commentId: T:Liftbridge.Net.EndOfReadonlyException
+  id: EndOfReadonlyException
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.EndOfReadonlyException.#ctor
+  - Liftbridge.Net.EndOfReadonlyException.#ctor(System.String)
+  - Liftbridge.Net.EndOfReadonlyException.#ctor(System.String,Exception)
+  langs:
+  - csharp
+  - vb
+  name: EndOfReadonlyException
+  nameWithType: EndOfReadonlyException
+  fullName: Liftbridge.Net.EndOfReadonlyException
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: EndOfReadonlyException
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 55
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class EndOfReadonlyException : LiftbridgeException'
+    content.vb: >-
+      Public Class EndOfReadonlyException
+          Inherits LiftbridgeException
+  inheritance:
+  - System.Object
+  - Liftbridge.Net.LiftbridgeException
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor
+  id: '#ctor'
+  parent: Liftbridge.Net.EndOfReadonlyException
+  langs:
+  - csharp
+  - vb
+  name: EndOfReadonlyException()
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException()
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException()
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 57
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public EndOfReadonlyException()
+    content.vb: Public Sub New
+  overload: Liftbridge.Net.EndOfReadonlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor(System.String)
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Liftbridge.Net.EndOfReadonlyException
+  langs:
+  - csharp
+  - vb
+  name: EndOfReadonlyException(String)
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException(String)
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 58
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public EndOfReadonlyException(string message)
+    parameters:
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(message As String)
+  overload: Liftbridge.Net.EndOfReadonlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor(System.String,Exception)
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor(System.String,Exception)
+  id: '#ctor(System.String,Exception)'
+  parent: Liftbridge.Net.EndOfReadonlyException
+  langs:
+  - csharp
+  - vb
+  name: EndOfReadonlyException(String, Exception)
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException(String, Exception)
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException(System.String, Exception)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 59
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public EndOfReadonlyException(string message, Exception inner)
+    parameters:
+    - id: message
+      type: System.String
+    - id: inner
+      type: Exception
+    content.vb: Public Sub New(message As String, inner As Exception)
+  overload: Liftbridge.Net.EndOfReadonlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.LiftbridgeException
+  commentId: T:Liftbridge.Net.LiftbridgeException
+  parent: Liftbridge.Net
+  name: LiftbridgeException
+  nameWithType: LiftbridgeException
+  fullName: Liftbridge.Net.LiftbridgeException
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor*
+  commentId: Overload:Liftbridge.Net.EndOfReadonlyException.#ctor
+  name: EndOfReadonlyException
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Exception
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: Exception

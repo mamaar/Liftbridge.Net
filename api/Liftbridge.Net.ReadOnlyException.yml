@@ -1,0 +1,167 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.ReadOnlyException
+  commentId: T:Liftbridge.Net.ReadOnlyException
+  id: ReadOnlyException
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.ReadOnlyException.#ctor
+  - Liftbridge.Net.ReadOnlyException.#ctor(System.String)
+  - Liftbridge.Net.ReadOnlyException.#ctor(System.String,Exception)
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyException
+  nameWithType: ReadOnlyException
+  fullName: Liftbridge.Net.ReadOnlyException
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: ReadOnlyException
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 67
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class ReadOnlyException : LiftbridgeException'
+    content.vb: >-
+      Public Class ReadOnlyException
+          Inherits LiftbridgeException
+  inheritance:
+  - System.Object
+  - Liftbridge.Net.LiftbridgeException
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.ReadOnlyException.#ctor
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor
+  id: '#ctor'
+  parent: Liftbridge.Net.ReadOnlyException
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyException()
+  nameWithType: ReadOnlyException.ReadOnlyException()
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException()
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 69
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public ReadOnlyException()
+    content.vb: Public Sub New
+  overload: Liftbridge.Net.ReadOnlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ReadOnlyException.#ctor(System.String)
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Liftbridge.Net.ReadOnlyException
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyException(String)
+  nameWithType: ReadOnlyException.ReadOnlyException(String)
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 70
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public ReadOnlyException(string message)
+    parameters:
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(message As String)
+  overload: Liftbridge.Net.ReadOnlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.ReadOnlyException.#ctor(System.String,Exception)
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor(System.String,Exception)
+  id: '#ctor(System.String,Exception)'
+  parent: Liftbridge.Net.ReadOnlyException
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyException(String, Exception)
+  nameWithType: ReadOnlyException.ReadOnlyException(String, Exception)
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException(System.String, Exception)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 71
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public ReadOnlyException(string message, Exception inner)
+    parameters:
+    - id: message
+      type: System.String
+    - id: inner
+      type: Exception
+    content.vb: Public Sub New(message As String, inner As Exception)
+  overload: Liftbridge.Net.ReadOnlyException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.LiftbridgeException
+  commentId: T:Liftbridge.Net.LiftbridgeException
+  parent: Liftbridge.Net
+  name: LiftbridgeException
+  nameWithType: LiftbridgeException
+  fullName: Liftbridge.Net.LiftbridgeException
+- uid: Liftbridge.Net.ReadOnlyException.#ctor*
+  commentId: Overload:Liftbridge.Net.ReadOnlyException.#ctor
+  name: ReadOnlyException
+  nameWithType: ReadOnlyException.ReadOnlyException
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Exception
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: Exception

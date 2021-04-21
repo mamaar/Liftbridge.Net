@@ -1,0 +1,167 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.StreamPausedException
+  commentId: T:Liftbridge.Net.StreamPausedException
+  id: StreamPausedException
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.StreamPausedException.#ctor
+  - Liftbridge.Net.StreamPausedException.#ctor(System.String)
+  - Liftbridge.Net.StreamPausedException.#ctor(System.String,Exception)
+  langs:
+  - csharp
+  - vb
+  name: StreamPausedException
+  nameWithType: StreamPausedException
+  fullName: Liftbridge.Net.StreamPausedException
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: StreamPausedException
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 49
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class StreamPausedException : LiftbridgeException'
+    content.vb: >-
+      Public Class StreamPausedException
+          Inherits LiftbridgeException
+  inheritance:
+  - System.Object
+  - Liftbridge.Net.LiftbridgeException
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.StreamPausedException.#ctor
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor
+  id: '#ctor'
+  parent: Liftbridge.Net.StreamPausedException
+  langs:
+  - csharp
+  - vb
+  name: StreamPausedException()
+  nameWithType: StreamPausedException.StreamPausedException()
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException()
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 51
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public StreamPausedException()
+    content.vb: Public Sub New
+  overload: Liftbridge.Net.StreamPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamPausedException.#ctor(System.String)
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Liftbridge.Net.StreamPausedException
+  langs:
+  - csharp
+  - vb
+  name: StreamPausedException(String)
+  nameWithType: StreamPausedException.StreamPausedException(String)
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 52
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public StreamPausedException(string message)
+    parameters:
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(message As String)
+  overload: Liftbridge.Net.StreamPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.StreamPausedException.#ctor(System.String,Exception)
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor(System.String,Exception)
+  id: '#ctor(System.String,Exception)'
+  parent: Liftbridge.Net.StreamPausedException
+  langs:
+  - csharp
+  - vb
+  name: StreamPausedException(String, Exception)
+  nameWithType: StreamPausedException.StreamPausedException(String, Exception)
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException(System.String, Exception)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 53
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public StreamPausedException(string message, Exception inner)
+    parameters:
+    - id: message
+      type: System.String
+    - id: inner
+      type: Exception
+    content.vb: Public Sub New(message As String, inner As Exception)
+  overload: Liftbridge.Net.StreamPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.LiftbridgeException
+  commentId: T:Liftbridge.Net.LiftbridgeException
+  parent: Liftbridge.Net
+  name: LiftbridgeException
+  nameWithType: LiftbridgeException
+  fullName: Liftbridge.Net.LiftbridgeException
+- uid: Liftbridge.Net.StreamPausedException.#ctor*
+  commentId: Overload:Liftbridge.Net.StreamPausedException.#ctor
+  name: StreamPausedException
+  nameWithType: StreamPausedException.StreamPausedException
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Exception
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: Exception

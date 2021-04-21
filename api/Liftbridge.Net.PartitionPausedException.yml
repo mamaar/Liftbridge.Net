@@ -1,0 +1,167 @@
+### YamlMime:ManagedReference
+items:
+- uid: Liftbridge.Net.PartitionPausedException
+  commentId: T:Liftbridge.Net.PartitionPausedException
+  id: PartitionPausedException
+  parent: Liftbridge.Net
+  children:
+  - Liftbridge.Net.PartitionPausedException.#ctor
+  - Liftbridge.Net.PartitionPausedException.#ctor(System.String)
+  - Liftbridge.Net.PartitionPausedException.#ctor(System.String,Exception)
+  langs:
+  - csharp
+  - vb
+  name: PartitionPausedException
+  nameWithType: PartitionPausedException
+  fullName: Liftbridge.Net.PartitionPausedException
+  type: Class
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: PartitionPausedException
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 37
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: 'public class PartitionPausedException : LiftbridgeException'
+    content.vb: >-
+      Public Class PartitionPausedException
+          Inherits LiftbridgeException
+  inheritance:
+  - System.Object
+  - Liftbridge.Net.LiftbridgeException
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Liftbridge.Net.PartitionPausedException.#ctor
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor
+  id: '#ctor'
+  parent: Liftbridge.Net.PartitionPausedException
+  langs:
+  - csharp
+  - vb
+  name: PartitionPausedException()
+  nameWithType: PartitionPausedException.PartitionPausedException()
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException()
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 39
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public PartitionPausedException()
+    content.vb: Public Sub New
+  overload: Liftbridge.Net.PartitionPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.PartitionPausedException.#ctor(System.String)
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Liftbridge.Net.PartitionPausedException
+  langs:
+  - csharp
+  - vb
+  name: PartitionPausedException(String)
+  nameWithType: PartitionPausedException.PartitionPausedException(String)
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 40
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public PartitionPausedException(string message)
+    parameters:
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(message As String)
+  overload: Liftbridge.Net.PartitionPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Liftbridge.Net.PartitionPausedException.#ctor(System.String,Exception)
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor(System.String,Exception)
+  id: '#ctor(System.String,Exception)'
+  parent: Liftbridge.Net.PartitionPausedException
+  langs:
+  - csharp
+  - vb
+  name: PartitionPausedException(String, Exception)
+  nameWithType: PartitionPausedException.PartitionPausedException(String, Exception)
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException(System.String, Exception)
+  type: Constructor
+  source:
+    remote:
+      path: src/Liftbridge.Net/LiftbridgeException.cs
+      branch: init-docfx
+      repo: https://github.com/mamaar/Liftbridge.Net
+    id: .ctor
+    path: ../src/Liftbridge.Net/LiftbridgeException.cs
+    startLine: 41
+  assemblies:
+  - Liftbridge.Net
+  namespace: Liftbridge.Net
+  syntax:
+    content: public PartitionPausedException(string message, Exception inner)
+    parameters:
+    - id: message
+      type: System.String
+    - id: inner
+      type: Exception
+    content.vb: Public Sub New(message As String, inner As Exception)
+  overload: Liftbridge.Net.PartitionPausedException.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Liftbridge.Net
+  commentId: N:Liftbridge.Net
+  name: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+  fullName: Liftbridge.Net
+- uid: Liftbridge.Net.LiftbridgeException
+  commentId: T:Liftbridge.Net.LiftbridgeException
+  parent: Liftbridge.Net
+  name: LiftbridgeException
+  nameWithType: LiftbridgeException
+  fullName: Liftbridge.Net.LiftbridgeException
+- uid: Liftbridge.Net.PartitionPausedException.#ctor*
+  commentId: Overload:Liftbridge.Net.PartitionPausedException.#ctor
+  name: PartitionPausedException
+  nameWithType: PartitionPausedException.PartitionPausedException
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Exception
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: Exception
