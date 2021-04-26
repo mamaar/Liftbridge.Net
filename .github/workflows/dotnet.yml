@@ -23,9 +23,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Unit test
-      run: dotnet test test/Liftbridge.Net.UnitTests -c Release --no-build --verbosity normal
+      run: dotnet test test/Liftbridge.Net.UnitTests -c Release --verbosity normal
     - name: Integration test
-      run: dotnet test test/Liftbridge.Net.IntegrationTests -c Release --no-build --verbosity normal
+      run: dotnet test test/Liftbridge.Net.IntegrationTests -c Release --verbosity normal
     - name: Build
       run: dotnet build src/Liftbridge.Net/Liftbridge.Net.csproj -c Release
     - name: Pack
