@@ -551,8 +551,16 @@ namespace Liftbridge.Net
             return (int)Dexiom.QuickCrc32.QuickCrc32.Compute(cursorKey) % cursorStreamInfo.Partitions.Count;
         }
 
-        public Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = default)
+        public async Task SetCursor(string cursorId, string stream, int partition, long offset, CancellationToken cancellationToken = default)
         {
+            if(!await StreamExists(CursorsStream))
+            {
+                throw new CursorsDisabledException("cursors are not enabled in the Liftbridge cluster");
+            }
+            if(!await StreamExists(stream))
+            {
+                throw new StreamNotExistsException();
+            }
             var cursorKey = GetCursorKey(cursorId, stream, partition);
             var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
             var cursorPartition = GetCursorPartition(cursorKey, cursorStreamInfo);
@@ -564,14 +572,18 @@ namespace Liftbridge.Net
                 Partition = partition,
                 Offset = offset,
             };
-            return DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
+            await DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
             {
                 return await client.SetCursorAsync(request, cancellationToken: cancelToken);
             }, cancellationToken);
         }
 
-        public Task<long> FetchCursor(string cursorId, string stream, int partition, CancellationToken cancellationToken = default)
+        public async Task<long> FetchCursor(string cursorId, string stream, int partition, CancellationToken cancellationToken = default)
         {
+            if (!await StreamExists(CursorsStream))
+            {
+                throw new CursorsDisabledException("cursors are not enabled in the Liftbridge cluster");
+            }
             var cursorKey = GetCursorKey(cursorId, stream, partition);
             var cursorStreamInfo = Metadata.GetStreamInfo(CursorsStream);
             var cursorPartition = GetCursorPartition(cursorKey, cursorStreamInfo);
@@ -582,7 +594,7 @@ namespace Liftbridge.Net
                 Stream = stream,
                 Partition = partition,
             };
-            return DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
+            return await DoResilientLeaderRPC(CursorsStream, cursorPartition, async (client, cancelToken) =>
             {
                 var response = await client.FetchCursorAsync(request, cancellationToken: cancelToken);
                 return response.Offset;

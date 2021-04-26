@@ -71,4 +71,10 @@ namespace Liftbridge.Net
         public ReadOnlyException(string message) : base(message) { }
         public ReadOnlyException(string message, Exception inner) : base(message, inner) { }
     }
+    public class CursorsDisabledException : LiftbridgeException
+    {
+        public CursorsDisabledException() { }
+        public CursorsDisabledException(string message) : base(message) { }
+        public CursorsDisabledException(string message, Exception inner) : base(message, inner) { }
+    }
 }

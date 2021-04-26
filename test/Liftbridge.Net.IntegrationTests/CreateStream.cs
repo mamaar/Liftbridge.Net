@@ -19,7 +19,7 @@ namespace Liftbridge.Net.IntegrationTests
         public async Task TestCreateNewStreamAsync()
         {
             var streamName = Guid.NewGuid().ToString();
-            await Fixture.Client.CreateStream(streamName, "test");
+            await Fixture.Client.CreateStream(streamName, "test", Fixture.TimeoutToken);
             return;
         }
 
