@@ -1,3 +1,889 @@
 ### YamlMime:XRefMap
 sorted: true
-references: []
+references:
+- uid: Dexiom.QuickCrc32
+  name: Dexiom.QuickCrc32
+  href: api/Dexiom.QuickCrc32.html
+  commentId: N:Dexiom.QuickCrc32
+  fullName: Dexiom.QuickCrc32
+  nameWithType: Dexiom.QuickCrc32
+- uid: Dexiom.QuickCrc32.QuickCrc32
+  name: QuickCrc32
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html
+  commentId: T:Dexiom.QuickCrc32.QuickCrc32
+  fullName: Dexiom.QuickCrc32.QuickCrc32
+  nameWithType: QuickCrc32
+- uid: Dexiom.QuickCrc32.QuickCrc32.Compute(System.Byte[])
+  name: Compute(Byte[])
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_Compute_System_Byte___
+  commentId: M:Dexiom.QuickCrc32.QuickCrc32.Compute(System.Byte[])
+  name.vb: Compute(Byte())
+  fullName: Dexiom.QuickCrc32.QuickCrc32.Compute(System.Byte[])
+  fullName.vb: Dexiom.QuickCrc32.QuickCrc32.Compute(System.Byte())
+  nameWithType: QuickCrc32.Compute(Byte[])
+  nameWithType.vb: QuickCrc32.Compute(Byte())
+- uid: Dexiom.QuickCrc32.QuickCrc32.Compute*
+  name: Compute
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_Compute_
+  commentId: Overload:Dexiom.QuickCrc32.QuickCrc32.Compute
+  isSpec: "True"
+  fullName: Dexiom.QuickCrc32.QuickCrc32.Compute
+  nameWithType: QuickCrc32.Compute
+- uid: Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes(System.Byte[])
+  name: ComputeToBytes(Byte[])
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_ComputeToBytes_System_Byte___
+  commentId: M:Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes(System.Byte[])
+  name.vb: ComputeToBytes(Byte())
+  fullName: Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes(System.Byte[])
+  fullName.vb: Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes(System.Byte())
+  nameWithType: QuickCrc32.ComputeToBytes(Byte[])
+  nameWithType.vb: QuickCrc32.ComputeToBytes(Byte())
+- uid: Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes*
+  name: ComputeToBytes
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_ComputeToBytes_
+  commentId: Overload:Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes
+  isSpec: "True"
+  fullName: Dexiom.QuickCrc32.QuickCrc32.ComputeToBytes
+  nameWithType: QuickCrc32.ComputeToBytes
+- uid: Dexiom.QuickCrc32.QuickCrc32.ComputeToString(System.Byte[])
+  name: ComputeToString(Byte[])
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_ComputeToString_System_Byte___
+  commentId: M:Dexiom.QuickCrc32.QuickCrc32.ComputeToString(System.Byte[])
+  name.vb: ComputeToString(Byte())
+  fullName: Dexiom.QuickCrc32.QuickCrc32.ComputeToString(System.Byte[])
+  fullName.vb: Dexiom.QuickCrc32.QuickCrc32.ComputeToString(System.Byte())
+  nameWithType: QuickCrc32.ComputeToString(Byte[])
+  nameWithType.vb: QuickCrc32.ComputeToString(Byte())
+- uid: Dexiom.QuickCrc32.QuickCrc32.ComputeToString*
+  name: ComputeToString
+  href: api/Dexiom.QuickCrc32.QuickCrc32.html#Dexiom_QuickCrc32_QuickCrc32_ComputeToString_
+  commentId: Overload:Dexiom.QuickCrc32.QuickCrc32.ComputeToString
+  isSpec: "True"
+  fullName: Dexiom.QuickCrc32.QuickCrc32.ComputeToString
+  nameWithType: QuickCrc32.ComputeToString
+- uid: Liftbridge.Net
+  name: Liftbridge.Net
+  href: api/Liftbridge.Net.html
+  commentId: N:Liftbridge.Net
+  fullName: Liftbridge.Net
+  nameWithType: Liftbridge.Net
+- uid: Liftbridge.Net.AckTimeoutException
+  name: AckTimeoutException
+  href: api/Liftbridge.Net.AckTimeoutException.html
+  commentId: T:Liftbridge.Net.AckTimeoutException
+  fullName: Liftbridge.Net.AckTimeoutException
+  nameWithType: AckTimeoutException
+- uid: Liftbridge.Net.AckTimeoutException.#ctor
+  name: AckTimeoutException()
+  href: api/Liftbridge.Net.AckTimeoutException.html#Liftbridge_Net_AckTimeoutException__ctor
+  commentId: M:Liftbridge.Net.AckTimeoutException.#ctor
+  fullName: Liftbridge.Net.AckTimeoutException.AckTimeoutException()
+  nameWithType: AckTimeoutException.AckTimeoutException()
+- uid: Liftbridge.Net.AckTimeoutException.#ctor(System.String)
+  name: AckTimeoutException(String)
+  href: api/Liftbridge.Net.AckTimeoutException.html#Liftbridge_Net_AckTimeoutException__ctor_System_String_
+  commentId: M:Liftbridge.Net.AckTimeoutException.#ctor(System.String)
+  fullName: Liftbridge.Net.AckTimeoutException.AckTimeoutException(System.String)
+  nameWithType: AckTimeoutException.AckTimeoutException(String)
+- uid: Liftbridge.Net.AckTimeoutException.#ctor(System.String,Exception)
+  name: AckTimeoutException(String, Exception)
+  href: api/Liftbridge.Net.AckTimeoutException.html#Liftbridge_Net_AckTimeoutException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.AckTimeoutException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.AckTimeoutException.AckTimeoutException(System.String, Exception)
+  nameWithType: AckTimeoutException.AckTimeoutException(String, Exception)
+- uid: Liftbridge.Net.AckTimeoutException.#ctor*
+  name: AckTimeoutException
+  href: api/Liftbridge.Net.AckTimeoutException.html#Liftbridge_Net_AckTimeoutException__ctor_
+  commentId: Overload:Liftbridge.Net.AckTimeoutException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.AckTimeoutException.AckTimeoutException
+  nameWithType: AckTimeoutException.AckTimeoutException
+- uid: Liftbridge.Net.BrokerNotFoundException
+  name: BrokerNotFoundException
+  href: api/Liftbridge.Net.BrokerNotFoundException.html
+  commentId: T:Liftbridge.Net.BrokerNotFoundException
+  fullName: Liftbridge.Net.BrokerNotFoundException
+  nameWithType: BrokerNotFoundException
+- uid: Liftbridge.Net.BrokerNotFoundException.#ctor
+  name: BrokerNotFoundException()
+  href: api/Liftbridge.Net.BrokerNotFoundException.html#Liftbridge_Net_BrokerNotFoundException__ctor
+  commentId: M:Liftbridge.Net.BrokerNotFoundException.#ctor
+  fullName: Liftbridge.Net.BrokerNotFoundException.BrokerNotFoundException()
+  nameWithType: BrokerNotFoundException.BrokerNotFoundException()
+- uid: Liftbridge.Net.BrokerNotFoundException.#ctor(System.String)
+  name: BrokerNotFoundException(String)
+  href: api/Liftbridge.Net.BrokerNotFoundException.html#Liftbridge_Net_BrokerNotFoundException__ctor_System_String_
+  commentId: M:Liftbridge.Net.BrokerNotFoundException.#ctor(System.String)
+  fullName: Liftbridge.Net.BrokerNotFoundException.BrokerNotFoundException(System.String)
+  nameWithType: BrokerNotFoundException.BrokerNotFoundException(String)
+- uid: Liftbridge.Net.BrokerNotFoundException.#ctor(System.String,Exception)
+  name: BrokerNotFoundException(String, Exception)
+  href: api/Liftbridge.Net.BrokerNotFoundException.html#Liftbridge_Net_BrokerNotFoundException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.BrokerNotFoundException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.BrokerNotFoundException.BrokerNotFoundException(System.String, Exception)
+  nameWithType: BrokerNotFoundException.BrokerNotFoundException(String, Exception)
+- uid: Liftbridge.Net.BrokerNotFoundException.#ctor*
+  name: BrokerNotFoundException
+  href: api/Liftbridge.Net.BrokerNotFoundException.html#Liftbridge_Net_BrokerNotFoundException__ctor_
+  commentId: Overload:Liftbridge.Net.BrokerNotFoundException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.BrokerNotFoundException.BrokerNotFoundException
+  nameWithType: BrokerNotFoundException.BrokerNotFoundException
+- uid: Liftbridge.Net.ClientAsync
+  name: ClientAsync
+  href: api/Liftbridge.Net.ClientAsync.html
+  commentId: T:Liftbridge.Net.ClientAsync
+  fullName: Liftbridge.Net.ClientAsync
+  nameWithType: ClientAsync
+- uid: Liftbridge.Net.ClientAsync.#ctor(Liftbridge.Net.ClientOptions)
+  name: ClientAsync(ClientOptions)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync__ctor_Liftbridge_Net_ClientOptions_
+  commentId: M:Liftbridge.Net.ClientAsync.#ctor(Liftbridge.Net.ClientOptions)
+  fullName: Liftbridge.Net.ClientAsync.ClientAsync(Liftbridge.Net.ClientOptions)
+  nameWithType: ClientAsync.ClientAsync(ClientOptions)
+- uid: Liftbridge.Net.ClientAsync.#ctor*
+  name: ClientAsync
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync__ctor_
+  commentId: Overload:Liftbridge.Net.ClientAsync.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.ClientAsync
+  nameWithType: ClientAsync.ClientAsync
+- uid: Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,CancellationToken)
+  name: CreateStream(String, String, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_CreateStream_System_String_System_String_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.CreateStream(System.String, System.String, CancellationToken)
+  nameWithType: ClientAsync.CreateStream(String, String, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  name: CreateStream(String, String, StreamOptions, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_CreateStream_System_String_System_String_Liftbridge_Net_StreamOptions_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.CreateStream(System.String,System.String,Liftbridge.Net.StreamOptions,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.CreateStream(System.String, System.String, Liftbridge.Net.StreamOptions, CancellationToken)
+  nameWithType: ClientAsync.CreateStream(String, String, StreamOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.CreateStream*
+  name: CreateStream
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_CreateStream_
+  commentId: Overload:Liftbridge.Net.ClientAsync.CreateStream
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.CreateStream
+  nameWithType: ClientAsync.CreateStream
+- uid: Liftbridge.Net.ClientAsync.DeleteStream(System.String,CancellationToken)
+  name: DeleteStream(String, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_DeleteStream_System_String_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.DeleteStream(System.String,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.DeleteStream(System.String, CancellationToken)
+  nameWithType: ClientAsync.DeleteStream(String, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.DeleteStream*
+  name: DeleteStream
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_DeleteStream_
+  commentId: Overload:Liftbridge.Net.ClientAsync.DeleteStream
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.DeleteStream
+  nameWithType: ClientAsync.DeleteStream
+- uid: Liftbridge.Net.ClientAsync.FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  name: FetchCursor(String, String, Int32, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchCursor_System_String_System_String_System_Int32_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.FetchCursor(System.String,System.String,System.Int32,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchCursor(System.String, System.String, System.Int32, CancellationToken)
+  nameWithType: ClientAsync.FetchCursor(String, String, Int32, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.FetchCursor*
+  name: FetchCursor
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchCursor_
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchCursor
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.FetchCursor
+  nameWithType: ClientAsync.FetchCursor
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  name: FetchMetadata(CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchMetadata_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata(CancellationToken)
+  nameWithType: ClientAsync.FetchMetadata(CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable{System.String},CancellationToken)
+  name: FetchMetadata(IEnumerable<String>, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchMetadata_IEnumerable_System_String__CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable{System.String},CancellationToken)
+  name.vb: FetchMetadata(IEnumerable(Of String), CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable<System.String>, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.FetchMetadata(IEnumerable(Of System.String), CancellationToken)
+  nameWithType: ClientAsync.FetchMetadata(IEnumerable<String>, CancellationToken)
+  nameWithType.vb: ClientAsync.FetchMetadata(IEnumerable(Of String), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.FetchMetadata*
+  name: FetchMetadata
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchMetadata_
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchMetadata
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.FetchMetadata
+  nameWithType: ClientAsync.FetchMetadata
+- uid: Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  name: FetchPartitionMetadata(String, Int32, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchPartitionMetadata_System_String_System_Int32_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String,System.Int32,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.FetchPartitionMetadata(System.String, System.Int32, CancellationToken)
+  nameWithType: ClientAsync.FetchPartitionMetadata(String, Int32, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.FetchPartitionMetadata*
+  name: FetchPartitionMetadata
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_FetchPartitionMetadata_
+  commentId: Overload:Liftbridge.Net.ClientAsync.FetchPartitionMetadata
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.FetchPartitionMetadata
+  nameWithType: ClientAsync.FetchPartitionMetadata
+- uid: Liftbridge.Net.ClientAsync.PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  name: PauseStream(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PauseStream_System_String_IEnumerable_System_Int32__System_Boolean_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.PauseStream(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  name.vb: PauseStream(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PauseStream(System.String, IEnumerable<System.Int32>, System.Boolean, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.PauseStream(System.String, IEnumerable(Of System.Int32), System.Boolean, CancellationToken)
+  nameWithType: ClientAsync.PauseStream(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  nameWithType.vb: ClientAsync.PauseStream(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PauseStream*
+  name: PauseStream
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PauseStream_
+  commentId: Overload:Liftbridge.Net.ClientAsync.PauseStream
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.PauseStream
+  nameWithType: ClientAsync.PauseStream
+- uid: Liftbridge.Net.ClientAsync.Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  name: Publish(String, Byte[], MessageOptions, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_Publish_System_String_System_Byte___MessageOptions_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.Publish(System.String,System.Byte[],MessageOptions,CancellationToken)
+  name.vb: Publish(String, Byte(), MessageOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.Publish(System.String, System.Byte[], MessageOptions, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.Publish(System.String, System.Byte(), MessageOptions, CancellationToken)
+  nameWithType: ClientAsync.Publish(String, Byte[], MessageOptions, CancellationToken)
+  nameWithType.vb: ClientAsync.Publish(String, Byte(), MessageOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.Publish*
+  name: Publish
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_Publish_
+  commentId: Overload:Liftbridge.Net.ClientAsync.Publish
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.Publish
+  nameWithType: ClientAsync.Publish
+- uid: Liftbridge.Net.ClientAsync.PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  name: PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PublishAsync_Message_MessageOptions_Action_Proto_PublishResponse__CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.PublishAsync(Message,MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  name.vb: PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  nameWithType: ClientAsync.PublishAsync(Message, MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  nameWithType.vb: ClientAsync.PublishAsync(Message, MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  name: PublishAsync(String, Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PublishAsync_System_String_System_Byte___MessageOptions_Action_Proto_PublishResponse__CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.PublishAsync(System.String,System.Byte[],MessageOptions,Action{Proto.PublishResponse},CancellationToken)
+  name.vb: PublishAsync(String, Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync(System.String, System.Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishAsync(System.String, System.Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+  nameWithType: ClientAsync.PublishAsync(String, Byte[], MessageOptions, Action<Proto.PublishResponse>, CancellationToken)
+  nameWithType.vb: ClientAsync.PublishAsync(String, Byte(), MessageOptions, Action(Of Proto.PublishResponse), CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishAsync*
+  name: PublishAsync
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PublishAsync_
+  commentId: Overload:Liftbridge.Net.ClientAsync.PublishAsync
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.PublishAsync
+  nameWithType: ClientAsync.PublishAsync
+- uid: Liftbridge.Net.ClientAsync.PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  name: PublishToSubject(String, Byte[], MessageOptions, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PublishToSubject_System_String_System_Byte___MessageOptions_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.PublishToSubject(System.String,System.Byte[],MessageOptions,CancellationToken)
+  name.vb: PublishToSubject(String, Byte(), MessageOptions, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.PublishToSubject(System.String, System.Byte[], MessageOptions, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.PublishToSubject(System.String, System.Byte(), MessageOptions, CancellationToken)
+  nameWithType: ClientAsync.PublishToSubject(String, Byte[], MessageOptions, CancellationToken)
+  nameWithType.vb: ClientAsync.PublishToSubject(String, Byte(), MessageOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.PublishToSubject*
+  name: PublishToSubject
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_PublishToSubject_
+  commentId: Overload:Liftbridge.Net.ClientAsync.PublishToSubject
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.PublishToSubject
+  nameWithType: ClientAsync.PublishToSubject
+- uid: Liftbridge.Net.ClientAsync.SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  name: SetCursor(String, String, Int32, Int64, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_SetCursor_System_String_System_String_System_Int32_System_Int64_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.SetCursor(System.String,System.String,System.Int32,System.Int64,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.SetCursor(System.String, System.String, System.Int32, System.Int64, CancellationToken)
+  nameWithType: ClientAsync.SetCursor(String, String, Int32, Int64, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.SetCursor*
+  name: SetCursor
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_SetCursor_
+  commentId: Overload:Liftbridge.Net.ClientAsync.SetCursor
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.SetCursor
+  nameWithType: ClientAsync.SetCursor
+- uid: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  name: SetStreamReadonly(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_SetStreamReadonly_System_String_IEnumerable_System_Int32__System_Boolean_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String,IEnumerable{System.Int32},System.Boolean,CancellationToken)
+  name.vb: SetStreamReadonly(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String, IEnumerable<System.Int32>, System.Boolean, CancellationToken)
+  fullName.vb: Liftbridge.Net.ClientAsync.SetStreamReadonly(System.String, IEnumerable(Of System.Int32), System.Boolean, CancellationToken)
+  nameWithType: ClientAsync.SetStreamReadonly(String, IEnumerable<Int32>, Boolean, CancellationToken)
+  nameWithType.vb: ClientAsync.SetStreamReadonly(String, IEnumerable(Of Int32), Boolean, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.SetStreamReadonly*
+  name: SetStreamReadonly
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_SetStreamReadonly_
+  commentId: Overload:Liftbridge.Net.ClientAsync.SetStreamReadonly
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.SetStreamReadonly
+  nameWithType: ClientAsync.SetStreamReadonly
+- uid: Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  name: StreamExists(String)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_StreamExists_System_String_
+  commentId: M:Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  fullName: Liftbridge.Net.ClientAsync.StreamExists(System.String)
+  nameWithType: ClientAsync.StreamExists(String)
+- uid: Liftbridge.Net.ClientAsync.StreamExists*
+  name: StreamExists
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_StreamExists_
+  commentId: Overload:Liftbridge.Net.ClientAsync.StreamExists
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.StreamExists
+  nameWithType: ClientAsync.StreamExists
+- uid: Liftbridge.Net.ClientAsync.Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  name: Subscribe(String, SubscriptionOptions, CancellationToken)
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_Subscribe_System_String_SubscriptionOptions_CancellationToken_
+  commentId: M:Liftbridge.Net.ClientAsync.Subscribe(System.String,SubscriptionOptions,CancellationToken)
+  fullName: Liftbridge.Net.ClientAsync.Subscribe(System.String, SubscriptionOptions, CancellationToken)
+  nameWithType: ClientAsync.Subscribe(String, SubscriptionOptions, CancellationToken)
+- uid: Liftbridge.Net.ClientAsync.Subscribe*
+  name: Subscribe
+  href: api/Liftbridge.Net.ClientAsync.html#Liftbridge_Net_ClientAsync_Subscribe_
+  commentId: Overload:Liftbridge.Net.ClientAsync.Subscribe
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientAsync.Subscribe
+  nameWithType: ClientAsync.Subscribe
+- uid: Liftbridge.Net.ClientOptions
+  name: ClientOptions
+  href: api/Liftbridge.Net.ClientOptions.html
+  commentId: T:Liftbridge.Net.ClientOptions
+  fullName: Liftbridge.Net.ClientOptions
+  nameWithType: ClientOptions
+- uid: Liftbridge.Net.ClientOptions.AckWaitTime
+  name: AckWaitTime
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_AckWaitTime
+  commentId: P:Liftbridge.Net.ClientOptions.AckWaitTime
+  fullName: Liftbridge.Net.ClientOptions.AckWaitTime
+  nameWithType: ClientOptions.AckWaitTime
+- uid: Liftbridge.Net.ClientOptions.AckWaitTime*
+  name: AckWaitTime
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_AckWaitTime_
+  commentId: Overload:Liftbridge.Net.ClientOptions.AckWaitTime
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientOptions.AckWaitTime
+  nameWithType: ClientOptions.AckWaitTime
+- uid: Liftbridge.Net.ClientOptions.Brokers
+  name: Brokers
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_Brokers
+  commentId: P:Liftbridge.Net.ClientOptions.Brokers
+  fullName: Liftbridge.Net.ClientOptions.Brokers
+  nameWithType: ClientOptions.Brokers
+- uid: Liftbridge.Net.ClientOptions.Brokers*
+  name: Brokers
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_Brokers_
+  commentId: Overload:Liftbridge.Net.ClientOptions.Brokers
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientOptions.Brokers
+  nameWithType: ClientOptions.Brokers
+- uid: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  name: ResubscribeWaitTime
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_ResubscribeWaitTime
+  commentId: P:Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  fullName: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  nameWithType: ClientOptions.ResubscribeWaitTime
+- uid: Liftbridge.Net.ClientOptions.ResubscribeWaitTime*
+  name: ResubscribeWaitTime
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_ResubscribeWaitTime_
+  commentId: Overload:Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientOptions.ResubscribeWaitTime
+  nameWithType: ClientOptions.ResubscribeWaitTime
+- uid: Liftbridge.Net.ClientOptions.TLSCert
+  name: TLSCert
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_TLSCert
+  commentId: P:Liftbridge.Net.ClientOptions.TLSCert
+  fullName: Liftbridge.Net.ClientOptions.TLSCert
+  nameWithType: ClientOptions.TLSCert
+- uid: Liftbridge.Net.ClientOptions.TLSCert*
+  name: TLSCert
+  href: api/Liftbridge.Net.ClientOptions.html#Liftbridge_Net_ClientOptions_TLSCert_
+  commentId: Overload:Liftbridge.Net.ClientOptions.TLSCert
+  isSpec: "True"
+  fullName: Liftbridge.Net.ClientOptions.TLSCert
+  nameWithType: ClientOptions.TLSCert
+- uid: Liftbridge.Net.ConnectionErrorException
+  name: ConnectionErrorException
+  href: api/Liftbridge.Net.ConnectionErrorException.html
+  commentId: T:Liftbridge.Net.ConnectionErrorException
+  fullName: Liftbridge.Net.ConnectionErrorException
+  nameWithType: ConnectionErrorException
+- uid: Liftbridge.Net.ConnectionErrorException.#ctor
+  name: ConnectionErrorException()
+  href: api/Liftbridge.Net.ConnectionErrorException.html#Liftbridge_Net_ConnectionErrorException__ctor
+  commentId: M:Liftbridge.Net.ConnectionErrorException.#ctor
+  fullName: Liftbridge.Net.ConnectionErrorException.ConnectionErrorException()
+  nameWithType: ConnectionErrorException.ConnectionErrorException()
+- uid: Liftbridge.Net.ConnectionErrorException.#ctor(System.String)
+  name: ConnectionErrorException(String)
+  href: api/Liftbridge.Net.ConnectionErrorException.html#Liftbridge_Net_ConnectionErrorException__ctor_System_String_
+  commentId: M:Liftbridge.Net.ConnectionErrorException.#ctor(System.String)
+  fullName: Liftbridge.Net.ConnectionErrorException.ConnectionErrorException(System.String)
+  nameWithType: ConnectionErrorException.ConnectionErrorException(String)
+- uid: Liftbridge.Net.ConnectionErrorException.#ctor(System.String,Exception)
+  name: ConnectionErrorException(String, Exception)
+  href: api/Liftbridge.Net.ConnectionErrorException.html#Liftbridge_Net_ConnectionErrorException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.ConnectionErrorException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.ConnectionErrorException.ConnectionErrorException(System.String, Exception)
+  nameWithType: ConnectionErrorException.ConnectionErrorException(String, Exception)
+- uid: Liftbridge.Net.ConnectionErrorException.#ctor*
+  name: ConnectionErrorException
+  href: api/Liftbridge.Net.ConnectionErrorException.html#Liftbridge_Net_ConnectionErrorException__ctor_
+  commentId: Overload:Liftbridge.Net.ConnectionErrorException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.ConnectionErrorException.ConnectionErrorException
+  nameWithType: ConnectionErrorException.ConnectionErrorException
+- uid: Liftbridge.Net.EndOfReadonlyException
+  name: EndOfReadonlyException
+  href: api/Liftbridge.Net.EndOfReadonlyException.html
+  commentId: T:Liftbridge.Net.EndOfReadonlyException
+  fullName: Liftbridge.Net.EndOfReadonlyException
+  nameWithType: EndOfReadonlyException
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor
+  name: EndOfReadonlyException()
+  href: api/Liftbridge.Net.EndOfReadonlyException.html#Liftbridge_Net_EndOfReadonlyException__ctor
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException()
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException()
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor(System.String)
+  name: EndOfReadonlyException(String)
+  href: api/Liftbridge.Net.EndOfReadonlyException.html#Liftbridge_Net_EndOfReadonlyException__ctor_System_String_
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor(System.String)
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException(System.String)
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException(String)
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor(System.String,Exception)
+  name: EndOfReadonlyException(String, Exception)
+  href: api/Liftbridge.Net.EndOfReadonlyException.html#Liftbridge_Net_EndOfReadonlyException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.EndOfReadonlyException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException(System.String, Exception)
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException(String, Exception)
+- uid: Liftbridge.Net.EndOfReadonlyException.#ctor*
+  name: EndOfReadonlyException
+  href: api/Liftbridge.Net.EndOfReadonlyException.html#Liftbridge_Net_EndOfReadonlyException__ctor_
+  commentId: Overload:Liftbridge.Net.EndOfReadonlyException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.EndOfReadonlyException.EndOfReadonlyException
+  nameWithType: EndOfReadonlyException.EndOfReadonlyException
+- uid: Liftbridge.Net.IPartitioner
+  name: IPartitioner
+  href: api/Liftbridge.Net.IPartitioner.html
+  commentId: T:Liftbridge.Net.IPartitioner
+  fullName: Liftbridge.Net.IPartitioner
+  nameWithType: IPartitioner
+- uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name: Partition(String, Byte[], Byte[], IMetadata)
+  href: api/Liftbridge.Net.IPartitioner.html#Liftbridge_Net_IPartitioner_Partition_System_String_System_Byte___System_Byte___IMetadata_
+  commentId: M:Liftbridge.Net.IPartitioner.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name.vb: Partition(String, Byte(), Byte(), IMetadata)
+  fullName: Liftbridge.Net.IPartitioner.Partition(System.String, System.Byte[], System.Byte[], IMetadata)
+  fullName.vb: Liftbridge.Net.IPartitioner.Partition(System.String, System.Byte(), System.Byte(), IMetadata)
+  nameWithType: IPartitioner.Partition(String, Byte[], Byte[], IMetadata)
+  nameWithType.vb: IPartitioner.Partition(String, Byte(), Byte(), IMetadata)
+- uid: Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+  name: Partition(String, String, String, Metadata)
+  href: api/Liftbridge.Net.IPartitioner.html#Liftbridge_Net_IPartitioner_Partition_System_String_System_String_System_String_Metadata_
+  commentId: M:Liftbridge.Net.IPartitioner.Partition(System.String,System.String,System.String,Metadata)
+  fullName: Liftbridge.Net.IPartitioner.Partition(System.String, System.String, System.String, Metadata)
+  nameWithType: IPartitioner.Partition(String, String, String, Metadata)
+- uid: Liftbridge.Net.IPartitioner.Partition*
+  name: Partition
+  href: api/Liftbridge.Net.IPartitioner.html#Liftbridge_Net_IPartitioner_Partition_
+  commentId: Overload:Liftbridge.Net.IPartitioner.Partition
+  isSpec: "True"
+  fullName: Liftbridge.Net.IPartitioner.Partition
+  nameWithType: IPartitioner.Partition
+- uid: Liftbridge.Net.LiftbridgeException
+  name: LiftbridgeException
+  href: api/Liftbridge.Net.LiftbridgeException.html
+  commentId: T:Liftbridge.Net.LiftbridgeException
+  fullName: Liftbridge.Net.LiftbridgeException
+  nameWithType: LiftbridgeException
+- uid: Liftbridge.Net.LiftbridgeException.#ctor
+  name: LiftbridgeException()
+  href: api/Liftbridge.Net.LiftbridgeException.html#Liftbridge_Net_LiftbridgeException__ctor
+  commentId: M:Liftbridge.Net.LiftbridgeException.#ctor
+  fullName: Liftbridge.Net.LiftbridgeException.LiftbridgeException()
+  nameWithType: LiftbridgeException.LiftbridgeException()
+- uid: Liftbridge.Net.LiftbridgeException.#ctor(System.String)
+  name: LiftbridgeException(String)
+  href: api/Liftbridge.Net.LiftbridgeException.html#Liftbridge_Net_LiftbridgeException__ctor_System_String_
+  commentId: M:Liftbridge.Net.LiftbridgeException.#ctor(System.String)
+  fullName: Liftbridge.Net.LiftbridgeException.LiftbridgeException(System.String)
+  nameWithType: LiftbridgeException.LiftbridgeException(String)
+- uid: Liftbridge.Net.LiftbridgeException.#ctor(System.String,Exception)
+  name: LiftbridgeException(String, Exception)
+  href: api/Liftbridge.Net.LiftbridgeException.html#Liftbridge_Net_LiftbridgeException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.LiftbridgeException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.LiftbridgeException.LiftbridgeException(System.String, Exception)
+  nameWithType: LiftbridgeException.LiftbridgeException(String, Exception)
+- uid: Liftbridge.Net.LiftbridgeException.#ctor*
+  name: LiftbridgeException
+  href: api/Liftbridge.Net.LiftbridgeException.html#Liftbridge_Net_LiftbridgeException__ctor_
+  commentId: Overload:Liftbridge.Net.LiftbridgeException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.LiftbridgeException.LiftbridgeException
+  nameWithType: LiftbridgeException.LiftbridgeException
+- uid: Liftbridge.Net.PartitionByKey
+  name: PartitionByKey
+  href: api/Liftbridge.Net.PartitionByKey.html
+  commentId: T:Liftbridge.Net.PartitionByKey
+  fullName: Liftbridge.Net.PartitionByKey
+  nameWithType: PartitionByKey
+- uid: Liftbridge.Net.PartitionByKey.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name: Partition(String, Byte[], Byte[], IMetadata)
+  href: api/Liftbridge.Net.PartitionByKey.html#Liftbridge_Net_PartitionByKey_Partition_System_String_System_Byte___System_Byte___IMetadata_
+  commentId: M:Liftbridge.Net.PartitionByKey.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name.vb: Partition(String, Byte(), Byte(), IMetadata)
+  fullName: Liftbridge.Net.PartitionByKey.Partition(System.String, System.Byte[], System.Byte[], IMetadata)
+  fullName.vb: Liftbridge.Net.PartitionByKey.Partition(System.String, System.Byte(), System.Byte(), IMetadata)
+  nameWithType: PartitionByKey.Partition(String, Byte[], Byte[], IMetadata)
+  nameWithType.vb: PartitionByKey.Partition(String, Byte(), Byte(), IMetadata)
+- uid: Liftbridge.Net.PartitionByKey.Partition*
+  name: Partition
+  href: api/Liftbridge.Net.PartitionByKey.html#Liftbridge_Net_PartitionByKey_Partition_
+  commentId: Overload:Liftbridge.Net.PartitionByKey.Partition
+  isSpec: "True"
+  fullName: Liftbridge.Net.PartitionByKey.Partition
+  nameWithType: PartitionByKey.Partition
+- uid: Liftbridge.Net.PartitionByRoundRobin
+  name: PartitionByRoundRobin
+  href: api/Liftbridge.Net.PartitionByRoundRobin.html
+  commentId: T:Liftbridge.Net.PartitionByRoundRobin
+  fullName: Liftbridge.Net.PartitionByRoundRobin
+  nameWithType: PartitionByRoundRobin
+- uid: Liftbridge.Net.PartitionByRoundRobin.#ctor
+  name: PartitionByRoundRobin()
+  href: api/Liftbridge.Net.PartitionByRoundRobin.html#Liftbridge_Net_PartitionByRoundRobin__ctor
+  commentId: M:Liftbridge.Net.PartitionByRoundRobin.#ctor
+  fullName: Liftbridge.Net.PartitionByRoundRobin.PartitionByRoundRobin()
+  nameWithType: PartitionByRoundRobin.PartitionByRoundRobin()
+- uid: Liftbridge.Net.PartitionByRoundRobin.#ctor*
+  name: PartitionByRoundRobin
+  href: api/Liftbridge.Net.PartitionByRoundRobin.html#Liftbridge_Net_PartitionByRoundRobin__ctor_
+  commentId: Overload:Liftbridge.Net.PartitionByRoundRobin.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.PartitionByRoundRobin.PartitionByRoundRobin
+  nameWithType: PartitionByRoundRobin.PartitionByRoundRobin
+- uid: Liftbridge.Net.PartitionByRoundRobin.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name: Partition(String, Byte[], Byte[], IMetadata)
+  href: api/Liftbridge.Net.PartitionByRoundRobin.html#Liftbridge_Net_PartitionByRoundRobin_Partition_System_String_System_Byte___System_Byte___IMetadata_
+  commentId: M:Liftbridge.Net.PartitionByRoundRobin.Partition(System.String,System.Byte[],System.Byte[],IMetadata)
+  name.vb: Partition(String, Byte(), Byte(), IMetadata)
+  fullName: Liftbridge.Net.PartitionByRoundRobin.Partition(System.String, System.Byte[], System.Byte[], IMetadata)
+  fullName.vb: Liftbridge.Net.PartitionByRoundRobin.Partition(System.String, System.Byte(), System.Byte(), IMetadata)
+  nameWithType: PartitionByRoundRobin.Partition(String, Byte[], Byte[], IMetadata)
+  nameWithType.vb: PartitionByRoundRobin.Partition(String, Byte(), Byte(), IMetadata)
+- uid: Liftbridge.Net.PartitionByRoundRobin.Partition*
+  name: Partition
+  href: api/Liftbridge.Net.PartitionByRoundRobin.html#Liftbridge_Net_PartitionByRoundRobin_Partition_
+  commentId: Overload:Liftbridge.Net.PartitionByRoundRobin.Partition
+  isSpec: "True"
+  fullName: Liftbridge.Net.PartitionByRoundRobin.Partition
+  nameWithType: PartitionByRoundRobin.Partition
+- uid: Liftbridge.Net.PartitionPausedException
+  name: PartitionPausedException
+  href: api/Liftbridge.Net.PartitionPausedException.html
+  commentId: T:Liftbridge.Net.PartitionPausedException
+  fullName: Liftbridge.Net.PartitionPausedException
+  nameWithType: PartitionPausedException
+- uid: Liftbridge.Net.PartitionPausedException.#ctor
+  name: PartitionPausedException()
+  href: api/Liftbridge.Net.PartitionPausedException.html#Liftbridge_Net_PartitionPausedException__ctor
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException()
+  nameWithType: PartitionPausedException.PartitionPausedException()
+- uid: Liftbridge.Net.PartitionPausedException.#ctor(System.String)
+  name: PartitionPausedException(String)
+  href: api/Liftbridge.Net.PartitionPausedException.html#Liftbridge_Net_PartitionPausedException__ctor_System_String_
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor(System.String)
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException(System.String)
+  nameWithType: PartitionPausedException.PartitionPausedException(String)
+- uid: Liftbridge.Net.PartitionPausedException.#ctor(System.String,Exception)
+  name: PartitionPausedException(String, Exception)
+  href: api/Liftbridge.Net.PartitionPausedException.html#Liftbridge_Net_PartitionPausedException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.PartitionPausedException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException(System.String, Exception)
+  nameWithType: PartitionPausedException.PartitionPausedException(String, Exception)
+- uid: Liftbridge.Net.PartitionPausedException.#ctor*
+  name: PartitionPausedException
+  href: api/Liftbridge.Net.PartitionPausedException.html#Liftbridge_Net_PartitionPausedException__ctor_
+  commentId: Overload:Liftbridge.Net.PartitionPausedException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.PartitionPausedException.PartitionPausedException
+  nameWithType: PartitionPausedException.PartitionPausedException
+- uid: Liftbridge.Net.ReadOnlyException
+  name: ReadOnlyException
+  href: api/Liftbridge.Net.ReadOnlyException.html
+  commentId: T:Liftbridge.Net.ReadOnlyException
+  fullName: Liftbridge.Net.ReadOnlyException
+  nameWithType: ReadOnlyException
+- uid: Liftbridge.Net.ReadOnlyException.#ctor
+  name: ReadOnlyException()
+  href: api/Liftbridge.Net.ReadOnlyException.html#Liftbridge_Net_ReadOnlyException__ctor
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException()
+  nameWithType: ReadOnlyException.ReadOnlyException()
+- uid: Liftbridge.Net.ReadOnlyException.#ctor(System.String)
+  name: ReadOnlyException(String)
+  href: api/Liftbridge.Net.ReadOnlyException.html#Liftbridge_Net_ReadOnlyException__ctor_System_String_
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor(System.String)
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException(System.String)
+  nameWithType: ReadOnlyException.ReadOnlyException(String)
+- uid: Liftbridge.Net.ReadOnlyException.#ctor(System.String,Exception)
+  name: ReadOnlyException(String, Exception)
+  href: api/Liftbridge.Net.ReadOnlyException.html#Liftbridge_Net_ReadOnlyException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.ReadOnlyException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException(System.String, Exception)
+  nameWithType: ReadOnlyException.ReadOnlyException(String, Exception)
+- uid: Liftbridge.Net.ReadOnlyException.#ctor*
+  name: ReadOnlyException
+  href: api/Liftbridge.Net.ReadOnlyException.html#Liftbridge_Net_ReadOnlyException__ctor_
+  commentId: Overload:Liftbridge.Net.ReadOnlyException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.ReadOnlyException.ReadOnlyException
+  nameWithType: ReadOnlyException.ReadOnlyException
+- uid: Liftbridge.Net.StreamAlreadyExistsException
+  name: StreamAlreadyExistsException
+  href: api/Liftbridge.Net.StreamAlreadyExistsException.html
+  commentId: T:Liftbridge.Net.StreamAlreadyExistsException
+  fullName: Liftbridge.Net.StreamAlreadyExistsException
+  nameWithType: StreamAlreadyExistsException
+- uid: Liftbridge.Net.StreamAlreadyExistsException.#ctor
+  name: StreamAlreadyExistsException()
+  href: api/Liftbridge.Net.StreamAlreadyExistsException.html#Liftbridge_Net_StreamAlreadyExistsException__ctor
+  commentId: M:Liftbridge.Net.StreamAlreadyExistsException.#ctor
+  fullName: Liftbridge.Net.StreamAlreadyExistsException.StreamAlreadyExistsException()
+  nameWithType: StreamAlreadyExistsException.StreamAlreadyExistsException()
+- uid: Liftbridge.Net.StreamAlreadyExistsException.#ctor(System.String)
+  name: StreamAlreadyExistsException(String)
+  href: api/Liftbridge.Net.StreamAlreadyExistsException.html#Liftbridge_Net_StreamAlreadyExistsException__ctor_System_String_
+  commentId: M:Liftbridge.Net.StreamAlreadyExistsException.#ctor(System.String)
+  fullName: Liftbridge.Net.StreamAlreadyExistsException.StreamAlreadyExistsException(System.String)
+  nameWithType: StreamAlreadyExistsException.StreamAlreadyExistsException(String)
+- uid: Liftbridge.Net.StreamAlreadyExistsException.#ctor(System.String,Exception)
+  name: StreamAlreadyExistsException(String, Exception)
+  href: api/Liftbridge.Net.StreamAlreadyExistsException.html#Liftbridge_Net_StreamAlreadyExistsException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.StreamAlreadyExistsException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.StreamAlreadyExistsException.StreamAlreadyExistsException(System.String, Exception)
+  nameWithType: StreamAlreadyExistsException.StreamAlreadyExistsException(String, Exception)
+- uid: Liftbridge.Net.StreamAlreadyExistsException.#ctor*
+  name: StreamAlreadyExistsException
+  href: api/Liftbridge.Net.StreamAlreadyExistsException.html#Liftbridge_Net_StreamAlreadyExistsException__ctor_
+  commentId: Overload:Liftbridge.Net.StreamAlreadyExistsException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.StreamAlreadyExistsException.StreamAlreadyExistsException
+  nameWithType: StreamAlreadyExistsException.StreamAlreadyExistsException
+- uid: Liftbridge.Net.StreamDeletedException
+  name: StreamDeletedException
+  href: api/Liftbridge.Net.StreamDeletedException.html
+  commentId: T:Liftbridge.Net.StreamDeletedException
+  fullName: Liftbridge.Net.StreamDeletedException
+  nameWithType: StreamDeletedException
+- uid: Liftbridge.Net.StreamDeletedException.#ctor
+  name: StreamDeletedException()
+  href: api/Liftbridge.Net.StreamDeletedException.html#Liftbridge_Net_StreamDeletedException__ctor
+  commentId: M:Liftbridge.Net.StreamDeletedException.#ctor
+  fullName: Liftbridge.Net.StreamDeletedException.StreamDeletedException()
+  nameWithType: StreamDeletedException.StreamDeletedException()
+- uid: Liftbridge.Net.StreamDeletedException.#ctor(System.String)
+  name: StreamDeletedException(String)
+  href: api/Liftbridge.Net.StreamDeletedException.html#Liftbridge_Net_StreamDeletedException__ctor_System_String_
+  commentId: M:Liftbridge.Net.StreamDeletedException.#ctor(System.String)
+  fullName: Liftbridge.Net.StreamDeletedException.StreamDeletedException(System.String)
+  nameWithType: StreamDeletedException.StreamDeletedException(String)
+- uid: Liftbridge.Net.StreamDeletedException.#ctor(System.String,Exception)
+  name: StreamDeletedException(String, Exception)
+  href: api/Liftbridge.Net.StreamDeletedException.html#Liftbridge_Net_StreamDeletedException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.StreamDeletedException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.StreamDeletedException.StreamDeletedException(System.String, Exception)
+  nameWithType: StreamDeletedException.StreamDeletedException(String, Exception)
+- uid: Liftbridge.Net.StreamDeletedException.#ctor*
+  name: StreamDeletedException
+  href: api/Liftbridge.Net.StreamDeletedException.html#Liftbridge_Net_StreamDeletedException__ctor_
+  commentId: Overload:Liftbridge.Net.StreamDeletedException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.StreamDeletedException.StreamDeletedException
+  nameWithType: StreamDeletedException.StreamDeletedException
+- uid: Liftbridge.Net.StreamNotExistsException
+  name: StreamNotExistsException
+  href: api/Liftbridge.Net.StreamNotExistsException.html
+  commentId: T:Liftbridge.Net.StreamNotExistsException
+  fullName: Liftbridge.Net.StreamNotExistsException
+  nameWithType: StreamNotExistsException
+- uid: Liftbridge.Net.StreamNotExistsException.#ctor
+  name: StreamNotExistsException()
+  href: api/Liftbridge.Net.StreamNotExistsException.html#Liftbridge_Net_StreamNotExistsException__ctor
+  commentId: M:Liftbridge.Net.StreamNotExistsException.#ctor
+  fullName: Liftbridge.Net.StreamNotExistsException.StreamNotExistsException()
+  nameWithType: StreamNotExistsException.StreamNotExistsException()
+- uid: Liftbridge.Net.StreamNotExistsException.#ctor(System.String)
+  name: StreamNotExistsException(String)
+  href: api/Liftbridge.Net.StreamNotExistsException.html#Liftbridge_Net_StreamNotExistsException__ctor_System_String_
+  commentId: M:Liftbridge.Net.StreamNotExistsException.#ctor(System.String)
+  fullName: Liftbridge.Net.StreamNotExistsException.StreamNotExistsException(System.String)
+  nameWithType: StreamNotExistsException.StreamNotExistsException(String)
+- uid: Liftbridge.Net.StreamNotExistsException.#ctor(System.String,Exception)
+  name: StreamNotExistsException(String, Exception)
+  href: api/Liftbridge.Net.StreamNotExistsException.html#Liftbridge_Net_StreamNotExistsException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.StreamNotExistsException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.StreamNotExistsException.StreamNotExistsException(System.String, Exception)
+  nameWithType: StreamNotExistsException.StreamNotExistsException(String, Exception)
+- uid: Liftbridge.Net.StreamNotExistsException.#ctor*
+  name: StreamNotExistsException
+  href: api/Liftbridge.Net.StreamNotExistsException.html#Liftbridge_Net_StreamNotExistsException__ctor_
+  commentId: Overload:Liftbridge.Net.StreamNotExistsException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.StreamNotExistsException.StreamNotExistsException
+  nameWithType: StreamNotExistsException.StreamNotExistsException
+- uid: Liftbridge.Net.StreamOptions
+  name: StreamOptions
+  href: api/Liftbridge.Net.StreamOptions.html
+  commentId: T:Liftbridge.Net.StreamOptions
+  fullName: Liftbridge.Net.StreamOptions
+  nameWithType: StreamOptions
+- uid: Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  name: AutoPauseDisableIfSubscribers
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_AutoPauseDisableIfSubscribers
+  commentId: F:Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  fullName: Liftbridge.Net.StreamOptions.AutoPauseDisableIfSubscribers
+  nameWithType: StreamOptions.AutoPauseDisableIfSubscribers
+- uid: Liftbridge.Net.StreamOptions.AutoPauseTime
+  name: AutoPauseTime
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_AutoPauseTime
+  commentId: F:Liftbridge.Net.StreamOptions.AutoPauseTime
+  fullName: Liftbridge.Net.StreamOptions.AutoPauseTime
+  nameWithType: StreamOptions.AutoPauseTime
+- uid: Liftbridge.Net.StreamOptions.CleanerInterval
+  name: CleanerInterval
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_CleanerInterval
+  commentId: F:Liftbridge.Net.StreamOptions.CleanerInterval
+  fullName: Liftbridge.Net.StreamOptions.CleanerInterval
+  nameWithType: StreamOptions.CleanerInterval
+- uid: Liftbridge.Net.StreamOptions.CompactEnabled
+  name: CompactEnabled
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_CompactEnabled
+  commentId: F:Liftbridge.Net.StreamOptions.CompactEnabled
+  fullName: Liftbridge.Net.StreamOptions.CompactEnabled
+  nameWithType: StreamOptions.CompactEnabled
+- uid: Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  name: CompactMaxGoroutines
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_CompactMaxGoroutines
+  commentId: F:Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  fullName: Liftbridge.Net.StreamOptions.CompactMaxGoroutines
+  nameWithType: StreamOptions.CompactMaxGoroutines
+- uid: Liftbridge.Net.StreamOptions.Group
+  name: Group
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_Group
+  commentId: F:Liftbridge.Net.StreamOptions.Group
+  fullName: Liftbridge.Net.StreamOptions.Group
+  nameWithType: StreamOptions.Group
+- uid: Liftbridge.Net.StreamOptions.MinISR
+  name: MinISR
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_MinISR
+  commentId: F:Liftbridge.Net.StreamOptions.MinISR
+  fullName: Liftbridge.Net.StreamOptions.MinISR
+  nameWithType: StreamOptions.MinISR
+- uid: Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  name: OptimisticConcurrencyControl
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_OptimisticConcurrencyControl
+  commentId: F:Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  fullName: Liftbridge.Net.StreamOptions.OptimisticConcurrencyControl
+  nameWithType: StreamOptions.OptimisticConcurrencyControl
+- uid: Liftbridge.Net.StreamOptions.Partitions
+  name: Partitions
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_Partitions
+  commentId: F:Liftbridge.Net.StreamOptions.Partitions
+  fullName: Liftbridge.Net.StreamOptions.Partitions
+  nameWithType: StreamOptions.Partitions
+- uid: Liftbridge.Net.StreamOptions.ReplicationFactor
+  name: ReplicationFactor
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_ReplicationFactor
+  commentId: F:Liftbridge.Net.StreamOptions.ReplicationFactor
+  fullName: Liftbridge.Net.StreamOptions.ReplicationFactor
+  nameWithType: StreamOptions.ReplicationFactor
+- uid: Liftbridge.Net.StreamOptions.Request
+  name: Request()
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_Request
+  commentId: M:Liftbridge.Net.StreamOptions.Request
+  fullName: Liftbridge.Net.StreamOptions.Request()
+  nameWithType: StreamOptions.Request()
+- uid: Liftbridge.Net.StreamOptions.Request*
+  name: Request
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_Request_
+  commentId: Overload:Liftbridge.Net.StreamOptions.Request
+  isSpec: "True"
+  fullName: Liftbridge.Net.StreamOptions.Request
+  nameWithType: StreamOptions.Request
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxAge
+  name: RetentionMaxAge
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_RetentionMaxAge
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxAge
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxAge
+  nameWithType: StreamOptions.RetentionMaxAge
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  name: RetentionMaxBytes
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_RetentionMaxBytes
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxBytes
+  nameWithType: StreamOptions.RetentionMaxBytes
+- uid: Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  name: RetentionMaxMessages
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_RetentionMaxMessages
+  commentId: F:Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  fullName: Liftbridge.Net.StreamOptions.RetentionMaxMessages
+  nameWithType: StreamOptions.RetentionMaxMessages
+- uid: Liftbridge.Net.StreamOptions.SegmentMaxAge
+  name: SegmentMaxAge
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_SegmentMaxAge
+  commentId: F:Liftbridge.Net.StreamOptions.SegmentMaxAge
+  fullName: Liftbridge.Net.StreamOptions.SegmentMaxAge
+  nameWithType: StreamOptions.SegmentMaxAge
+- uid: Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  name: SegmentMaxBytes
+  href: api/Liftbridge.Net.StreamOptions.html#Liftbridge_Net_StreamOptions_SegmentMaxBytes
+  commentId: F:Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  fullName: Liftbridge.Net.StreamOptions.SegmentMaxBytes
+  nameWithType: StreamOptions.SegmentMaxBytes
+- uid: Liftbridge.Net.StreamPausedException
+  name: StreamPausedException
+  href: api/Liftbridge.Net.StreamPausedException.html
+  commentId: T:Liftbridge.Net.StreamPausedException
+  fullName: Liftbridge.Net.StreamPausedException
+  nameWithType: StreamPausedException
+- uid: Liftbridge.Net.StreamPausedException.#ctor
+  name: StreamPausedException()
+  href: api/Liftbridge.Net.StreamPausedException.html#Liftbridge_Net_StreamPausedException__ctor
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException()
+  nameWithType: StreamPausedException.StreamPausedException()
+- uid: Liftbridge.Net.StreamPausedException.#ctor(System.String)
+  name: StreamPausedException(String)
+  href: api/Liftbridge.Net.StreamPausedException.html#Liftbridge_Net_StreamPausedException__ctor_System_String_
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor(System.String)
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException(System.String)
+  nameWithType: StreamPausedException.StreamPausedException(String)
+- uid: Liftbridge.Net.StreamPausedException.#ctor(System.String,Exception)
+  name: StreamPausedException(String, Exception)
+  href: api/Liftbridge.Net.StreamPausedException.html#Liftbridge_Net_StreamPausedException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.StreamPausedException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException(System.String, Exception)
+  nameWithType: StreamPausedException.StreamPausedException(String, Exception)
+- uid: Liftbridge.Net.StreamPausedException.#ctor*
+  name: StreamPausedException
+  href: api/Liftbridge.Net.StreamPausedException.html#Liftbridge_Net_StreamPausedException__ctor_
+  commentId: Overload:Liftbridge.Net.StreamPausedException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.StreamPausedException.StreamPausedException
+  nameWithType: StreamPausedException.StreamPausedException

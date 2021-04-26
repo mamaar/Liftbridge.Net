@@ -1,15 +1,267 @@
 {
   "homepages": [],
-  "source_base_path": "/github/workspace/docfx_project",
+  "source_base_path": "/home/runner/work/Liftbridge.Net/Liftbridge.Net/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Dexiom.QuickCrc32.QuickCrc32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Dexiom.QuickCrc32.QuickCrc32.html",
+          "hash": "IL41zB4MpJeMCDpIqLPWf0zLjj43eerRtboqDylyGQ4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Dexiom.QuickCrc32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Dexiom.QuickCrc32.html",
+          "hash": "+IcfOlaLMqz4Wwt2+dX2EIziIP5a4OHn5sD5y/T+wiM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.AckTimeoutException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.AckTimeoutException.html",
+          "hash": "xvKCfilxOVHXrues6IM8EKmSOzOXr8tMbcp/4Ir7bcI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.BrokerNotFoundException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.BrokerNotFoundException.html",
+          "hash": "kPLafrjAI4DBGoZerg+osQQJL5Gzy95Vjbs/s10LxpQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.ClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.ClientAsync.html",
+          "hash": "Imo0jxukYRQ/ic3UiC4BHksZp8shlQ03qI5eTyMyA0E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.ClientOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.ClientOptions.html",
+          "hash": "tlH/0kmbExiKFbbHTCuKdenoSV05++9blLcXaONJXf0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.ConnectionErrorException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.ConnectionErrorException.html",
+          "hash": "3xoow2+dPSH+49LsRlYrUO2XaR/fn98SEbPfeON113s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.EndOfReadonlyException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.EndOfReadonlyException.html",
+          "hash": "apmewGpl97tkOSFrcaCU9dZWxvEy7cd/2VTobGNIZ/s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.IPartitioner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.IPartitioner.html",
+          "hash": "FHRJM8hDJ62mIdPlwhKoepRSI4LXtQWfz6H9yDAGuTc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.LiftbridgeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.LiftbridgeException.html",
+          "hash": "yUgxIwEqvny2adY/LXYY/iCxQzmhRjLXc5agCiA/RfY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.PartitionByKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.PartitionByKey.html",
+          "hash": "rvAkQVpKZiMU1FFGG1jBT3aT037n6ZjxtSZaXU+lKKk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.PartitionByRoundRobin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.PartitionByRoundRobin.html",
+          "hash": "oH5IABxKCCEvbUUN3p5xweuywrVpqpCdJKQiFbv7hDE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.PartitionPausedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.PartitionPausedException.html",
+          "hash": "oLhmy1AJB3mqYAWBy3ikcLz9IwyNY3Nkh2QuLayjrQw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.ReadOnlyException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.ReadOnlyException.html",
+          "hash": "T351MD8cH5y5BRJyEetSGtW0yRa73kLNUOqCCphbU3g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.StreamAlreadyExistsException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.StreamAlreadyExistsException.html",
+          "hash": "Zp6t9Ci3sEVa+N2nTSF+w9G7FBuJQO3wBJDUncWUX7Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.StreamDeletedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.StreamDeletedException.html",
+          "hash": "bYh6kRAccxRl8ugyhFawRhw099LpekjkmrNJmaCaBwM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.StreamNotExistsException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.StreamNotExistsException.html",
+          "hash": "oBfrZVX6/fnfwxw1SijvVlZdk1gkUjcAL+wyO7Ujgtk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.StreamOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.StreamOptions.html",
+          "hash": "qiRbLCk5YyZ1e1yddiLlwXxcndD4fzqyaGIxhzQCcE8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.StreamPausedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.StreamPausedException.html",
+          "hash": "oIAWSuhRcYkdNQRSDUqcELmCSYR8tfoOW/PP0VCLrnI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.html",
+          "hash": "ZZoWyXIKDNXe7RUAwTQ2aFATx7igW36DIuF306xBJg0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
     {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "Thkclv+MsR/cJTSITCNNfQ=="
+          "hash": "li+oxQHPVWjVHnspmBaHLD0Xy5Y6oHCGmaF5T4LALvw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "PPRp2lVgxf8LfwDlFgOqqLmT5OQVPCuH5kV4HjWnKyI="
         }
       },
       "is_incremental": false,
@@ -21,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "RFmUa/UB2vEgymuVxqSQaw=="
+          "hash": "JFV7nC1bcxC+OhF2P6LD8IupSwOGRLYZuka/gxlubtQ="
         }
       },
       "is_incremental": false,
@@ -33,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "gB8AESyvNru97tzIZofEEg=="
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
         }
       },
       "is_incremental": false,
@@ -45,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "/He2L2mnV3OD8H7U3punHQ=="
+          "hash": "iQoM1evmyU7FcwcpNUrIAbpqyLO9iet1HFz93Mc5dSU="
         }
       },
       "is_incremental": false,
@@ -57,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "IGK1ZSYI4NbShXZSeUUd6Q=="
+          "hash": "WSuRrYiGwKKMbtdG9z8W9fXmLoCyTnGg9AxbPKLXm2Y="
         }
       },
       "is_incremental": false,
@@ -79,6 +331,12 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 20,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
