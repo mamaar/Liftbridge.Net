@@ -445,6 +445,37 @@ references:
   isSpec: "True"
   fullName: Liftbridge.Net.ConnectionErrorException.ConnectionErrorException
   nameWithType: ConnectionErrorException.ConnectionErrorException
+- uid: Liftbridge.Net.CursorsDisabledException
+  name: CursorsDisabledException
+  href: api/Liftbridge.Net.CursorsDisabledException.html
+  commentId: T:Liftbridge.Net.CursorsDisabledException
+  fullName: Liftbridge.Net.CursorsDisabledException
+  nameWithType: CursorsDisabledException
+- uid: Liftbridge.Net.CursorsDisabledException.#ctor
+  name: CursorsDisabledException()
+  href: api/Liftbridge.Net.CursorsDisabledException.html#Liftbridge_Net_CursorsDisabledException__ctor
+  commentId: M:Liftbridge.Net.CursorsDisabledException.#ctor
+  fullName: Liftbridge.Net.CursorsDisabledException.CursorsDisabledException()
+  nameWithType: CursorsDisabledException.CursorsDisabledException()
+- uid: Liftbridge.Net.CursorsDisabledException.#ctor(System.String)
+  name: CursorsDisabledException(String)
+  href: api/Liftbridge.Net.CursorsDisabledException.html#Liftbridge_Net_CursorsDisabledException__ctor_System_String_
+  commentId: M:Liftbridge.Net.CursorsDisabledException.#ctor(System.String)
+  fullName: Liftbridge.Net.CursorsDisabledException.CursorsDisabledException(System.String)
+  nameWithType: CursorsDisabledException.CursorsDisabledException(String)
+- uid: Liftbridge.Net.CursorsDisabledException.#ctor(System.String,Exception)
+  name: CursorsDisabledException(String, Exception)
+  href: api/Liftbridge.Net.CursorsDisabledException.html#Liftbridge_Net_CursorsDisabledException__ctor_System_String_Exception_
+  commentId: M:Liftbridge.Net.CursorsDisabledException.#ctor(System.String,Exception)
+  fullName: Liftbridge.Net.CursorsDisabledException.CursorsDisabledException(System.String, Exception)
+  nameWithType: CursorsDisabledException.CursorsDisabledException(String, Exception)
+- uid: Liftbridge.Net.CursorsDisabledException.#ctor*
+  name: CursorsDisabledException
+  href: api/Liftbridge.Net.CursorsDisabledException.html#Liftbridge_Net_CursorsDisabledException__ctor_
+  commentId: Overload:Liftbridge.Net.CursorsDisabledException.#ctor
+  isSpec: "True"
+  fullName: Liftbridge.Net.CursorsDisabledException.CursorsDisabledException
+  nameWithType: CursorsDisabledException.CursorsDisabledException
 - uid: Liftbridge.Net.EndOfReadonlyException
   name: EndOfReadonlyException
   href: api/Liftbridge.Net.EndOfReadonlyException.html

@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Liftbridge.Net.ClientAsync.html",
-          "hash": "Imo0jxukYRQ/ic3UiC4BHksZp8shlQ03qI5eTyMyA0E="
+          "hash": "LFx5SDg5UdeTdDkj0UoSiqQS2ZFO7AY1OQHbH9k0jgI="
         }
       },
       "is_incremental": false,
@@ -82,6 +82,18 @@
         ".html": {
           "relative_path": "api/Liftbridge.Net.ConnectionErrorException.html",
           "hash": "3xoow2+dPSH+49LsRlYrUO2XaR/fn98SEbPfeON113s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Liftbridge.Net.CursorsDisabledException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Liftbridge.Net.CursorsDisabledException.html",
+          "hash": "n7U+CtEbWV/6bXW+NUr+bflWP0Nac947H6qEM+ZrC7c="
         }
       },
       "is_incremental": false,
@@ -117,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Liftbridge.Net.LiftbridgeException.html",
-          "hash": "yUgxIwEqvny2adY/LXYY/iCxQzmhRjLXc5agCiA/RfY="
+          "hash": "bHaIkKN3NYdqLrQSiP1ZnvRM4F3yse5fNeCMAAnlm0o="
         }
       },
       "is_incremental": false,
@@ -237,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Liftbridge.Net.html",
-          "hash": "ZZoWyXIKDNXe7RUAwTQ2aFATx7igW36DIuF306xBJg0="
+          "hash": "6ur9l0SIXfCRgMWfzjUQJuRQK0EKoE3w0TGi2GIZtqE="
         }
       },
       "is_incremental": false,
@@ -261,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "PPRp2lVgxf8LfwDlFgOqqLmT5OQVPCuH5kV4HjWnKyI="
+          "hash": "lte0MLn5ec0DmMlLEt5H26TWbe2syOF4PGyerC0YTFo="
         }
       },
       "is_incremental": false,
@@ -336,7 +348,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 20,
+          "total_file_count": 21,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
