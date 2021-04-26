@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liftbridge.Net.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liftbridge.Net.IntegrationTests", "test\Liftbridge.Net.IntegrationTests\Liftbridge.Net.IntegrationTests.csproj", "{426AE2A4-D436-4371-96CE-BC241E46E13E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liftbridge.Net.Documentation", "docs\Liftbridge.Net.Documentation.csproj", "{C2891383-B623-43BF-8168-6804F1DA7A24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{426AE2A4-D436-4371-96CE-BC241E46E13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{426AE2A4-D436-4371-96CE-BC241E46E13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{426AE2A4-D436-4371-96CE-BC241E46E13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2891383-B623-43BF-8168-6804F1DA7A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2891383-B623-43BF-8168-6804F1DA7A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2891383-B623-43BF-8168-6804F1DA7A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2891383-B623-43BF-8168-6804F1DA7A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

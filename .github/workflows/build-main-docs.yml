@@ -11,12 +11,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build Documentation
-      uses: nikeee/docfx-action@v1.0.0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
       with:
-        args: docfx_project/docfx.json -o docs
+        dotnet-version: 5.0.x
+    - name: Build
+      run: dotnet build -c Release docs\Liftbridge.Net.Documentation.csproj
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
         branch: gh-pages
-        folder: docs
+        folder: docs/_site
