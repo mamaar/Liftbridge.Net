@@ -9,7 +9,7 @@
             var options = new ClientOptions
             {
                 Brokers = new[] {
-                    new BrokerAddress { Host = "liftbridge", Port = 9292 },
+                    new BrokerAddress { Host = "localhost", Port = 9292 },
                 }
             };
             Client = new ClientAsync(options);
