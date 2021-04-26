@@ -16,7 +16,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Build
-      run: dotnet build -c Release docs\Liftbridge.Net.Documentation.csproj
+      run: dotnet build -c Release docs/Liftbridge.Net.Documentation.csproj
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
