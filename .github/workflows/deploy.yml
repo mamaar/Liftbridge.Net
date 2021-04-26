@@ -1,4 +1,4 @@
-name: .NET
+name: Build and deploy
 
 on:
   push:
@@ -8,6 +8,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    services:
+      liftbridge:
+        image: liftbridge/standalone-dev:v1.5.1
+        ports:
+        - 9292:9292
 
     steps:
     - uses: actions/checkout@v2
@@ -17,11 +22,13 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Unit test
+      run: dotnet test test/Liftbridge.Net.UnitTests -c Release
+    - name: Integration test
+      run: dotnet test test/Liftbridge.Net.IntegrationTests -c Release
     - name: Build
-      run: dotnet build -c Release --no-restore
-    - name: Test
-      run: dotnet test test/Liftbridge.Net.UnitTests -c Release --no-build --verbosity normal
+      run: dotnet build src/Liftbridge.Net/Liftbridge.Net.csproj -c Release
     - name: Pack
-      run: dotnet pack -c Release -o assets --version-suffix `date +%s`-ci
+      run: dotnet pack src/Liftbridge.Net/Liftbridge.Net.csproj -c Release -o assets --version-suffix `date +%s`-ci
     - name: Push
       run: dotnet nuget add source https://nuget.pkg.github.com/mamaar/index.json -n github && dotnet nuget push ./assets/Liftbridge.Net.*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}

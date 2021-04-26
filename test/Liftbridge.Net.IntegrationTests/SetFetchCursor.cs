@@ -20,10 +20,8 @@ namespace Liftbridge.Net.IntegrationTests
             var streamName = Guid.NewGuid().ToString();
             await Fixture.Client.CreateStream(streamName, "test");
 
-            await Fixture.Client.SetCursor("my-cursor", streamName, 0, 12);
-            var offset = await Fixture.Client.FetchCursor("my-cursor", streamName, 0);
-
-            Assert.Equal(12, offset);
+            await Assert.ThrowsAsync<CursorsDisabledException>(() => Fixture.Client.SetCursor("my-cursor", streamName, 0, 12));
+            await Assert.ThrowsAsync<CursorsDisabledException>(() => Fixture.Client.FetchCursor("my-cursor", streamName, 0));
 
             return;
         }
